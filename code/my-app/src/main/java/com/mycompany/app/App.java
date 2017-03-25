@@ -2,21 +2,27 @@ package com.mycompany.app;
 
 import java.io.*;
 import java.util.*;
+import org.apache.commons.io.FilenameUtils;
 import com.github.javaparser.ast.*;
 import com.github.javaparser.*;
 import com.github.javaparser.ast.visitor.*;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class App {
 
     public static void main(String[] args) throws Exception {
-        FileInputStream in = new FileInputStream("test1.java");
+        for (int i = 0; i < args.length; i++) {
+            String path = args[i];
+            FileInputStream in = new FileInputStream(path);
 
-        CompilationUnit cu = JavaParser.parse(in);
-        removeComments(cu);
-        new MethodVisitor().visit(cu, "test1");
+            CompilationUnit cu = JavaParser.parse(in);
+            removeComments(cu);
+            new MethodVisitor().visit(cu, getFilenameWithoutExtension(path));
+        }
     }
 
     private static void removeComments(CompilationUnit cu) {
@@ -26,6 +32,12 @@ public class App {
             Comment c = it.next();
             c.remove();
         }
+    }
+
+    private static String getFilenameWithoutExtension(String pathStr) {
+        Path path = Paths.get(pathStr);
+        String filename = path.getFileName().toString();
+        return FilenameUtils.removeExtension(filename);
     }
 
     /**
@@ -44,7 +56,7 @@ public class App {
             } catch (IOException e) {
                 System.out.println("Got something wrong.");
             }
-            System.out.println(path + " done");
+            //System.out.println(path + " done");
             super.visit(method, filename);
         }
 
@@ -53,8 +65,20 @@ public class App {
         }
 
         private static String getOutputPath(MethodDeclaration method, String filename) {
-            String funName = method.getName().toString();
-            return "./functions/" + filename + "_" + funName;
+            String funName = method.getNameAsString();
+            int lines = countLines(method.toString());
+            String path = "./functions/" + lines + "_" + filename + "_" + funName;
+            return path;
+        }
+
+        private static int countLines(String s) {
+            int counter = 0;
+            for (int i = 0; i < s.length(); i++) {
+                if (s.charAt(i) == '\n') {
+                    counter++;
+                } 
+            }
+            return counter + 1;
         }
     }
 }
