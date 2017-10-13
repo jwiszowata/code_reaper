@@ -1,0 +1,12 @@
+SyntaxHighlighter 
+is a fully functional self-contained code syntax highlighter developed in JavaScript.
+http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/java.html
+
+wrażenia: ok
+instalacja:
+https://github.com/syntaxhighlighter/syntaxhighlighter/wiki/Building
+problem z build:
+https://www.bountysource.com/issues/37308483-referenceerror-promise-is-not-defined-during-build
+
+Step 1: run npm install es6-promise in syntaxhighlighter root folder
+Step 2: add require('es6-promise').polyfill(); as the first line of your gulpfile.babel.js file in syntaxhighlighter's root folder

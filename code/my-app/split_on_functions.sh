@@ -1,3 +1,4 @@
+# split files on 5 groups, and run my function to every group
 a=0
 for file in ../../FreeCol_files/*;
 do
@@ -23,9 +24,7 @@ do
     fi
     a=$a+1
 done
-#echo $files1
-#echo $files2
-#echo $files5
+
 mvn exec:java -Dexec.args="$files1"
 mvn exec:java -Dexec.args="$files2"
 mvn exec:java -Dexec.args="$files3"

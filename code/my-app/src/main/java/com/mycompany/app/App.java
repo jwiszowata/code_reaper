@@ -11,6 +11,7 @@ import com.github.javaparser.ast.comments.*;
 import com.github.javaparser.ast.expr.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.File;
 
 public class App {
 
@@ -51,7 +52,7 @@ public class App {
             String path = getOutputPath(method, filename);
 
             try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                                                            new FileOutputStream(path), "utf-8"))) {
+                                                new FileOutputStream(path), "utf-8"))) {
                 writer.write(method.toString());
             } catch (IOException e) {
                 System.out.println("Got something wrong.");
@@ -67,7 +68,9 @@ public class App {
         private static String getOutputPath(MethodDeclaration method, String filename) {
             String funName = method.getNameAsString();
             int lines = countLines(method.toString());
-            String path = "./functions/" + lines + "_" + filename + "_" + funName;
+            String dirPath = "./functions/" + lines + "/";
+            (new File(dirPath)).mkdirs();
+            String path = dirPath + funName + "_" + filename + ".java";
             return path;
         }
 
