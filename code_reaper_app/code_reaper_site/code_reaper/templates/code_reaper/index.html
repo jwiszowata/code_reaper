@@ -1,40 +1,33 @@
 {% load static %}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script type="text/javascript" async src="{% static 'code_reaper/syntaxhighlighter.js' %}"></script>
-<link type="text/css" rel="stylesheet" href="{% static 'code_reaper/theme.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'code_reaper/style.css' %}" />
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Hello, world!</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<!-- {% if latest_question_list %} 
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="/code_reaper/{{ question.id }}/">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %} -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'code_reaper/index.css' %}" />
+  </head>
 
-<pre class="brush: java;">
-package tutorial;
+  <body>
 
-import com.opensymphony.xwork2.ActionSupport;
+  	<h1> Żniwiarz kodu </h1>
+  	<h2> Crowdsourcingowy projekt studencki </h2>
+  	<div id="buttons">
+  		<button id="start" type="button" class="btn btn-lg">Start</button>
+  		<button id="about" type="button" class="btn btn-lg">About</button>
+  	</div>
 
-public class HelloWorld extends ActionSupport {
-  private String name;
-  public String getName() {
-//  return name;
-  }
-  public void setName(String name) {
-      this.name = name;
-  }
-  public String execute() {
-      name = &#34;Hello, &#34; + name + &#34;!&#34;;
-      return SUCCESS;
-  }
-}
-</pre>
+	<script type="text/javascript" src="{% static 'code_reaper/script.js' %}"></script>
 
-<button class="start">START</button>
-
-<script type="text/javascript" src="{% static 'code_reaper/script.js' %}"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  </body>
+</html>

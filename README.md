@@ -26,3 +26,9 @@ wykaz skryptów:
 ===============
 => split_on_functions.sh : dzieli wszystkie pliki z projektu na 5 zbiorów, na których następnie odpala funkcję wydzielającą funkcje i zapisującą je w osobnych plikach na ścieżce ./functions/<liczba lini w funkcji>/<plik>
 => choose_random.sh <ile plików> <do jakiego folderu> : dla każdej liczby <i> z przedziału 3..20 tworzy folder <do jakiego folderu>/<i> i zapisuje w nim <ile plików> wylosowanych spośród funkcji w foderze ./functions/<i>; <i> oznacza liczbę linijek w funkcji
+
+Colors:
+SCREEN: #c5c1c0
+STEEL: #0a1612
+DENIM: #1a2930
+MARIGOLD: #f7ce3e

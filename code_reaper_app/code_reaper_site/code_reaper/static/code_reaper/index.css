@@ -1,0 +1,33 @@
+html, body { 
+  background: url(images/laptop.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+h1, h2 {
+	color: #0a1612;
+	font-family: Arial Black, Helvetica, sans-serif;
+	width: 700px;
+	margin: auto;
+	text-align: center;
+	margin-top: 50px;
+}
+
+h1 {
+	font-weight: bold;
+}
+
+div#buttons {
+	margin: auto;
+    width: 450px;
+    margin-top: 50px;
+    text-align: center;
+}
+
+button {
+	width: 200px;
+	background: #f7ce3e;
+	color: #0a1612;
+}
