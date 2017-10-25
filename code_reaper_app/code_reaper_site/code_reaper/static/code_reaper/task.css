@@ -1,0 +1,18 @@
+pre#code {
+	margin-left: 100px;
+}
+
+td.gutter div.line {
+	width: 40px !important;
+}
+
+input {
+	float: left;
+}
+
+code.java.keyword.gray,
+code.java.string.gray,
+code.java.plain.gray,
+code.java.spaces.gray {
+	color: beige !important;
+}

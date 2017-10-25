@@ -1,28 +1,45 @@
 $(document).ready(function () {
+
+
+
     $("button.start").click(function(){
-        //$("div.line").click(function(){
-            //var t = $(this).text();
-            //var s = '//';
-            //$(this).children().each(function() {
-            //    s = s + $(this).text() + " ";
-            //    $(this).hide();
-            //});
-            $("div.container > div.line").each(function() {
-                $(this).append("<code class=\"java comments\" style=\"display: none\">//" + getText($(this)) + "</code>");
+
+            $("td.gutter > div.line").each(function() {
+                $(this).prepend("<input class=\"check-input\" type=\"checkbox\" value=\"\" checked>");
             });
 
-            $("div.container > div.line").click(function() {
-                $(this).children().each(function() {
-                    $(this).toggle();
+            $('input.check-input').click(function() {
+                let parent = $(this).parent()[0];
+                let divName = changeToDescription(parent);
+                $("div.container > " + divName + " > code").each(function() {
+                    $(this).toggleClass("gray");
                 });
             });
+
+            //$("div.container > div.line").each(function() {
+            //    $(this).append("<code class=\"java comments\" style=\"display: none\">//" + getText($(this)) + "</code>");
+            //});
+
+            //$("div.container > div.line").click(function() {
+            //    $(this).children().each(function() {
+            //        $(this).toggle();
+            //    });
+            //});
     });
 
-    function getText(obj) {
+    /*function getText(obj) {
         var s = '';
         obj.children().each(function() {
             s = s + $(this).text() + " ";
         });
+        return s;
+    }*/
+
+    function changeToDescription(obj) {
+        var s = '' + obj.tagName;
+        for (var i = 0; i < obj.classList.length; i++) {
+            s = s + "." + obj.classList[i];
+        }
         return s;
     }
 });
