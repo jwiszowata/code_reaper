@@ -18,8 +18,8 @@
   	<h1> Żniwiarz kodu </h1>
   	<h2> Crowdsourcingowy projekt studencki </h2>
   	<div id="buttons">
-  		<a href="{% url 'task' %}" id="start" type="button" class="btn btn-lg">Start</a>
-  		<a href="{% url 'task' %}" id="about" type="button" class="btn btn-lg">About</a>
+  		<a href="{% url 'task' function_id=1 %}" id="start" type="button" class="btn btn-lg">Start</a>
+  		<a href="{% url 'task' function_id=1 %}" id="about" type="button" class="btn btn-lg">About</a>
   	</div>
 
 	<script type="text/javascript" src="{% static 'code_reaper/script.js' %}"></script>

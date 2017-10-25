@@ -22,25 +22,13 @@
 {% endfor %}
  -->
 <pre id="code" class="brush: java;">
-package tutorial;
-
-import com.opensymphony.xwork2.ActionSupport;
-
-public class HelloWorld extends ActionSupport {
-  private String name;
-  public String getName() {
-	return name;
-  }
-  public void setName(String name) {
-      this.name = name;
-  }
-  public String execute() {
-      name = &#34;Hello, &#34; + name + &#34;!&#34;;
-      return SUCCESS;
-  }
-}
+{{function.body}}
 </pre>
 
-<button class="start">START</button>
+<div id="buttons">
+    <button class="start">Start</button>
+    <button class="save">Save</button>
+    <a href="{% url 'task' function_id=next %}" id="about" type="button" class="btn btn-lg">Next</a>
+</div>
 
 <script type="text/javascript" src="{% static 'code_reaper/script.js' %}"></script>
