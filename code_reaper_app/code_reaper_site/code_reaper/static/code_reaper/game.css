@@ -1,0 +1,58 @@
+div.field {
+	width: 20px;
+	height: 20px;
+	display: inline-grid;
+	vertical-align: top;
+}
+
+div#board {
+	width: 485px;
+	height: 485px;
+	margin: auto;
+}
+
+div#result {
+	width: 100px;
+	margin: auto;
+}
+
+div.result {
+	display: inline-block;
+}
+
+div.color {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+}
+
+div#colors {
+	width: 300px;
+	text-align: center;
+	margin: auto;
+	margin-top: 30px;
+}
+
+div.col1 {
+	background: red;
+}
+
+div.col2 {
+	background: blue;
+}
+
+div.col3 {
+	background: yellow;
+}
+
+div.col4 {
+	background: green;
+}
+
+div.col5 {
+	background: purple;
+}
+
+div.col6 {
+	background: orange;
+}
