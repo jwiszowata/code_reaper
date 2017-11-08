@@ -1,3 +1,8 @@
+#bottom_buttons, #timer {
+	margin: auto;
+	width: 200px;
+}
+
 pre#code {
 	margin-left: 100px;
 }
@@ -15,4 +20,9 @@ code.java.string.gray,
 code.java.plain.gray,
 code.java.spaces.gray {
 	color: beige !important;
+}
+
+#code > div > table {
+	width: 300px!important;
+	margin: auto!important;
 }
