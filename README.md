@@ -24,8 +24,17 @@ może warto dodać przycisk nie rozumiem co robi dana funkcja
 
 wykaz skryptów:
 ===============
-=> split_on_functions.sh : dzieli wszystkie pliki z projektu na 5 zbiorów, na których następnie odpala funkcję wydzielającą funkcje i zapisującą je w osobnych plikach na ścieżce ./functions/<liczba lini w funkcji>/<plik>
-=> choose_random.sh <ile plików> <do jakiego folderu> : dla każdej liczby <i> z przedziału 3..20 tworzy folder <do jakiego folderu>/<i> i zapisuje w nim <ile plików> wylosowanych spośród funkcji w foderze ./functions/<i>; <i> oznacza liczbę linijek w funkcji
+copy_java_files.sh
+------------------
+bierze projekt i wybiera z niego pliki z rozszerzeniem .java i kopiuje je do folderu proejkt_files
+
+split_on_functions.sh 
+---------------------
+dzieli wszystkie pliki z projektu na 5 zbiorów, na których następnie odpala funkcję wydzielającą funkcje i zapisującą je w osobnych plikach na ścieżce ./functions/liczba_lini_w_funkcji/plik
+
+choose_random.sh 
+----------------
+_ile_plików_ _do_jakiego_folderu_ : dla każdej liczby _i_ z przedziału 3..20 tworzy folder _do_jakiego_folderu_/_i_ i zapisuje w nim _ile_plików_ wylosowanych spośród funkcji w foderze ./functions/_i_; _i_ oznacza liczbę linijek w funkcji
 
 Colors:
 SCREEN: #c5c1c0

@@ -18,12 +18,23 @@ public class App {
     public static void main(String[] args) throws Exception {
         for (int i = 0; i < args.length; i++) {
             String path = args[i];
-            FileInputStream in = new FileInputStream(path);
+            if (!isTestFile(path)) {
+                FileInputStream in = new FileInputStream(path);
 
-            CompilationUnit cu = JavaParser.parse(in);
-            removeComments(cu);
-            new MethodVisitor().visit(cu, getFilenameWithoutExtension(path));
+                CompilationUnit cu = JavaParser.parse(in);
+                removeComments(cu);
+                new MethodVisitor().visit(cu, getFilenameWithoutExtension(path));
+            }
         }
+    }
+
+    private static boolean isTestFile(String pathStr) {
+        String test = "Test";
+        String fileName = getFilenameWithoutExtension(pathStr);
+        int length = fileName.length();
+        String firstChars = fileName.substring(Math.max(length - test.length(), 0), length);
+        System.out.println(firstChars);
+        return firstChars.equals(test);
     }
 
     private static void removeComments(CompilationUnit cu) {
