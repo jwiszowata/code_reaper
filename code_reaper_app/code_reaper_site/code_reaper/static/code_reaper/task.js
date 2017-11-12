@@ -8,9 +8,12 @@ $(document).ready(function () {
                 console.log($(this)[0].getElementsByTagName("label"));
                 return;
             }
+            let line_nr = getLineNr($(this)[0]);
+            console.log("line_nr", line_nr);
             $(this).prepend(
                 "<label class=\"custom-control custom-checkbox small\">" +
-                    "<input class=\"custom-control-input\" type=\"checkbox\" value=\"\" checked>" +
+                    "<input class=\"custom-control-input\" type=\"checkbox\" " +
+                        "name=\"line" + line_nr + "\" value=\"" + line_nr +"\" checked>" +
                     "<span class=\"custom-control-indicator top check-input\"></span>" +
                 "</label>");
             $(this).click(function() {
@@ -57,6 +60,23 @@ $(document).ready(function () {
             s = s + "." + obj.classList[i];
         }
         return s;
+    }
+
+    function getClassOfRegex(obj, regex) {
+        console.log("getClassOfRegex", obj);
+        for (var i = 0; i < obj.classList.length; i++) {
+            if (regex.test(obj.classList[i])) {
+                return obj.classList[i];
+            }
+        }
+        return -1;
+    }
+
+    function getLineNr(obj) {
+        let c = getClassOfRegex(obj, new RegExp(/^number\d/));
+        if (c != -1) {
+            return parseInt(c.substr(6));
+        }
     }
 
     function startTimer(duration, display) {

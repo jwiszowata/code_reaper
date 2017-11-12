@@ -1,7 +1,8 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponseRedirect, HttpResponse
+from django.urls import reverse
 
-from .models import Function
+from .models import Function, Task
 import random
 import numpy as np
 import queue
@@ -104,6 +105,34 @@ def wypisz(t, s):
         for j in range(s):
             res = res + "%r " % (t[i,j])
         print(res)
+
+def gray_out(request, function_id):
+    function = get_object_or_404(Function, pk=function_id)
+    res = []
+    for i in range(1, function.lines_nr + 1):
+        try:
+            request.POST['line' + str(i)]
+        except:
+            print("no " + str(i))
+            res += [str(i)]
+    print(res)
+    grayed_out_lines = ','.join(res);
+    print(grayed_out_lines)
+    t = Task(function=function, grayed_out_lines=grayed_out_lines)
+    t.save()
+    #except (KeyError, Choice.DoesNotExist):
+    #     # Redisplay the question voting form.
+    #     return render(request, 'polls/detail.html', {
+    #         'question': question,
+    #         'error_message': "You didn't select a choice.",
+    #     })
+    #else:
+    #    selected_choice.votes += 1
+    #     selected_choice.save()
+    #     # Always return an HttpResponseRedirect after successfully dealing
+    #     # with POST data. This prevents data from being posted twice if a
+    #     # user hits the Back button.
+    return HttpResponseRedirect(reverse('task', args=(function.lines_nr+1,)))
 
 # def detail(request, question_id):
 #     return HttpResponse("You're looking at question %s." % question_id)
