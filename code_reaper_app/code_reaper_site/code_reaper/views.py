@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-#from .models import Question, Function
+from .models import Function
 import random
 import numpy as np
 import queue
@@ -10,11 +10,11 @@ import json
 def index(request):
     return render(request, 'code_reaper/index.html')
 
-def task(request, function_id):
+def task(request, function_length):
     #latest_question_list = Question.objects.order_by('-pub_date')[:5]
     #context = {'latest_question_list': latest_question_list}
-    function = Function.objects.get(pk=function_id);
-    context = {'function': function, 'next': ((function.id + 1) % 3) + 1}
+    function = Function.objects.filter(lines_nr=function_length).first()
+    context = {'function': function, 'next': (int(function_length) + 1) % 31}
     return render(request, 'code_reaper/task.html', context)
 
 def game(request):
