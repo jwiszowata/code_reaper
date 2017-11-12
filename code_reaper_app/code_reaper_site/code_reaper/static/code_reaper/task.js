@@ -4,16 +4,33 @@ $(document).ready(function () {
 
     function addCheckboxes() {
         $("td.gutter > div.line").each(function() {
-            $(this).prepend("<input class=\"check-input\" type=\"checkbox\" value=\"\" checked>");
-        });
-
-        $('input.check-input').click(function() {
-            let parent = $(this).parent()[0];
-            let divName = changeToDescription(parent);
-            $("div.container > " + divName + " > code").each(function() {
-                $(this).toggleClass("gray");
+            if ($(this)[0].getElementsByTagName("label") == []) {
+                console.log($(this)[0].getElementsByTagName("label"));
+                return;
+            }
+            $(this).prepend(
+                "<label class=\"custom-control custom-checkbox small\">" +
+                    "<input class=\"custom-control-input\" type=\"checkbox\" value=\"\" checked>" +
+                    "<span class=\"custom-control-indicator top check-input\"></span>" +
+                "</label>");
+            $(this).click(function() {
+                let divName = changeToDescription($(this)[0]);
+                $("div.container > " + divName + " > code").each(function() {
+                    $(this).toggleClass("gray");
+                });
+                let input = $(this)[0].getElementsByTagName('input')[0];
+                input.checked = !input.checked;
             });
         });
+
+        // $('td.gutter > div.line').click(function() {
+        //     let divName = changeToDescription($(this)[0]);
+        //     $("div.container > " + divName + " > code").each(function() {
+        //         $(this).toggleClass("gray");
+        //     });
+        //     let input = $(this)[0].getElementsByTagName('input')[0];
+        //     input.checked = !input.checked;
+        // });
 
         //$("div.container > div.line").each(function() {
         //    $(this).append("<code class=\"java comments\" style=\"display: none\">//" + getText($(this)) + "</code>");

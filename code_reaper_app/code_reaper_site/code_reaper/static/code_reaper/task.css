@@ -11,18 +11,24 @@ td.gutter div.line {
 	width: 40px !important;
 }
 
-input {
-	float: left;
-}
-
 code.java.keyword.gray,
 code.java.string.gray,
 code.java.plain.gray,
-code.java.spaces.gray {
+code.java.spaces.gray,
+code.java.value.gray {
 	color: beige !important;
 }
 
 #code > div > table {
 	width: 300px!important;
 	margin: auto!important;
+}
+
+label.custom-control.custom-checkbox.small {
+	margin: 0;
+	float: left;
+	padding: 0;
+}
+span.custom-control-indicator.top {
+	top: 0;
 }
