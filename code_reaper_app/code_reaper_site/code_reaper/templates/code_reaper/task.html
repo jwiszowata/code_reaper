@@ -1,68 +1,135 @@
 {% load static %}
 
-<link type="text/css" rel="stylesheet" href="{% static 'code_reaper/theme.css' %}" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="{% static 'code_reaper/task.css' %}" />
+<!DOCTYPE html>
+<html lang="en">
 
-<!-- Start Modal -->
-<div class="modal fade" id="startModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Ready?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary start" data-dismiss="modal">Start!</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Anuluj</button>
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Żniwiarz kodu</title>
+
+    <!-- Bootstrap core CSS -->
+    <!-- <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="{% static 'code_reaper/theme.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'code_reaper/task.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'code_reaper/timer.css' %}" />
+
+  </head>
+
+  <body>
+
+    <!-- Start Modal -->
+    <div class="modal fade" id="startModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Ready?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary start" data-dismiss="modal">Start!</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Anuluj</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Finish Modal -->
-<div class="modal fade" id="finishModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Ready?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary start" data-dismiss="modal">Start!</button>
+    <!-- Finish Modal -->
+    <div class="modal fade" id="finishModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Ready?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary start" data-dismiss="modal">Start!</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<form action="{% url 'gray_out' function.id %}" method="post">
-{% csrf_token %}
-<div id="timer">Pozostało <span id="time">02:00</span></div>
-<pre id="code" class="brush: java;">
-{{function.body}}
-</pre>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#">Start Bootstrap</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home
+                <span class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-<div id="bottom_buttons">
-    <!-- <button class="start">Start</button> -->
-    <input type="submit" class="btn btn-secondary start" value="Save" />
-    <!-- <button type="button" class="btn btn-secondary start">Save</button> -->
-    <a href="{% url 'task' function_length=next %}" id="next" type="button" class="btn btn-primary">Next</a>
-</div>
+    <form action="{% url 'gray_out' function.id %}" method="post">
+    {% csrf_token %}
+    <!-- timer -->
+    <div class="container">
+        <div class="row">
+            <div id="timer" class="col-md-3 col-sm-6">
+                <div class="progress yellow">
+                    <span class="progress-left">
+                        <span class="progress-bar"></span>
+                    </span>
+                    <span class="progress-right">
+                        <span class="progress-bar"></span>
+                    </span>
+                    <div class="progress-value"><span id="time">02:00</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <!-- <div id="timer">Pozostało <span id="time">02:00</span></div> -->
+    <pre id="code" class="brush: java;">
+    {{function.body}}
+    </pre>
 
-<script type="text/javascript" async src="{% static 'code_reaper/syntaxhighlighter.js' %}"></script>
-<script type="text/javascript" src="{% static 'code_reaper/task.js' %}"></script>
+    <div id="bottom_buttons">
+        <!-- <button class="start">Start</button> -->
+        <input type="submit" class="btn btn-secondary start bottom" value="Save" />
+        <!-- <button type="button" class="btn btn-secondary start">Save</button> -->
+        <a href="{% url 'task' function_length=next %}" id="next" class="btn btn-primary bottom">Next</a>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" async src="{% static 'code_reaper/syntaxhighlighter.js' %}"></script>
+    <script type="text/javascript" src="{% static 'code_reaper/task.js' %}"></script>
+  </body>
+
+</html>
