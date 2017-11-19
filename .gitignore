@@ -23,3 +23,13 @@ hs_err_pid*
 
 # python binary files
 *.pyc
+
+# some not needed files
+TEST-com.mycompany.app.AppTest.xml
+com.mycompany.app.AppTest.txt
+syntaxhighlighter/syntaxhighlighter
+db.sqlite3
+.metadata/
+FreeCol/
+FreeCol_files/
+id-rsa

@@ -11,6 +11,9 @@ import json
 def index(request):
     return render(request, 'code_reaper/index.html')
 
+def user(request):
+    return render(request, 'code_reaper/user.html')
+
 def task(request, function_length):
     #latest_question_list = Question.objects.order_by('-pub_date')[:5]
     #context = {'latest_question_list': latest_question_list}

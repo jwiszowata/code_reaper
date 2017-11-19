@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^(?P<function_id>[0-9]+)/gray_out/$', views.gray_out, name='gray_out'),
     url(r'^game/$', views.game, name='game'),
     url(r'^game/move/$', views.make_move, name='make_move'),
+    url(r'^user/$', views.user, name='user'),
     # ex: /polls/5/
     #url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
     # ex: /polls/5/results/
