@@ -6,18 +6,24 @@ div.field {
 }
 
 div#board {
-	width: 485px;
-	height: 485px;
+	width: 364px;
+	height: 364px;
 	margin: auto;
 }
 
 div#result {
-	width: 100px;
+	width: 55px;
 	margin: auto;
+	margin-top: 50px;
+	margin-bottom: 10px;
+}
+
+div#steps {
+	font-size: 40px;
 }
 
 div.result {
-	display: inline-block;
+	text-align: center;
 }
 
 div.color {
@@ -34,25 +40,26 @@ div#colors {
 }
 
 div.col1 {
-	background: red;
+	background: /*#edc951;*//* #F8B195;*/khaki; /*#ee4035;*/
+
 }
 
 div.col2 {
-	background: blue;
+	background: /*#eb6841;*//*#F67280;*/salmon;
 }
 
 div.col3 {
-	background: yellow;
+	background: /*#cc2a36;*//*#C06C84;*/#0392cf; /*#edc951;*/
 }
 
 div.col4 {
-	background: green;
+	background: /*#4f372d;*//*#6C5B7B;*/#7bc043;
 }
 
 div.col5 {
-	background: purple;
+	background: /*#00a0b0;*//*#355C7D;*/#843b62;
 }
 
 div.col6 {
-	background: orange;
+	background: /*#476c8a;*//*#2A363B;*/#cc2a36; /*#f37736;*/
 }
