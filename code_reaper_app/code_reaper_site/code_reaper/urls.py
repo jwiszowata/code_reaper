@@ -11,6 +11,10 @@ urlpatterns = [
     url(r'^game/$', views.game, name='game'),
     url(r'^game/move/$', views.make_move, name='make_move'),
     url(r'^user/$', views.user, name='user'),
+    url(r'^sign/$', views.sign, name='sign'),
+    url(r'^signup/$', views.signup_view, name='signup'),
+    url(r'^login/$', views.login_view, name='login'),
+    url(r'^logout/$', views.logout_view, name='logout'),
     # ex: /polls/5/
     #url(r'^(?P<question_id>[0-9]+)/$', views.detail, name='detail'),
     # ex: /polls/5/results/

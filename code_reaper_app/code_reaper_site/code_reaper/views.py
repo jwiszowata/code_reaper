@@ -1,6 +1,10 @@
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
 
 from .models import Function, Task
 import random
@@ -8,11 +12,57 @@ import numpy as np
 import queue
 import json
 
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return render(request, 'code_reaper/user.html')
+        else:
+            return render(request, 'code_reaper/game.html')
+    else:
+        return render(request, 'code_reaper/index.html')
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'code_reaper/index.html')
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            #username = form.cleaned_data.get('username')
+            #raw_password = form.cleaned_data.get('password')
+            #user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return render(request, 'code_reaper/user.html')
+    else:
+        form = UserCreationForm()
+    return render(request, 'code_reaper/sign.html', {'form': form})
+
+
 def index(request):
     return render(request, 'code_reaper/index.html')
 
+def sign(request):
+    return render(request, 'code_reaper/sign.html')
+
+
 def user(request):
     return render(request, 'code_reaper/user.html')
+
+#def register():
+#     >>> from django.contrib.auth.models import User
+#    user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+
+# # At this point, user is a User object that has already been saved
+# # to the database. You can continue to change its attributes
+# # if you want to change other fields.
+# >>> user.last_name = 'Lennon'
+# >>> user.save()
 
 def task(request, function_length):
     #latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -23,7 +73,7 @@ def task(request, function_length):
 
 def game(request):
     random.seed(a=2034)
-    size = 20;
+    size = 15;
     colors = [1, 2, 3, 4, 5, 6]
     fields_colors = random.choices(colors, k=size*size)
     fields = [{}] * (size * size)
