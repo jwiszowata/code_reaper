@@ -5,9 +5,12 @@ from django.db import models
 
 class Function(models.Model):
 	name = models.CharField(max_length=200, default="Function")
+	project = models.CharField(max_length=200, default="Project")
 	class_name = models.CharField(max_length=200, default="Class")
 	body = models.TextField()
 	lines_nr = models.IntegerField(default=0)
+	signs_nr = models.IntegerField(default=0)
+	difficulty = models.IntegerField(default=0)
 
 
 	def __str__(self):

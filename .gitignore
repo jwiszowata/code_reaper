@@ -33,3 +33,5 @@ db.sqlite3
 FreeCol/
 FreeCol_files/
 id-rsa
+code/my-app/functions/
+code/my-app/random/
