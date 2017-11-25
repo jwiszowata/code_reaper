@@ -26,7 +26,7 @@ wykaz skryptów:
 ===============
 copy_java_files.sh
 ------------------
-bierze projekt i wybiera z niego pliki z rozszerzeniem .java i kopiuje je do folderu proejkt_files
+bierze projekt i wybiera z niego pliki z rozszerzeniem .java i kopiuje je do folderu projekt_files
 
 split_on_functions.sh 
 ---------------------
@@ -36,8 +36,3 @@ choose_random.sh
 ----------------
 _ile_plików_ _do_jakiego_folderu_ : dla każdej liczby _i_ z przedziału 3..20 tworzy folder _do_jakiego_folderu_/_i_ i zapisuje w nim _ile_plików_ wylosowanych spośród funkcji w foderze ./functions/_i_; _i_ oznacza liczbę linijek w funkcji
 
-Colors:
-SCREEN: #c5c1c0
-STEEL: #0a1612
-DENIM: #1a2930
-MARIGOLD: #f7ce3e

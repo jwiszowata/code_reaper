@@ -60,6 +60,9 @@ public class App {
         public void visit(MethodDeclaration method, String filename) {
 
             removeAnnotations(method);
+            if (existsLineLonger(method, 120)) {
+                return;
+            }
             String path = getOutputPath(method, filename);
 
             try (Writer writer = new BufferedWriter(new OutputStreamWriter(
@@ -68,12 +71,30 @@ public class App {
             } catch (IOException e) {
                 System.out.println("Got something wrong.");
             }
-            //System.out.println(path + " done");
             super.visit(method, filename);
         }
 
         private static void removeAnnotations(MethodDeclaration m) {
             m.setAnnotations(new NodeList<AnnotationExpr>());
+        }
+
+        private static boolean existsLineLonger(MethodDeclaration method, int nr) {
+            int[] lines = measureLines(method.toString());
+            for (int i = 0; i < lines.length; i++) {
+                if (lines[i] > nr) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static int[] measureLines(String s) {
+            String[] tokens = s.split("\n");
+            int[] lines = new int[tokens.length];
+            for (int i = 0; i < tokens.length; i++) {
+                lines[i] = tokens[i].length();
+            }
+            return lines;
         }
 
         private static String getOutputPath(MethodDeclaration method, String filename) {
@@ -86,13 +107,8 @@ public class App {
         }
 
         private static int countLines(String s) {
-            int counter = 0;
-            for (int i = 0; i < s.length(); i++) {
-                if (s.charAt(i) == '\n') {
-                    counter++;
-                } 
-            }
-            return counter + 1;
+            String[] tokens = s.split("\n");
+            return tokens.length;
         }
     }
 }
