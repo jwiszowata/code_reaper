@@ -54,19 +54,23 @@ def task(request, function_length):
 
 @login_required(login_url='/code_reaper/sign/')
 def gray_out(request, function_id):
-    function = get_object_or_404(Function, pk=function_id)
-    res = []
-    for i in range(1, function.lines_nr + 1):
-        try:
-            request.POST['line' + str(i)]
-        except:
-            print("no " + str(i))
-            res += [str(i)]
-    print(res)
-    grayed_out_lines = ','.join(res);
-    print(grayed_out_lines)
-    t = Task(function=function, grayed_out_lines=grayed_out_lines)
-    t.save()
+    if request.method == 'POST':
+        function = get_object_or_404(Function, pk=function_id)
+        user = request.user
+        time = request.POST['time']
+        print("time " + time)
+        res = []
+        for i in range(1, function.lines_nr + 1):
+            try:
+                request.POST['line' + str(i)]
+            except:
+                #print("no " + str(i))
+                res += [str(i)]
+        print(res)
+        grayed_out_lines = ','.join(res);
+        print(grayed_out_lines)
+        t = Task(function=function, user=user, time=time, grayed_out_lines=grayed_out_lines)
+        t.save()
     return HttpResponseRedirect(reverse('task', args=(function.lines_nr+1,)))
 
 ############################ GAME ##############################################

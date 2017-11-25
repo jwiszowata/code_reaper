@@ -79,7 +79,7 @@ $(document).ready(function () {
         }
     }
 
-    function startTimer(duration, display) {
+    function startTimer(duration, display, input) {
         var timer = duration, minutes, seconds;
         nIntervId = setInterval(function () {
             minutes = parseInt(timer / 60, 10)
@@ -89,6 +89,7 @@ $(document).ready(function () {
             seconds = seconds < 10 ? "0" + seconds : seconds;
 
             display.textContent = minutes + ":" + seconds;
+            input.value = 120 - timer;
 
             if (--timer < 0) {
                 clearInterval(nIntervId);
@@ -102,7 +103,8 @@ $(document).ready(function () {
     $("button.start").click(function() {
         var time = 60 * 2,
             display = document.querySelector('#time');
-        startTimer(time, display);
+            input = document.getElementById('time_input');
+        startTimer(time, display, input);
         addCheckboxes();
     });
 });

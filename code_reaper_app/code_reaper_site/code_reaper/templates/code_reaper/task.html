@@ -50,33 +50,35 @@
     </div>
 
     <form action="{% url 'gray_out' function.id %}" method="post">
-    {% csrf_token %}
-    <!-- timer -->
-    <div class="container">
-        <div class="row">
-            <div id="timer" class="col-md-3 col-sm-6">
-                <div class="progress yellow">
-                    <span class="progress-left">
-                        <span class="progress-bar"></span>
-                    </span>
-                    <span class="progress-right">
-                        <span class="progress-bar"></span>
-                    </span>
-                    <div class="progress-value"><span id="time">02:00</span></div>
+        {% csrf_token %}
+        <!-- timer -->
+        <div class="container">
+            <div class="row">
+                <div id="timer" class="col-md-3 col-sm-6">
+                    <div class="progress yellow">
+                        <span class="progress-left">
+                            <span class="progress-bar"></span>
+                        </span>
+                        <span class="progress-right">
+                            <span class="progress-bar"></span>
+                        </span>
+                        <div class="progress-value"><span id="time"></span></div>
+                        <input type="hidden" id="time_input" name="time" value=""/>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- <div id="timer">Pozostało <span id="time">02:00</span></div> -->
-    <pre id="code" class="brush: java;">{{function.body}}</pre>
+        <!-- <div id="timer">Pozostało <span id="time">02:00</span></div> -->
+        <pre id="code" class="brush: java;">{{function.body}}</pre>
 
-    <div id="bottom_buttons">
-        <!-- <button class="start">Start</button> -->
-        <input type="submit" class="btn btn-secondary start bottom" value="Save" />
-        <!-- <button type="button" class="btn btn-secondary start">Save</button> -->
-        <a href="{% url 'task' function_length=next %}" id="next" class="btn btn-primary bottom">Next</a>
-    </div>
+        <div id="bottom_buttons">
+            <!-- <button class="start">Start</button> -->
+            <input type="submit" class="btn btn-secondary start bottom" value="Save" />
+            <!-- <button type="button" class="btn btn-secondary start">Save</button> -->
+            <a href="{% url 'task' function_length=next %}" id="next" class="btn btn-primary bottom">Next</a>
+        </div>
+    </form>
 {% endblock %}
 
 {% block script %}
