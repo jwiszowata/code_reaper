@@ -19,3 +19,4 @@ class Task(models.Model):
 	user = models.ForeignKey(User, default=None)
 	time = models.IntegerField(default=0)
 	grayed_out_lines = models.CharField(max_length=200)
+

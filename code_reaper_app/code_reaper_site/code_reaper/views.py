@@ -5,12 +5,36 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.contrib.auth.models import User
 
 from .models import Function, Task
 import random
 import numpy as np
 import queue
 import json
+
+def ranking(request):
+    ranking = Task.objects.values('user').annotate(tasks=Count('user')).order_by('-tasks')
+    users = []
+    all_tasks = 0
+
+    for rank in ranking:
+        all_tasks = max(all_tasks, rank['tasks'])
+
+    for i, rank in enumerate(ranking):
+        userId = rank['user']
+        username = User.objects.get(pk=userId).username
+        tasks = rank['tasks']
+        user = {
+            'username': username, 
+            'rank': i + 1, 
+            'tasks': tasks, 
+            'points': round((tasks/all_tasks) * 100)
+        }
+        users += [user]
+    context = {'users': users}
+    return render(request, 'code_reaper/ranking.html', context)
 
 ############################ MAIN ##############################################
 

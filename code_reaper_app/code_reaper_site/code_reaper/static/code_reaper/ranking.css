@@ -1,0 +1,19 @@
+#ranks {
+	margin-top: 60px;
+}
+
+#ranks > div > div > div {
+	margin-top: 5px;
+	width: 300px; 
+}
+
+.rank_row {
+	display: inline-block;
+	font-size: 30px;
+	margin-right: 30px;
+}
+
+.username {
+	width: 100px;
+	text-align: center;
+}

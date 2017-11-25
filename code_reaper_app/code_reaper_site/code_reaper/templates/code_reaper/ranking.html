@@ -1,0 +1,31 @@
+{% extends 'code_reaper/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link href="{% static 'code_reaper/ranking.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div id="ranks">
+  {% for user in users %}
+    <div>
+      <div class="rank_row">{{user.rank}}.</div>
+      <div class="rank_row username">{{user.username}} {% widthratio user.tasks all_tasks 1 %} </div>
+      <div class="rank_row">
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" style="width: {{user.points}}%;" aria-valuenow="{{user.points}}" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+      </div>
+      <div class="rank_row">{{user.tasks}}</div>
+    </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block script %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{% endblock %}
