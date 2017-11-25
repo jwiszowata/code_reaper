@@ -48,7 +48,7 @@
               <a class="nav-link" href="{% if user.is_authenticated %}
                                           {% url 'logout' %}
                                         {% else %}
-                                          {% url 'signup' %}
+                                          {% url 'login' %}
                                         {% endif %}">
                 {% if user.is_authenticated %}
                   Wyloguj

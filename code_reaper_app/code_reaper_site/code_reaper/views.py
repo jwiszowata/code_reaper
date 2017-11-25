@@ -2,9 +2,9 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from .models import Function, Task
 import random
@@ -12,18 +12,12 @@ import numpy as np
 import queue
 import json
 
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return render(request, 'code_reaper/user.html')
-        else:
-            return render(request, 'code_reaper/game.html')
-    else:
-        return render(request, 'code_reaper/index.html')
+############################ MAIN ##############################################
+
+def index(request):
+    return render(request, 'code_reaper/index.html')
+
+############################ USER ##############################################
 
 def logout_view(request):
     logout(request)
@@ -34,43 +28,50 @@ def signup_view(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            #username = form.cleaned_data.get('username')
-            #raw_password = form.cleaned_data.get('password')
-            #user = authenticate(username=username, password=raw_password)
             login(request, user)
             return render(request, 'code_reaper/user.html')
     else:
         form = UserCreationForm()
     return render(request, 'code_reaper/sign.html', {'form': form})
 
-
-def index(request):
-    return render(request, 'code_reaper/index.html')
-
 def sign(request):
-    return render(request, 'code_reaper/sign.html')
+    if request.GET:  
+        next_url = request.GET['next']
+        context = {'next': next_url}
+    return render(request, 'code_reaper/sign.html', context)
 
-
+@login_required(login_url='/code_reaper/sign/')
 def user(request):
     return render(request, 'code_reaper/user.html')
 
-#def register():
-#     >>> from django.contrib.auth.models import User
-#    user = User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+############################## TASK ############################################
 
-# # At this point, user is a User object that has already been saved
-# # to the database. You can continue to change its attributes
-# # if you want to change other fields.
-# >>> user.last_name = 'Lennon'
-# >>> user.save()
-
+@login_required(login_url='/code_reaper/sign/')
 def task(request, function_length):
-    #latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    #context = {'latest_question_list': latest_question_list}
     function = Function.objects.filter(lines_nr=function_length).first()
     context = {'function': function, 'next': (int(function_length) + 1) % 31}
     return render(request, 'code_reaper/task.html', context)
 
+@login_required(login_url='/code_reaper/sign/')
+def gray_out(request, function_id):
+    function = get_object_or_404(Function, pk=function_id)
+    res = []
+    for i in range(1, function.lines_nr + 1):
+        try:
+            request.POST['line' + str(i)]
+        except:
+            print("no " + str(i))
+            res += [str(i)]
+    print(res)
+    grayed_out_lines = ','.join(res);
+    print(grayed_out_lines)
+    t = Task(function=function, grayed_out_lines=grayed_out_lines)
+    t.save()
+    return HttpResponseRedirect(reverse('task', args=(function.lines_nr+1,)))
+
+############################ GAME ##############################################
+
+@login_required(login_url='/code_reaper/sign/')
 def game(request):
     random.seed(a=2034)
     size = 15;
@@ -99,12 +100,14 @@ def game(request):
     request.session['steps'] = 0
     return render(request, 'code_reaper/game.html', context)
 
+@login_required(login_url='/code_reaper/sign/')
 def make_move(request):
     if request.method == 'GET':
         request.session["steps"] = request.session["steps"] + 1
         color = int(request.GET.get("color"))
         if color in request.session['colors']:
-            fields = updateBoard(request.session['fields'], request.session['size'], color)
+            fields = updateBoard(request.session['fields'], 
+                request.session['size'], color)
             request.session['fields'] = fields
         else:
             fields = []
@@ -126,7 +129,7 @@ def updateBoard(fields, size, color):
         f = q.get()
         fRow = f["row"]
         fCol = f["column"]
-        print("sprawdzamy", fRow, fCol)
+        #print("sprawdzamy", fRow, fCol)
         vis[fRow,fCol] = True
         #print(fRow, fCol)
         edges = [
@@ -147,8 +150,8 @@ def updateBoard(fields, size, color):
                     board[r, c]['done'] = True
                     if vis[r, c] == False:
                         q.put(board[r, c])
-                    print(r, c)
-        wypisz(vis, 5)
+                    #print(r, c)
+        #wypisz(vis, 5)
     return board.reshape((1, size * size)).tolist()[0]
 
 
@@ -158,41 +161,3 @@ def wypisz(t, s):
         for j in range(s):
             res = res + "%r " % (t[i,j])
         print(res)
-
-def gray_out(request, function_id):
-    function = get_object_or_404(Function, pk=function_id)
-    res = []
-    for i in range(1, function.lines_nr + 1):
-        try:
-            request.POST['line' + str(i)]
-        except:
-            print("no " + str(i))
-            res += [str(i)]
-    print(res)
-    grayed_out_lines = ','.join(res);
-    print(grayed_out_lines)
-    t = Task(function=function, grayed_out_lines=grayed_out_lines)
-    t.save()
-    #except (KeyError, Choice.DoesNotExist):
-    #     # Redisplay the question voting form.
-    #     return render(request, 'polls/detail.html', {
-    #         'question': question,
-    #         'error_message': "You didn't select a choice.",
-    #     })
-    #else:
-    #    selected_choice.votes += 1
-    #     selected_choice.save()
-    #     # Always return an HttpResponseRedirect after successfully dealing
-    #     # with POST data. This prevents data from being posted twice if a
-    #     # user hits the Back button.
-    return HttpResponseRedirect(reverse('task', args=(function.lines_nr+1,)))
-
-# def detail(request, question_id):
-#     return HttpResponse("You're looking at question %s." % question_id)
-
-# def results(request, question_id):
-#     response = "You're looking at the results of question %s."
-#     return HttpResponse(response % question_id)
-
-# #def vote(request, question_id):
-#     return HttpResponse("You're voting on question %s." % question_id)
