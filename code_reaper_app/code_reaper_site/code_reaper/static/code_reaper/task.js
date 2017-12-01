@@ -80,8 +80,10 @@ $(document).ready(function () {
     }
 
     function startTimer(duration, display, input) {
+        console.log("startTimer");
         var timer = duration, minutes, seconds;
         nIntervId = setInterval(function () {
+            console.log("startTimerrrrrrrrrrrr");
             minutes = parseInt(timer / 60, 10)
             seconds = parseInt(timer % 60, 10);
 
@@ -89,7 +91,7 @@ $(document).ready(function () {
             seconds = seconds < 10 ? "0" + seconds : seconds;
 
             display.textContent = minutes + ":" + seconds;
-            input.value = 120 - timer;
+            input.value = duration - timer;
 
             if (--timer < 0) {
                 clearInterval(nIntervId);
@@ -101,10 +103,10 @@ $(document).ready(function () {
     $('#startModal').modal('show');
 
     $("button.start").click(function() {
-        var time = 60 * 2,
+        addCheckboxes();
+        var time = 60 * 2 - 1,
             display = document.querySelector('#time');
             input = document.getElementById('time_input');
         startTimer(time, display, input);
-        addCheckboxes();
     });
 });
