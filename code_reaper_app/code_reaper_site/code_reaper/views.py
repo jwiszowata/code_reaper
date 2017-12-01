@@ -14,6 +14,17 @@ import numpy as np
 import queue
 import json
 
+
+def choose_game(request):
+    return render(request, 'code_reaper/game.html')
+
+def games(request):
+    context = {
+        'games': [{'nr':1,'result':45, 'cost':[1]},{'nr':2,'result':'?', 'cost':[1,1]},{'nr':3,'result':5, 'cost':[1,1]},{'nr':4,'result':56, 'cost':[1]},{'nr':5,'result':13, 'cost':[1]},{'nr':6,'result':45, 'cost':[1,1,1]},{'nr':7,'result':45, 'cost':[1,1]},{'nr':8,'result':45, 'cost':[1,1,1]},{'nr':9,'result':45, 'cost':[1,1,1]},{'nr':10,'result':45, 'cost':[1,1,1]},{'nr':11,'result':45, 'cost':[1,1,1]},{'nr':12,'result':45, 'cost':[1,1,1]},{'nr':13,'result':45, 'cost':[1,1,1]},{'nr':14,'result':45, 'cost':[1,1,1]},{'nr':15,'result':45, 'cost':[1,1,1]},{'nr':16,'result':45, 'cost':[1,1,1]}],
+        'grain': 10
+    }
+    return render(request, 'code_reaper/games.html', context)
+
 def ranking(request):
     ranking = Task.objects.values('user').annotate(tasks=Count('user')).order_by('-tasks')
     users = []

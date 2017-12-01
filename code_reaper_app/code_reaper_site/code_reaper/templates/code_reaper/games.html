@@ -1,0 +1,47 @@
+{% extends 'code_reaper/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'code_reaper/games.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+    <div id="resources">
+      <div class="grain">
+        <div class="line">{{grain}}</div>
+        <img class="line" src="{% static 'code_reaper/images/wheat.png' %}">
+      </div>
+    </div>
+    <div id="games">
+    	{% for g in games %}
+          <div class="game">
+            <div class="cost">
+              {% for c in g.cost %}
+                <img class="line wheat" src="{% static 'code_reaper/images/wheat.png' %}">
+              {% endfor %}
+            </div>
+            <div class="game_nr">
+              <form action="{% url 'choose_game' %}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="game" value="{{g.pk}}">
+                <input type="submit" name="nr" value="{{g.nr}}" />
+              </form>
+            </div>
+            <div>
+              <img class="line trophy" src="{% static 'code_reaper/images/trophy.png' %}">
+              <div class="line">{{g.result}}</div>
+            </div>
+          </div>
+      {% endfor %}
+    </div>
+    <div class="small">Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+
+{% endblock %}
+
+{% block script %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{% endblock %}
