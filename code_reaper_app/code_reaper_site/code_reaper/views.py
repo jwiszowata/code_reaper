@@ -7,8 +7,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.contrib.auth.models import User
+from django.db.models import Q
 
-from .models import Function, Task
+from .models import Function, Task, Achievement
 import random
 import numpy as np
 import queue
@@ -18,6 +19,7 @@ import json
 def choose_game(request):
     return render(request, 'code_reaper/game.html')
 
+@login_required(login_url='/code_reaper/sign/')
 def games(request):
     context = {
         'games': [{'nr':1,'result':45, 'cost':[1]},{'nr':2,'result':'?', 'cost':[1,1]},{'nr':3,'result':5, 'cost':[1,1]},{'nr':4,'result':56, 'cost':[1]},{'nr':5,'result':13, 'cost':[1]},{'nr':6,'result':45, 'cost':[1,1,1]},{'nr':7,'result':45, 'cost':[1,1]},{'nr':8,'result':45, 'cost':[1,1,1]},{'nr':9,'result':45, 'cost':[1,1,1]},{'nr':10,'result':45, 'cost':[1,1,1]},{'nr':11,'result':45, 'cost':[1,1,1]},{'nr':12,'result':45, 'cost':[1,1,1]},{'nr':13,'result':45, 'cost':[1,1,1]},{'nr':14,'result':45, 'cost':[1,1,1]},{'nr':15,'result':45, 'cost':[1,1,1]},{'nr':16,'result':45, 'cost':[1,1,1]}],
@@ -26,24 +28,43 @@ def games(request):
     return render(request, 'code_reaper/games.html', context)
 
 def ranking(request):
-    ranking = Task.objects.values('user').annotate(tasks=Count('user')).order_by('-tasks')
+    achievements = Achievement.objects.filter().order_by('-points')
+    # users = User.objects.filter()
+    #users_id_sorted = [achievement.user.username for achievement in achievements]
+    # users_dict = dict([(u.pk, u.username) for u in users])
+    # print(users_dict)
+    # print(users_id_sorted)
+    # sorted_usernames = [users_dict[id] for id in users_id_sorted]
+    # print(sorted_usernames)
+
     users = []
-    all_tasks = 0
+    max_of_points = achievements[0].points
+    for i, achievement in enumerate(achievements):
+        users += [{
+            'username': achievement.user.username,
+            'rank': i + 1,
+            'level': achievement.level,
+            'points': round((achievement.points/max_of_points) * 100)
+        }]
 
-    for rank in ranking:
-        all_tasks = max(all_tasks, rank['tasks'])
+    # ranking = Task.objects.values('user').annotate(tasks=Count('user')).order_by('-tasks')
+    # users = []
+    # all_tasks = 0
 
-    for i, rank in enumerate(ranking):
-        userId = rank['user']
-        username = User.objects.get(pk=userId).username
-        tasks = rank['tasks']
-        user = {
-            'username': username, 
-            'rank': i + 1, 
-            'tasks': tasks, 
-            'points': round((tasks/all_tasks) * 100)
-        }
-        users += [user]
+    # for rank in ranking:
+    #     all_tasks = max(all_tasks, rank['tasks'])
+
+    # for i, rank in enumerate(achievements):
+    #     userId = rank['user']
+    #     username = User.objects.get(pk=userId).username
+    #     tasks = rank['tasks']
+    #     user = {
+    #         'username': username, 
+    #         'rank': i + 1, 
+    #         'tasks': tasks, 
+    #         'points': round((tasks/all_tasks) * 100)
+    #     }
+    #     users += [user]
     context = {'users': users}
     return render(request, 'code_reaper/ranking.html', context)
 
@@ -83,30 +104,67 @@ def user(request):
 
 @login_required(login_url='/code_reaper/sign/')
 def task(request, function_length):
-    function = Function.objects.filter(lines_nr=function_length).first()
+    user = request.user
+    try:
+        achievement = Achievement.objects.get(user=user)
+        level = achievement.level
+    except Achievement.DoesNotExist:
+        achievement = Achievement(user=user)
+        level = 1
+
+    min_d = 10 * (level - 1)
+    max_d = 10 * level
+    
+    criterion1 = Q(difficulty__lt=max_d)
+    criterion2 = Q(difficulty__gte=min_d)
+    funs_of_level_pk = Function.objects.filter(criterion1 & criterion2).values_list('pk', flat=True)
+    done_tasks_of_level = Task.objects.filter(user=user, function__in=funs_of_level_pk)
+    done_funs = [task.function for task in done_tasks_of_level]
+    funs = diff(funs_of_level_pk, done_funs)
+
+    function_id = random.choices(funs, k=1)[0]
+    function = Function.objects.get(pk=function_id)
+
     context = {'function': function, 'next': (int(function_length) + 1) % 31}
     return render(request, 'code_reaper/task.html', context)
+
+def diff(first, second):
+        second = set(second)
+        return [item for item in first if item not in second]
 
 @login_required(login_url='/code_reaper/sign/')
 def gray_out(request, function_id):
     if request.method == 'POST':
+
         function = get_object_or_404(Function, pk=function_id)
         user = request.user
         time = request.POST['time']
-        print("time " + time)
-        res = []
+        lines = []
         for i in range(1, function.lines_nr + 1):
             try:
                 request.POST['line' + str(i)]
             except:
-                #print("no " + str(i))
-                res += [str(i)]
-        print(res)
-        grayed_out_lines = ','.join(res);
-        print(grayed_out_lines)
-        t = Task(function=function, user=user, time=time, grayed_out_lines=grayed_out_lines)
-        t.save()
+                lines += [str(i)]
+        grayed_out_lines = ','.join(lines);
+        task = Task(function=function, user=user, time=time, grayed_out_lines=grayed_out_lines)
+        task.save()
+
+        try:
+            achievement = Achievement.objects.get(user=user)
+            points = achievement.points + function.difficulty;
+            setattr(achievement, 'points', points)
+            curr_level = achievement.level
+            if (points > points_max(curr_level)):
+                setattr(achievement, 'level', curr_level + 1)
+                setattr(achievement, 'wheat', achievement.wheat + curr_level + 2)
+            achievement.save()
+        except Achievement.DoesNotExist:
+            achievement = Achievement(user=user, points=function.difficulty, level=1, wheat=1)
+            achievement.save()
     return HttpResponseRedirect(reverse('task', args=(function.lines_nr+1,)))
+
+def points_max(level):
+    return 10 * level * (level + 1)
 
 ############################ GAME ##############################################
 
