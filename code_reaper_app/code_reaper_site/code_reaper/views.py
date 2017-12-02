@@ -9,7 +9,7 @@ from django.db.models import Count
 from django.contrib.auth.models import User
 from django.db.models import Q
 
-from .models import Function, Task, Achievement
+from .models import Function, Task, Achievement, Round, Game
 import random
 import numpy as np
 import queue
@@ -47,6 +47,16 @@ def ranking(request):
             'points': round((achievement.points/max_of_points) * 100)
         }]
 
+    rounds = Round.objects.filter().order_by('best_result')
+
+    games = [[] for i in range(16)]
+    for r in rounds:
+        rank = count_rank(games[r.game.number - 1], r)
+        games[r.game.number - 1] += [{'username': r.user.username, 'result': r.best_result, 'rank': rank}]
+
+    games_ranking = []
+    for i, game in enumerate(games):
+        games_ranking += [{'nr': i + 1, 'users': game}]
     # ranking = Task.objects.values('user').annotate(tasks=Count('user')).order_by('-tasks')
     # users = []
     # all_tasks = 0
@@ -65,8 +75,19 @@ def ranking(request):
     #         'points': round((tasks/all_tasks) * 100)
     #     }
     #     users += [user]
-    context = {'users': users}
+    context = {'code_ranking': users, 'games_ranking': games_ranking}
     return render(request, 'code_reaper/ranking.html', context)
+
+def count_rank(ranking, record):
+    if ranking != []:
+        last = ranking[-1]
+        print(last)
+        if record.best_result == last['result']:
+            return last['rank']
+        else:
+            return last['rank'] + 1
+    else:
+        return 1
 
 ############################ MAIN ##############################################
 

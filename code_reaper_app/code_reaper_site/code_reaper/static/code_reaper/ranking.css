@@ -1,8 +1,10 @@
-#ranks {
+div.ranks {
 	margin-top: 60px;
+	display: inline-block;
+	vertical-align:top;
 }
 
-#ranks > div > div > div {
+.ranks > div > div > div {
 	margin-top: 5px;
 	width: 300px; 
 }
@@ -16,4 +18,25 @@
 .username {
 	width: 100px;
 	text-align: center;
+}
+div.ranking_heading {
+	text-align: center;
+    font-size: 30px;
+    border-radius: 10px;
+}
+div.game {
+    background: darkcyan;
+    color: wheat;
+}
+div.code {
+	background-color: gold;
+	color: darkcyan;
+}
+
+.code_progress {
+	background-color: darkcyan;
+}
+
+.game_progress {
+	background-color: gold;
 }

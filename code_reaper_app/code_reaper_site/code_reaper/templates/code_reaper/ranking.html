@@ -7,18 +7,38 @@
 {% endblock %}
 
 {% block content %}
-<div id="ranks">
-  {% for user in users %}
+<div class="ranks">
+  <div class="ranking_heading code">Żniwiarze kodu</div>
+  {% for user in code_ranking %}
     <div>
       <div class="rank_row">{{user.rank}}.</div>
-      <div class="rank_row username">{{user.username}} {% widthratio user.tasks all_tasks 1 %} </div>
+      <div class="rank_row username">{{user.username}}</div>
       <div class="rank_row">
         <div class="progress">
-          <div class="progress-bar" role="progressbar" style="width: {{user.points}}%;" aria-valuenow="{{user.points}}" aria-valuemin="0" aria-valuemax="100"></div>
+          <div class="progress-bar code_progress" role="progressbar" style="width: {{user.points}}%;" aria-valuenow="{{user.points}}" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
       </div>
       <div class="rank_row">{{user.level}}</div>
     </div>
+  {% endfor %}
+</div>
+<div class="ranks">
+  {% for game in games_ranking %}
+    {% if game.users %}
+      <div class="ranking_heading game">Gra: {{game.nr}}</div>
+      {% for user in game.users %}
+        <div>
+          <div class="rank_row">{{user.rank}}.</div>
+          <div class="rank_row username">{{user.username}}</div>
+          <div class="rank_row">
+            <div class="progress">
+              <div class="progress-bar game_progress" role="progressbar" style="width: {{user.result}}%;" aria-valuenow="{{user.points}}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+          <div class="rank_row">{{user.result}}</div>
+        </div>
+      {% endfor %}
+    {% endif %}
   {% endfor %}
 </div>
 

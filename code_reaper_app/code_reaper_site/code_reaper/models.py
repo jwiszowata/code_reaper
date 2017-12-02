@@ -34,6 +34,9 @@ class Round(models.Model):
 	best_result = models.IntegerField()
 	times = models.IntegerField()
 
+	def __str__(self):
+		return str(self.user.pk) + " " + str(self.best_result) + " " + str(self.game)
+
 class Achievement(models.Model):
 	user = models.ForeignKey(User)
 	points = models.IntegerField(default=0)
