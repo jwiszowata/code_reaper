@@ -4,7 +4,6 @@ from os.path import isfile, join
 
 N_min = 6
 N_max = 30
-S_max = 120
 
 for i in range(N_min, N_max + 1):
 	path = "../../code/my-app/functions/" + str(i)
@@ -16,10 +15,9 @@ for i in range(N_min, N_max + 1):
 		names = filename.split('_')
 		with open(path + "/" + file) as body:
 			read_body = body.read()
-			signs = len(read_body)
-			per_line = signs / i
-			line_idx = (i - N_min) * S_max / (N_max - N_min)
-			difficulty = round((line_idx * line_idx + per_line * per_line) / 100)
+			signs_idx = count_signs_idx(body)
+			lines_idx = count_lines_idx(i)
+			difficulty = round((pow(lines_idx, 2) + pow(signs_idx, 2)) / 100)
 			f += [Function(
 				name=names[0], 
 				project="FreeCol",
@@ -29,3 +27,14 @@ for i in range(N_min, N_max + 1):
 				signs_nr=signs, 
 				difficulty=difficulty)]
 	Function.objects.bulk_create(f)
+
+def count_signs_idx(body):
+	lines = body.split('\n')
+	lengths = [len(line) * len(line) for line in lines]
+	return round(sum(lengths) / (len(lines) * 100))
+
+def count_lines_idx(lines_nr):
+	signs_idx_max = 144
+	shifted_lines_nr = lines_nr - N_min
+	shifted_N_max = N_max - N_min
+	return shifted_lines_nr * (signs_idx_max / shifted_N_max)
