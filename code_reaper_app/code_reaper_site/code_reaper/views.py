@@ -21,9 +21,29 @@ def choose_game(request):
 
 @login_required(login_url='/code_reaper/sign/')
 def games(request):
+    user = request.user
+    achievement = Achievement.objects.get(user=user)
+    wheat = achievement.wheat
+
+    games_count = Game.objects.filter().count()
+    games = [{'nr': i, 
+              'result': '?', 
+              'cost': [1]
+              } for i in range(1, games_count + 1)]
+
+    rounds = Round.objects.filter(user=user)
+    user_games = [{'nr': r.game.number, 
+                   'result': r.best_result, 
+                   'cost': range(min(3, r.times))
+                   } for r in rounds]
+
+    for game in user_games:
+        games[game['nr'] - 1] = game
+
     context = {
-        'games': [{'nr':1,'result':45, 'cost':[1]},{'nr':2,'result':'?', 'cost':[1,1]},{'nr':3,'result':5, 'cost':[1,1]},{'nr':4,'result':56, 'cost':[1]},{'nr':5,'result':13, 'cost':[1]},{'nr':6,'result':45, 'cost':[1,1,1]},{'nr':7,'result':45, 'cost':[1,1]},{'nr':8,'result':45, 'cost':[1,1,1]},{'nr':9,'result':45, 'cost':[1,1,1]},{'nr':10,'result':45, 'cost':[1,1,1]},{'nr':11,'result':45, 'cost':[1,1,1]},{'nr':12,'result':45, 'cost':[1,1,1]},{'nr':13,'result':45, 'cost':[1,1,1]},{'nr':14,'result':45, 'cost':[1,1,1]},{'nr':15,'result':45, 'cost':[1,1,1]},{'nr':16,'result':45, 'cost':[1,1,1]}],
-        'grain': 10
+        'games': games,
+        # [{'nr':1,'result':45, 'cost':[1]},{'nr':2,'result':'?', 'cost':[1,1]},{'nr':3,'result':5, 'cost':[1,1]},{'nr':4,'result':56, 'cost':[1]},{'nr':5,'result':13, 'cost':[1]},{'nr':6,'result':45, 'cost':[1,1,1]},{'nr':7,'result':45, 'cost':[1,1]},{'nr':8,'result':45, 'cost':[1,1,1]},{'nr':9,'result':45, 'cost':[1,1,1]},{'nr':10,'result':45, 'cost':[1,1,1]},{'nr':11,'result':45, 'cost':[1,1,1]},{'nr':12,'result':45, 'cost':[1,1,1]},{'nr':13,'result':45, 'cost':[1,1,1]},{'nr':14,'result':45, 'cost':[1,1,1]},{'nr':15,'result':45, 'cost':[1,1,1]},{'nr':16,'result':45, 'cost':[1,1,1]}],
+        'wheat': wheat
     }
     return render(request, 'code_reaper/games.html', context)
 

@@ -19,7 +19,7 @@ div.game {
 	color: darkcyan;
 }
 
-div.grain {
+div.wheat {
 	font-size: 40px;
 	margin: auto;
 	width: 200px;
@@ -50,6 +50,7 @@ img.wheat {
 
 img.trophy {
 	height: 20px;
+	margin-bottom: 5px;
 }
 
 div.game > div {
