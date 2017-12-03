@@ -2,7 +2,11 @@ $(document).ready(function () {
 
     $("div.color").click(function() {
         var color = getColorClass($(this)[0]);
-        console.log(color);
+        var active_color = getColorClass($('div.r0.c0')[0])
+        console.log(active_color);
+        if (color === active_color) {
+            return true;
+        }
         /*$("div.field.done").each(function() {
             if (isActive($(this)[0])) {
                 console.log("active");
@@ -32,6 +36,14 @@ $(document).ready(function () {
                     "col" + fields[i].color);
             }
             $("#steps")[0].innerText = response.steps;
+
+            moves_desc = 'ruchów';
+            if (response.steps === 1) {
+                moves_desc = 'ruch';
+            } else if (response.steps === 2 || response.steps === 3 || response.steps === 4) {
+                moves_desc = 'ruchy';
+            }
+            $("#moves")[0].innerText = moves_desc;
         });
         return true;
     });
