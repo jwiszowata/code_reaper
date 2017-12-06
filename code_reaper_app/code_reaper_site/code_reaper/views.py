@@ -16,8 +16,8 @@ import queue
 import json
 
 
-def choose_game(request):
-    return render(request, 'code_reaper/game.html')
+# def choose_game(request):
+#     return render(request, 'code_reaper/game.html')
 
 @login_required(login_url='/code_reaper/sign/')
 def games(request):
@@ -34,7 +34,7 @@ def games(request):
     rounds = Round.objects.filter(user=user)
     user_games = [{'nr': r.game.number, 
                    'result': r.best_result, 
-                   'cost': range(min(3, r.times))
+                   'cost': range(min(3, r.times + 1))
                    } for r in rounds]
 
     for game in user_games:
@@ -101,7 +101,7 @@ def ranking(request):
 def count_rank(ranking, record):
     if ranking != []:
         last = ranking[-1]
-        print(last)
+        # print(last)
         if record.best_result == last['result']:
             return last['rank']
         else:
@@ -211,32 +211,60 @@ def points_max(level):
 
 @login_required(login_url='/code_reaper/sign/')
 def game(request):
-    random.seed(a=2034)
-    size = 15;
-    colors = [1, 2, 3, 4, 5, 6]
-    fields_colors = random.choices(colors, k=size*size)
-    fields = [{}] * (size * size)
-    for c in range(size):
-        for r in range(size):
-            cell = c + r * size;
-            fields[cell] = { 
-                'color': fields_colors[cell],
-                'row': r,
-                'column': c,
-                'done': False
-            }
-    fields[0]['done'] = True
+    if request.method == 'POST':
+        game_nr = request.POST['nr']
+        get_tax(request.user, game_nr)
+        game = Game.objects.get(number=game_nr)
+        random.seed(a=game.seed)
+        size = 15;
+        colors = [1, 2, 3, 4, 5, 6]
+        fields_colors = random.choices(colors, k=size*size)
+        fields = [{}] * (size * size)
+        for c in range(size):
+            for r in range(size):
+                cell = c + r * size;
+                fields[cell] = { 
+                    'color': fields_colors[cell],
+                    'row': r,
+                    'column': c,
+                    'done': False
+                }
+        fields[0]['done'] = True
 
-    context = {
-    'size': size,
-    'fields': fields,
-    'colors': colors
-    }
-    request.session['size'] = size
-    request.session['fields'] = fields
-    request.session['colors'] = colors
-    request.session['steps'] = 0
-    return render(request, 'code_reaper/game.html', context)
+        context = {
+        'size': size,
+        'fields': fields,
+        'colors': colors
+        }
+        request.session['size'] = size
+        request.session['fields'] = fields
+        request.session['colors'] = colors
+        request.session['steps'] = 0
+        return render(request, 'code_reaper/game.html', context)
+
+def get_tax(user, game_nr):
+    game = Game.objects.get(number=game_nr)
+    try:
+        r = Round.objects.get(user=user, game=game)
+        times = r.times
+        setattr(r, 'times', times + 1)
+        r.save()
+        cost = min(3, times + 1)
+    except Round.DoesNotExist:
+        r = Round(user=user, game=game, times=1)
+        r.save()
+        cost = 1
+
+    try:
+        achievement = Achievement.objects.get(user=user)
+    except Achievement.DoesNotExist:
+        achievement = Achievement(user=user, points=0, level=1, wheat=1)
+        achievement.save()
+
+    if achievement.wheat >= cost:
+        wheat = achievement.wheat - cost
+        setattr(achievement, 'wheat', wheat)
+        achievement.save()
 
 @login_required(login_url='/code_reaper/sign/')
 def make_move(request):
@@ -257,13 +285,13 @@ def make_move(request):
 def updateBoard(fields, size, color):
     board = np.asarray(fields).reshape((size, size))
     b = board[2,0]
-    print("Rownosc: 2 == ", b["row"]," 0 == ", b["column"])
+    #print("Rownosc: 2 == ", b["row"]," 0 == ", b["column"])
     vis = np.asarray([False] * size * size).reshape((size, size))
     q = queue.Queue()
     q.put(board[0, 0])
     #print(queue)
     while q.empty() == False:
-        print(q)
+        #print(q)
         f = q.get()
         fRow = f["row"]
         fCol = f["column"]
@@ -282,7 +310,7 @@ def updateBoard(fields, size, color):
             c = e[1]
             #print("(" + r +", " +c +")")
             if c in range(size) and r in range(size):
-                print(r, c, board[r, c]['done'], board[r, c]['color'])
+                #print(r, c, board[r, c]['done'], board[r, c]['color'])
                 if board[r, c]['done'] or board[r, c]['color'] == color:
                     board[r, c]['color'] = color
                     board[r, c]['done'] = True
@@ -293,9 +321,9 @@ def updateBoard(fields, size, color):
     return board.reshape((1, size * size)).tolist()[0]
 
 
-def wypisz(t, s):
-    for i in range(s):
-        res = ""
-        for j in range(s):
-            res = res + "%r " % (t[i,j])
-        print(res)
+# def wypisz(t, s):
+#     for i in range(s):
+#         res = ""
+#         for j in range(s):
+#             res = res + "%r " % (t[i,j])
+#         print(res)

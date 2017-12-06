@@ -1,6 +1,7 @@
 from django.db import models
 import ast
 from django.contrib.auth.models import User
+import math
 
 class Function(models.Model):
 	name = models.CharField(max_length=200, default="Function")
@@ -31,7 +32,7 @@ class Game(models.Model):
 class Round(models.Model):
 	game = models.ForeignKey(Game, on_delete=models.CASCADE)
 	user = models.ForeignKey(User)
-	best_result = models.IntegerField()
+	best_result = models.IntegerField(null=True)
 	times = models.IntegerField()
 
 	def __str__(self):
