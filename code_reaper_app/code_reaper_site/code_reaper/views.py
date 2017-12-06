@@ -227,33 +227,36 @@ def game(request):
                     'color': fields_colors[cell],
                     'row': r,
                     'column': c,
-                    'done': False
+                    'done': False,
+                    'active': False
                 }
         fields[0]['done'] = True
+        fields[0]['active'] = True
 
         context = {
         'size': size,
         'fields': fields,
         'colors': colors
         }
+        updatedBoard = updateBoard(fields, size, fields[0]['color'])
+        request.session['game'] = game.pk
         request.session['size'] = size
-        request.session['fields'] = fields
+        request.session['fields'] = updatedBoard['board']
         request.session['colors'] = colors
         request.session['steps'] = 0
+        request.session['done'] = updatedBoard['done']
         return render(request, 'code_reaper/game.html', context)
 
 def get_tax(user, game_nr):
     game = Game.objects.get(number=game_nr)
+    times = 0
     try:
         r = Round.objects.get(user=user, game=game)
         times = r.times
-        setattr(r, 'times', times + 1)
-        r.save()
-        cost = min(3, times + 1)
     except Round.DoesNotExist:
-        r = Round(user=user, game=game, times=1)
-        r.save()
-        cost = 1
+        r = Round(user=user, game=game, times=0)
+
+    cost = min(3, times + 1)
 
     try:
         achievement = Achievement.objects.get(user=user)
@@ -266,38 +269,62 @@ def get_tax(user, game_nr):
         setattr(achievement, 'wheat', wheat)
         achievement.save()
 
+        setattr(r, 'times', times + 1)
+        r.save()
+
 @login_required(login_url='/code_reaper/sign/')
 def make_move(request):
     if request.method == 'GET':
-        request.session["steps"] = request.session["steps"] + 1
+
+        steps = request.session['steps'] + 1
+        size = request.session['size']
         color = int(request.GET.get("color"))
+        finished = False
+
         if color in request.session['colors']:
-            fields = updateBoard(request.session['fields'], 
+            updatedBoard = updateBoard(request.session['fields'], 
                 request.session['size'], color)
+            fields = updatedBoard['board']
+            done = updatedBoard['done']
+            print(done)
+            if done == size * size:
+                finished = True
+                user = request.user
+                game = int(request.session['game'])
+                r = Round.objects.get(user=user, game=game)
+                if r.best_result:
+                    setattr(r, 'best_result', min(steps, r.best_result))
+                else:
+                    setattr(r, 'best_result', steps)
+                r.save()
+
+            request.session['steps'] = steps
             request.session['fields'] = fields
+            request.session['done'] = done
+
         else:
             fields = []
         return HttpResponse(json.dumps({
-                "fields": fields,
-                "steps": request.session["steps"]}),
+                'fields': fields,
+                'steps': steps,
+                'finished': finished }),
                 content_type="application/json")
 
 def updateBoard(fields, size, color):
     board = np.asarray(fields).reshape((size, size))
-    b = board[2,0]
+    #b = board[2,0]
     #print("Rownosc: 2 == ", b["row"]," 0 == ", b["column"])
     vis = np.asarray([False] * size * size).reshape((size, size))
-    q = queue.Queue()
-    q.put(board[0, 0])
-    #print(queue)
+    colorizedBoard = colorizeDone(board, size, color)
+    board = colorizedBoard['board']
+    done = colorizedBoard['done']
+    q = getActiveQueue(board, size) 
     while q.empty() == False:
-        #print(q)
         f = q.get()
         fRow = f["row"]
         fCol = f["column"]
-        #print("sprawdzamy", fRow, fCol)
-        vis[fRow,fCol] = True
-        #print(fRow, fCol)
+        vis[fRow, fCol] = True
+        active = 0
         edges = [
             [fRow, fCol],
             [fRow + 1, fCol],
@@ -308,18 +335,41 @@ def updateBoard(fields, size, color):
         for e in edges:
             r = e[0]
             c = e[1]
-            #print("(" + r +", " +c +")")
             if c in range(size) and r in range(size):
-                #print(r, c, board[r, c]['done'], board[r, c]['color'])
-                if board[r, c]['done'] or board[r, c]['color'] == color:
+                active += 1
+                if board[r, c]['done']:
                     board[r, c]['color'] = color
-                    board[r, c]['done'] = True
-                    if vis[r, c] == False:
-                        q.put(board[r, c])
-                    #print(r, c)
-        #wypisz(vis, 5)
-    return board.reshape((1, size * size)).tolist()[0]
+                    active -= 1
+                else:
+                    if board[r, c]['color'] == color:
+                        board[r, c]['done'] = True
+                        done += 1
+                        board[r, c]['active'] = True
+                        active -= 1
+                        if vis[r, c] == False:
+                            q.put(board[r, c])
+        if active == 0:
+            board[fRow, fCol]['active'] = False
+                    
+    return { 'board': board.reshape((1, size * size)).tolist()[0],
+             'done': done }
 
+def colorizeDone(board, size, color):
+    done = 0
+    for r in range(size):
+        for c in range(size):
+            if board[r,c]['done']:
+                board[r,c]['color'] = color
+                done += 1
+    return {'board': board, 'done': done }
+
+def getActiveQueue(board, size):
+    q = queue.Queue()
+    for r in range(size):
+        for c in range(size):
+            if board[r, c]['active']:
+                q.put(board[r, c])
+    return q
 
 # def wypisz(t, s):
 #     for i in range(s):
