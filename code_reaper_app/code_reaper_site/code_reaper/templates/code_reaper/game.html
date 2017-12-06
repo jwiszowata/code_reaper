@@ -7,6 +7,28 @@
 {% endblock %}
 
 {% block content %}
+    <!-- Win Modal -->
+    <div class="modal fade" id="winModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Gratulacje!</h5>
+          </div>
+          <div class="modal-body">
+            Twój wynik to <span id="modal_steps"></span> ruchów!
+          </div>
+          <div class="modal-footer">
+            <a href="{% url 'games' %}" class="btn btn-primary bottom">
+              Zagraj ponownie
+            </a>
+            <a href="{% url 'task' %}" class="btn btn-secondary bottom">
+              Żnij kod
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div id="result">
       <div id="steps" class="result">0</div>
       <div id="moves" class="result">ruchów</div>

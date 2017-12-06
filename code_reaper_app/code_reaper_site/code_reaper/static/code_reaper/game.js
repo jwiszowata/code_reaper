@@ -27,15 +27,16 @@ $(document).ready(function () {
             console.log(response);
             var fields = response.fields;
             for (var i = 0; i < fields.length; i++) {
-                console.log(i, fields[i]);
-                console.log("div.field.r" + fields[i].row + 
-                    ".c" + fields[i].column);
+                //console.log(i, fields[i]);
+                //console.log("div.field.r" + fields[i].row + 
+                //    ".c" + fields[i].column);
                 setColor(
                     $("div.field.r" + fields[i].row + 
                     ".c" + fields[i].column), 
                     "col" + fields[i].color);
             }
             $("#steps")[0].innerText = response.steps;
+            $("#modal_steps")[0].innerText = response.steps;
 
             var moves_desc = 'ruchów';
             if (response.steps === 1) {
@@ -44,6 +45,11 @@ $(document).ready(function () {
                 moves_desc = 'ruchy';
             }
             $("#moves")[0].innerText = moves_desc;
+
+            console.log(response.finished)
+            if (response.finished) {
+                $('#winModal').modal('show');
+            }
         });
         return true;
     });
