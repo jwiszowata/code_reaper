@@ -10,49 +10,55 @@
 
 {% block content %}
     <!-- Start Modal -->
-    <div class="modal fade" id="startModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="startModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <h5 class="modal-title" id="exampleModalLabel">Zaczynamy!</h5>
           </div>
           <div class="modal-body">
-            Ready?
+            Po kliknięciu <b>Start!</b> zacznie się odmierzać czas. Na zadanie masz 2 minuty.
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary start" data-dismiss="modal">Start!</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">Anuluj</button>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Finish Modal -->
-    <div class="modal fade" id="finishModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="finishModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Dziękuję! Dobra robota!</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            Ready?
+            <p>
+              Zdobywasz <span class="modal_text" id="got_points"></span> punktów!
+              W sumie masz <span class="modal_text" id="all_points"></span> punktów.
+              Aby zdobyć następny level, potrzebujesz <span class="modal_text" id="to_next_level"></span> punktów.
+            </p>
+            <p id="new_level">
+              Masz teraz <span class="modal_text" id="level"></span> level!
+              Dostajesz <span class="modal_text" id="wheat"></span> kłosów!
+            </p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary start" data-dismiss="modal">Start!</button>
+            <button class="btn btn-secondary" id="next_task" data-dismiss="modal">
+              Następne zadanie
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <form action="{% url 'gray_out' function.id %}" method="post">
+    <form id="task" action="{% url 'gray_out' function.id  %}" method="post">
         {% csrf_token %}
-        <!-- timer -->
-        <div class="container">
+       <!-- timer -->
+        <div class="container" id="clock">
             <div class="row">
                 <div id="timer" class="col-md-3 col-sm-6">
                     <div class="progress yellow">
@@ -74,9 +80,9 @@
 
         <div id="bottom_buttons">
             <!-- <button class="start">Start</button> -->
-            <input type="submit" class="btn btn-secondary start bottom" value="Save" />
+            <button class="btn btn-secondary save bottom">Zapisz</button>
             <!-- <button type="button" class="btn btn-secondary start">Save</button> -->
-            <a href="{% url 'task' function_length=next %}" id="next" class="btn btn-primary bottom">Next</a>
+            <!-- <a href="{% url 'task' %}" id="next" class="btn btn-primary bottom">Next</a> -->
         </div>
     </form>
 {% endblock %}

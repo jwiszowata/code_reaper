@@ -25,7 +25,7 @@ $(document).ready(function () {
             },*/
         }).done(function(response) {
             console.log(response);
-            fields = response.fields;
+            var fields = response.fields;
             for (var i = 0; i < fields.length; i++) {
                 console.log(i, fields[i]);
                 console.log("div.field.r" + fields[i].row + 
@@ -37,7 +37,7 @@ $(document).ready(function () {
             }
             $("#steps")[0].innerText = response.steps;
 
-            moves_desc = 'ruchów';
+            var moves_desc = 'ruchów';
             if (response.steps === 1) {
                 moves_desc = 'ruch';
             } else if (response.steps === 2 || response.steps === 3 || response.steps === 4) {

@@ -9,8 +9,17 @@
 	border: none;
 }
 
-pre#code {
+#code {
 	margin-left: 100px;
+	display: none;
+}
+
+#clock {
+	display: none;
+}
+
+#bottom_buttons {
+	display: none;
 }
 
 td.gutter div.line {
@@ -56,4 +65,14 @@ div#timer {
 	margin-top: 20px!important;
 	margin-bottom: 20px!important;
 	border-color: #d4d0c8!important;
+}
+
+div.modal-body > p {
+    white-space: pre;
+}
+
+span.modal_text {
+	font-style: bold;
+	font-size: 20;
+	color: darkcyan;
 }

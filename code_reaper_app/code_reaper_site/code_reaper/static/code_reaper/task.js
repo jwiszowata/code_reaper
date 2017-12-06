@@ -46,6 +46,44 @@ $(document).ready(function () {
         //});
     }
 
+    $("#task").submit(function(e) {
+        var postData = $(this).serializeArray();
+        var formURL = $(this).attr("action");
+
+        $.ajax(
+        {
+            url : formURL,
+            type: "POST",
+            //crossDomain: true,
+            data : postData
+            /*success:function(data, textStatus, jqXHR) 
+            {
+                //data: return data from server
+                alert('it worked');
+                alert(this.data + "," + this.url);
+            },
+            error: function(jqXHR, textStatus, errorThrown) 
+            {
+                //if fails   
+                alert('it didnt work');   
+            }*/
+        }).done(function(response){
+            $("#got_points")[0].innerText = response.got_points;
+            $("#all_points")[0].innerText = response.all_points;
+            if (response.got_level === false) {
+                $("#new_level")[0].style.display = "none";
+            } else {
+                $("#new_level")[0].style.display = "block";
+            }
+            $("#level")[0].innerText = response.level;
+            $("#to_next_level")[0].innerText = response.to_next_level;
+            $("#wheat")[0].innerText = response.wheat;
+            $('#finishModal').modal('show');
+        });
+
+        return false;
+    });
+
     /*function getText(obj) {
         var s = '';
         obj.children().each(function() {
@@ -83,7 +121,6 @@ $(document).ready(function () {
         console.log("startTimer");
         var timer = duration, minutes, seconds;
         nIntervId = setInterval(function () {
-            console.log("startTimerrrrrrrrrrrr");
             minutes = parseInt(timer / 60, 10)
             seconds = parseInt(timer % 60, 10);
 
@@ -95,12 +132,16 @@ $(document).ready(function () {
 
             if (--timer < 0) {
                 clearInterval(nIntervId);
-                $('#finishModal').modal('show');
+                $("button.save").click();
             }
         }, 1000);
     }
 
     $('#startModal').modal('show');
+
+    $('#next_task').click(function() {
+        window.location.reload();
+    });
 
     $("button.start").click(function() {
         addCheckboxes();
@@ -108,5 +149,10 @@ $(document).ready(function () {
             display = document.querySelector('#time');
             input = document.getElementById('time_input');
         startTimer(time, display, input);
+        $('#code')[0].style.display = "block";
+        $('#clock')[0].style.display = "block";
+        $('#bottom_buttons')[0].style.display = "block";
     });
+
+    //$("button.save").click(save());
 });

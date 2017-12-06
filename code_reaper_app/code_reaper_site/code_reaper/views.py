@@ -144,7 +144,7 @@ def user(request):
 ############################## TASK ############################################
 
 @login_required(login_url='/code_reaper/sign/')
-def task(request, function_length):
+def task(request):
     user = request.user
     try:
         achievement = Achievement.objects.get(user=user)
@@ -163,10 +163,12 @@ def task(request, function_length):
     done_funs = [task.function for task in done_tasks_of_level]
     funs = diff(funs_of_level_pk, done_funs)
 
-    function_id = random.choices(funs, k=1)[0]
-    function = Function.objects.get(pk=function_id)
-
-    context = {'function': function, 'next': (int(function_length) + 1) % 31}
+    if funs != []:
+        function_id = random.choices(funs, k=1)[0]
+        function = Function.objects.get(pk=function_id)
+    else:
+        function = Function.objects.filter().first()
+    context = {'function': function, 'next': (int(10) + 1) % 31}
     return render(request, 'code_reaper/task.html', context)
 
 def diff(first, second):
@@ -190,19 +192,35 @@ def gray_out(request, function_id):
         task = Task(function=function, user=user, time=time, grayed_out_lines=grayed_out_lines)
         task.save()
 
+        points = function.difficulty
+        got_level = False
+        level = 1
+        wheat = 1
         try:
             achievement = Achievement.objects.get(user=user)
             points = achievement.points + function.difficulty;
             setattr(achievement, 'points', points)
             curr_level = achievement.level
-            if (points > points_max(curr_level)):
-                setattr(achievement, 'level', curr_level + 1)
-                setattr(achievement, 'wheat', achievement.wheat + curr_level + 2)
+            level = curr_level
+            if (points >= points_max(curr_level)):
+                got_level = True
+                level = curr_level + 1
+                wheat = achievement.wheat + curr_level + 2
+                setattr(achievement, 'level', level)
+                setattr(achievement, 'wheat', wheat)
             achievement.save()
         except Achievement.DoesNotExist:
             achievement = Achievement(user=user, points=function.difficulty, level=1, wheat=1)
             achievement.save()
-    return HttpResponseRedirect(reverse('task', args=(function.lines_nr+1,)))
+        return HttpResponse(json.dumps({
+                'got_points': function.difficulty,
+                'all_points': points,
+                'got_level': got_level,
+                'level': level,
+                'wheat': wheat,
+                'to_next_level': points_max(level) - points }),
+                content_type="application/json")
+    #HttpResponseRedirect(reverse('task', args=(function.lines_nr+1,)))
 
 def points_max(level):
     return 10 * level * (level + 1)

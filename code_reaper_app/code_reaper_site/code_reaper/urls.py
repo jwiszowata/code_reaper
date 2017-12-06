@@ -7,8 +7,8 @@ urlpatterns = [
 	# ex: /code_reaper/
 	url(r'^$', views.index, name='index'),
 	# ex: /code_reaper/task/1/
-    url(r'^task/(?P<function_length>[0-9]+)/$', views.task, name='task'),
-    url(r'^(?P<function_id>[0-9]+)/gray_out/$', views.gray_out, name='gray_out'),
+    url(r'^task/$', views.task, name='task'),
+    url(r'^task/gray_out/(?P<function_id>[0-9]+)$', views.gray_out, name='gray_out'),
     url(r'^games/$', views.games, name='games'),
     url(r'^game/$', views.game, name='game'),
     url(r'^game/move/$', views.make_move, name='make_move'),
