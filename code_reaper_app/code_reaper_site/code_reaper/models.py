@@ -2,8 +2,19 @@ from django.db import models
 import ast
 from django.contrib.auth.models import User
 import math
+from django.utils.timezone import now
 
 class Function(models.Model):
+	READY = 0
+	PENDING = 1
+	FINISHED = 2
+	DONE = 3
+	FUNCTION_STATUS_CHOICES = (
+		(READY, 'Ready'),
+	    (PENDING, 'Pending'),
+	    (FINISHED, 'Finished'),
+	    (DONE, 'Done'),
+	)
 	name = models.CharField(max_length=200, default="Function")
 	project = models.CharField(max_length=200, default="Project")
 	class_name = models.CharField(max_length=200, default="Class")
@@ -11,16 +22,51 @@ class Function(models.Model):
 	lines_nr = models.IntegerField(default=0)
 	signs_nr = models.IntegerField(default=0)
 	difficulty = models.IntegerField(default=0)
+	times_done = models.IntegerField(default=0)
+	status = models.IntegerField(default=0, choices=FUNCTION_STATUS_CHOICES)
+	setting_time = models.DateTimeField(default=now)
 
 	def __str__(self):
 		return str(self.difficulty)
 		# return self.name + " from " + self.class_name
 
 class Task(models.Model):
+	TRUSTED = 0
+	NOT_TRUSTED = 1
+	WAITING = 2
+
+	TASK_STATUS_CHOICES = (
+		(TRUSTED, 'Trusted'),
+		(NOT_TRUSTED, 'Not trusted'),
+		(WAITING, 'Waiting'),
+	)
 	function = models.ForeignKey(Function, on_delete=models.CASCADE)
 	user = models.ForeignKey(User, default=None)
 	time = models.IntegerField(default=0)
 	grayed_out_lines = models.CharField(max_length=200)
+	status = models.IntegerField(default=0, choices=TASK_STATUS_CHOICES)
+
+class Package(models.Model):
+	PENDING = 0
+	OK = 1
+	WRONG = 2
+	TRUSTED = 3
+	NOT_TRUSTED = 4
+
+	PACKAGE_STATUS_CHOICES = (
+		(PENDING, 'Pending'),
+		(OK, 'Ok'),
+		(WRONG, 'Wrong'),
+		(TRUSTED, 'Trusted'),
+		(NOT_TRUSTED, 'Not trusted'),
+	)
+	user = models.ForeignKey(User, default=None)
+	task1 = models.ForeignKey(Task, related_name='task1')
+	task2 = models.ForeignKey(Task, related_name='task2')
+	task3 = models.ForeignKey(Task, related_name='task3')
+	checking_task = models.IntegerField()
+	setting_time = models.DateTimeField(default=now)
+	status = models.IntegerField(default=0, choices=PACKAGE_STATUS_CHOICES)
 
 class Game(models.Model):
 	number = models.IntegerField()
@@ -39,7 +85,17 @@ class Round(models.Model):
 		return str(self.user.pk) + " " + str(self.best_result) + " " + str(self.game)
 
 class Achievement(models.Model):
+	STANDARD = 0
+	TRUSTED = 1
+
+	PLAYER_STATUS_CHOICES = (
+		(STANDARD, 'Standard'),
+		(TRUSTED, 'Trusted')
+	)
 	user = models.ForeignKey(User)
 	points = models.IntegerField(default=0)
 	level = models.IntegerField(default=1)
 	wheat = models.IntegerField(default=1)
+	factor = models.FloatField(default=1.0)
+	status = models.IntegerField(default=0, choices=PLAYER_STATUS_CHOICES)
+	current_package = models.ForeignKey(Package, null=True)

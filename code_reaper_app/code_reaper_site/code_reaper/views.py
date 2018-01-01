@@ -150,7 +150,20 @@ def user(request):
 
 @login_required(login_url='/code_reaper/sign/')
 def task(request):
-    user = request.user
+    user = request.user   
+    funs = funs_for_user(user)
+
+    if funs != []:
+        function_id = random.choices(funs, k=1)[0]
+        function = Function.objects.get(pk=function_id)
+    else:
+        function = Function.objects.filter(status != FINISHED).first()
+
+    print(function.times_done)
+    context = {'function': function, 'next': (int(10) + 1) % 31}
+    return render(request, 'code_reaper/task.html', context)
+
+def funs_for_user(user):
     try:
         achievement = Achievement.objects.get(user=user)
         level = achievement.level
@@ -158,32 +171,39 @@ def task(request):
         achievement = Achievement(user=user)
         level = 1
 
+    print("User status")
+    print(achievement.status)
+    if achievement.status == Achievement.TRUSTED:
+        i = 0
+    else:
+        i = 2
+
+    funs = []
+    while len(funs) < 3:
+        funs += get_proper_functions_for_user(user, level, i)
+        if achievement.status == Achievement.TRUSTED:
+            i += 1
+        else:
+            i -= 1
+    return funs
+
+def get_proper_functions_for_user(user, level, times):
     min_d = 10 * (level - 1)
     max_d = 10 * level
-    
+
     criterion1 = Q(difficulty__lt=max_d)
     criterion2 = Q(difficulty__gte=min_d)
-    funs_of_level_d = Function.objects.filter().values_list('difficulty', flat=True)
-    l = [0]*200
-    for i in funs_of_level_d:
-        l[i] += 1
-    print(l)
-    funs_of_level_pk = Function.objects.filter(criterion1 & criterion2).values_list('pk', flat=True)
+    criterion3 = Q(times_done=times)
+    funs_of_level_pk = Function.objects.filter(criterion1 & criterion2 & criterion3).values_list('pk', flat=True)
+    
     done_tasks_of_level = Task.objects.filter(user=user, function__in=funs_of_level_pk)
     done_funs = [task.function for task in done_tasks_of_level]
-    funs = diff(funs_of_level_pk, done_funs)
-
-    if funs != []:
-        function_id = random.choices(funs, k=1)[0]
-        function = Function.objects.get(pk=function_id)
-    else:
-        function = Function.objects.filter().first()
-    context = {'function': function, 'next': (int(10) + 1) % 31}
-    return render(request, 'code_reaper/task.html', context)
+    return diff(funs_of_level_pk, done_funs)
 
 def diff(first, second):
         second = set(second)
         return [item for item in first if item not in second]
+
 
 @login_required(login_url='/code_reaper/sign/')
 def gray_out(request, function_id):
