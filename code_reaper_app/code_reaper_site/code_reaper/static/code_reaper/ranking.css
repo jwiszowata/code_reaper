@@ -16,9 +16,14 @@ div.ranks {
 }
 
 .username {
-	width: 100px;
+	width: 200px;
 	text-align: center;
 }
+
+.rank {
+	float: left;
+}
+
 div.ranking_heading {
 	text-align: center;
     font-size: 30px;

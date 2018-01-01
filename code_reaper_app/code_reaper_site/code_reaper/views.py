@@ -22,8 +22,13 @@ import json
 @login_required(login_url='/code_reaper/sign/')
 def games(request):
     user = request.user
-    achievement = Achievement.objects.get(user=user)
-    wheat = achievement.wheat
+    try:
+        achievement = Achievement.objects.get(user=user)
+        wheat = achievement.wheat
+    except Achievement.DoesNotExist:
+        achievement = Achievement(user=user)
+        achievement.save()
+        wheat = 1
 
     games_count = Game.objects.filter().count()
     games = [{'nr': i, 
@@ -67,7 +72,7 @@ def ranking(request):
             'points': round((achievement.points/max_of_points) * 100)
         }]
 
-    rounds = Round.objects.filter().order_by('best_result')
+    rounds = Round.objects.exclude(best_result__isnull=True).order_by('best_result')
 
     games = [[] for i in range(16)]
     for r in rounds:
@@ -126,10 +131,10 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return render(request, 'code_reaper/user.html')
+            return render(request, 'code_reaper/index.html')
     else:
         form = UserCreationForm()
-    return render(request, 'code_reaper/sign.html', {'form': form})
+    return render(request, 'registration/login.html', {'form': form})
 
 def sign(request):
     if request.GET:  
@@ -158,6 +163,11 @@ def task(request):
     
     criterion1 = Q(difficulty__lt=max_d)
     criterion2 = Q(difficulty__gte=min_d)
+    funs_of_level_d = Function.objects.filter().values_list('difficulty', flat=True)
+    l = [0]*200
+    for i in funs_of_level_d:
+        l[i] += 1
+    print(l)
     funs_of_level_pk = Function.objects.filter(criterion1 & criterion2).values_list('pk', flat=True)
     done_tasks_of_level = Task.objects.filter(user=user, function__in=funs_of_level_pk)
     done_funs = [task.function for task in done_tasks_of_level]
@@ -195,7 +205,7 @@ def gray_out(request, function_id):
         points = function.difficulty
         got_level = False
         level = 1
-        wheat = 1
+        got_wheat = 1
         try:
             achievement = Achievement.objects.get(user=user)
             points = achievement.points + function.difficulty;
@@ -205,9 +215,9 @@ def gray_out(request, function_id):
             if (points >= points_max(curr_level)):
                 got_level = True
                 level = curr_level + 1
-                wheat = achievement.wheat + curr_level + 2
+                got_wheat = curr_level + 2
                 setattr(achievement, 'level', level)
-                setattr(achievement, 'wheat', wheat)
+                setattr(achievement, 'wheat', achievement.wheat + got_wheat)
             achievement.save()
         except Achievement.DoesNotExist:
             achievement = Achievement(user=user, points=function.difficulty, level=1, wheat=1)
@@ -217,7 +227,7 @@ def gray_out(request, function_id):
                 'all_points': points,
                 'got_level': got_level,
                 'level': level,
-                'wheat': wheat,
+                'wheat': got_wheat,
                 'to_next_level': points_max(level) - points }),
                 content_type="application/json")
     #HttpResponseRedirect(reverse('task', args=(function.lines_nr+1,)))

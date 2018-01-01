@@ -6,6 +6,12 @@
 {% endblock %}
 
 {% block content %}
+
+{% if form.errors %}
+<p style="margin-top: 50px">Your username and password didn't match. Please try again.</p>
+<p>{{form.errors}}</p>
+{% endif %}
+
 <div style="margin-top: 80px;" class="container">
   <div class="row">
     <h2>Fancy Login / Registration form</h2>

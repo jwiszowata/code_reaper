@@ -11,8 +11,8 @@
   <div class="ranking_heading code">Żniwiarze kodu</div>
   {% for user in code_ranking %}
     <div>
-      <div class="rank_row">{{user.rank}}.</div>
-      <div class="rank_row username">{{user.username}}</div>
+      <div class="rank_row username"><span class="rank">{{user.rank}}.</span>{{user.username}}</div>
+      <!-- <div class="rank_row username">{{user.username}}</div> -->
       <div class="rank_row">
         <div class="progress">
           <div class="progress-bar code_progress" role="progressbar" style="width: {{user.points}}%;" aria-valuenow="{{user.points}}" aria-valuemin="0" aria-valuemax="100"></div>

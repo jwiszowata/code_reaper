@@ -78,6 +78,13 @@ $(document).ready(function () {
             $("#level")[0].innerText = response.level;
             $("#to_next_level")[0].innerText = response.to_next_level;
             $("#wheat")[0].innerText = response.wheat;
+            if (response.wheat === 1) {
+                $("#wheat_word")[0].innerText = "kłos";
+            } else if (response.wheat == 2 || response.wheat == 3 || response.wheat == 4) {
+                $("#wheat_word")[0].innerText = "kłosy";
+            } else {
+                $("#wheat_word")[0].innerText = "kłosów";
+            }
             $('#finishModal').modal('show');
         });
 
