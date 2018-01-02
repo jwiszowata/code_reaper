@@ -99,3 +99,4 @@ class Achievement(models.Model):
 	factor = models.FloatField(default=1.0)
 	status = models.IntegerField(default=0, choices=PLAYER_STATUS_CHOICES)
 	current_package = models.ForeignKey(Package, null=True)
+	bonus_wheat = models.IntegerField(default=0)

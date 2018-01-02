@@ -185,6 +185,7 @@ def funs_for_user(user):
             i += 1
         else:
             i -= 1
+        print(len(funs))
     return funs
 
 def get_proper_functions_for_user(user, level, times):
@@ -219,8 +220,14 @@ def gray_out(request, function_id):
             except:
                 lines += [str(i)]
         grayed_out_lines = ','.join(lines);
-        task = Task(function=function, user=user, time=time, grayed_out_lines=grayed_out_lines)
+        task = Task(function=function, user=user, time=time, grayed_out_lines=grayed_out_lines, status=Task.TRUSTED)
         task.save()
+
+        times_done = function.times_done + 1
+        setattr(function, 'times_done', times_done)
+        if times_done == 3:
+            setattr(function, 'status', Function.FINISHED)
+        function.save()
 
         points = function.difficulty
         got_level = False
@@ -254,6 +261,79 @@ def gray_out(request, function_id):
 
 def points_max(level):
     return 10 * level * (level + 1)
+
+############################ SUMMARIZE ##################################################
+
+@login_required(login_url='/code_reaper/sign/')
+def summarize_day(request):
+    user = request.user
+    if user.username == 'admin':
+        funs = Function.objects.filter(status=Function.FINISHED)
+        for fun in funs:
+            criterion1 = Q(function=fun.pk)
+            criterion2 = Q(status=Task.TRUSTED)
+            tasks = Task.objects.filter(criterion1 & criterion2)
+            if len(tasks) < 3:
+                print("ERROR")
+            else:
+                results = []
+                for task1 in tasks:
+                    res = 0
+                    for task2 in tasks:
+                        if task1 != task2:
+                            res += similarity(task1, task2, fun)
+                    results += [res]
+                winners = find_winners(results, tasks)
+                for winner in winners:
+                    try:
+                        achievement = Achievement.objects.get(user=winner)
+                    except Achievement.DoesNotExist:
+                        achievement = Achievement(user=winner)
+                    setattr(achievement, 'wheat', achievement.wheat + 1)
+                    setattr(achievement, 'bonus_wheat', achievement.bonus_wheat + 1)
+                    achievement.save()
+            #setattr(fun, 'status', Function.DONE)
+            #fun.save()
+            print(fun)
+            print(results)
+        return render(request, 'code_reaper/index.html')
+
+def similarity(task1, task2, function):
+    lines_nr = function.lines_nr
+    lines1 = marked_removed(lines_nr, task1.grayed_out_lines)
+    lines2 = marked_removed(lines_nr, task2.grayed_out_lines)
+
+    res = 0
+    for (l1, l2) in zip(lines1, lines2):
+        if l1 == l2:
+            res += 1
+    print(lines1)
+    print(lines2)
+    print(res / lines_nr)
+    return res / lines_nr
+
+
+def marked_removed(lines_nr, removed_lines):
+    removed = unfold_string_list(removed_lines)
+    lines = [1] * lines_nr
+    for r in removed:
+        lines[r - 1] = 0
+    return lines
+
+def unfold_string_list(s):
+    if s:
+        l = [int(x) for x in s.split(',')]
+        return l
+    else:
+        return []
+
+def find_winners(results, tasks):
+    max_result = max(results)
+    winners = []
+    for (task, result) in zip(tasks, results):
+        if result == max_result:
+            winners += [task.user]
+    return winners
 
 ############################ GAME ##############################################
 
