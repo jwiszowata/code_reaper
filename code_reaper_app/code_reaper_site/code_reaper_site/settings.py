@@ -22,10 +22,26 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'kxihm+ybmpq#jm=l*ajv!_t+#)mzcmcz^mo=c5g1i!04nu1-xq'
 
+SOCIAL_AUTH_GITHUB_KEY = '5a9b92be92c1d90f31a5'
+SOCIAL_AUTH_GITHUB_SECRET = '25d10e6cd1d5835f5c28ae979c933508bcc30f42'
+
+SOCIAL_AUTH_TWITTER_KEY = 'yFoF30q6Kl9jmIwbUMgdP5sGz'
+SOCIAL_AUTH_TWITTER_SECRET = 'C0rTyLssco6T8QAw4VqGaM7C9AGuseXeKL5xNtHdEjjqwfKPGI'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '322980314872127'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '56aa8186a28b5458286adcc426474240'  # App Secret
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '584881867547-mf9b232q85442k8pufdsigqlogip9rmj.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'N7k9hx2A0_IyBqD9mi_AVTsm'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '192.168.0.12',
+    '127.0.0.1',
+    'localhost'
+]
 
 
 # Application definition
@@ -37,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'social_django',
     'django.contrib.staticfiles',
 ]
 
@@ -48,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'code_reaper_site.urls'
@@ -63,6 +81,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  # <--
+                'social_django.context_processors.login_redirect', # <--
             ],
         },
     },
@@ -80,6 +100,17 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
+    'social_core.backends.google.GoogleOpenId',  # for Google authentication
+    'social_core.backends.google.GoogleOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 
 # Password validation
@@ -99,7 +130,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
