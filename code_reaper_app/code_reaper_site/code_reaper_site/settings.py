@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'social_django',
     'django.contrib.staticfiles',
+    #'django_nose',
 ]
 
 MIDDLEWARE = [
@@ -144,6 +145,16 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Use nose to run all tests
+
+#TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# Tell nose to measure coverage on the 'foo' and 'bar' apps
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=code_reaper',
+]
+NOSE_ARGS = None
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

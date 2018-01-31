@@ -63,14 +63,15 @@ def ranking(request):
     # print(sorted_usernames)
 
     users = []
-    max_of_points = achievements[0].points
-    for i, achievement in enumerate(achievements):
-        users += [{
-            'username': achievement.user.username,
-            'rank': i + 1,
-            'level': achievement.level,
-            'points': round((achievement.points/max_of_points) * 100)
-        }]
+    if achievements.exists():
+        max_of_points = achievements[0].points
+        for i, achievement in enumerate(achievements):
+            users += [{
+                'username': achievement.user.username,
+                'rank': i + 1,
+                'level': achievement.level,
+                'points': round((achievement.points/max_of_points) * 100)
+            }]
 
     rounds = Round.objects.exclude(best_result__isnull=True).order_by('best_result')
 
@@ -157,9 +158,11 @@ def task(request):
         function_id = random.choices(funs, k=1)[0]
         function = Function.objects.get(pk=function_id)
     else:
-        function = Function.objects.filter(status != FINISHED).first()
+        function = Function.objects.filter().exclude(status=Function.FINISHED).first()
+        if not function:
+            return redirect('index')
 
-    print(function.times_done)
+    #print(function.times_done)
     context = {'function': function, 'next': (int(10) + 1) % 31}
     return render(request, 'code_reaper/task.html', context)
 
@@ -171,21 +174,24 @@ def funs_for_user(user):
         achievement = Achievement(user=user)
         level = 1
 
-    print("User status")
-    print(achievement.status)
+    #print("User status")
+    #print(achievement.status)
     if achievement.status == Achievement.TRUSTED:
         i = 0
     else:
         i = 2
 
     funs = []
-    while len(funs) < 3:
+    while len(funs) < 3 and (i >= 0 and i <= 3):
         funs += get_proper_functions_for_user(user, level, i)
         if achievement.status == Achievement.TRUSTED:
             i += 1
         else:
             i -= 1
-        print(len(funs))
+
+    if len(funs) < 3:
+        return get_proper_functions_for_user(user, 1, 0)
+
     return funs
 
 def get_proper_functions_for_user(user, level, times):
@@ -209,7 +215,6 @@ def diff(first, second):
 @login_required(login_url='/code_reaper/sign/')
 def gray_out(request, function_id):
     if request.method == 'POST':
-
         function = get_object_or_404(Function, pk=function_id)
         user = request.user
         time = request.POST['time']
@@ -257,7 +262,7 @@ def gray_out(request, function_id):
                 'wheat': got_wheat,
                 'to_next_level': points_max(level) - points }),
                 content_type="application/json")
-    #HttpResponseRedirect(reverse('task', args=(function.lines_nr+1,)))
+    
 
 def points_max(level):
     return 10 * level * (level + 1)
@@ -341,39 +346,46 @@ def find_winners(results, tasks):
 def game(request):
     if request.method == 'POST':
         game_nr = request.POST['nr']
-        get_tax(request.user, game_nr)
-        game = Game.objects.get(number=game_nr)
-        random.seed(a=game.seed)
-        size = 15;
-        colors = [1, 2, 3, 4, 5, 6]
-        fields_colors = random.choices(colors, k=size*size)
-        fields = [{}] * (size * size)
-        for c in range(size):
-            for r in range(size):
-                cell = c + r * size;
-                fields[cell] = { 
-                    'color': fields_colors[cell],
-                    'row': r,
-                    'column': c,
-                    'done': False,
-                    'active': False
-                }
-        fields[0]['done'] = True
-        fields[0]['active'] = True
+        if get_tax(request.user, game_nr):
+            game = Game.objects.get(number=game_nr)
+            random.seed(a=game.seed)
+            size = 15;
+            colors = [1, 2, 3, 4, 5, 6]
+            fields = generateBoardFields(size, colors, game.seed)
 
-        context = {
-        'size': size,
-        'fields': fields,
-        'colors': colors
-        }
-        updatedBoard = updateBoard(fields, size, fields[0]['color'])
-        request.session['game'] = game.pk
-        request.session['size'] = size
-        request.session['fields'] = updatedBoard['board']
-        request.session['colors'] = colors
-        request.session['steps'] = 0
-        request.session['done'] = updatedBoard['done']
-        return render(request, 'code_reaper/game.html', context)
+            context = {
+            'size': size,
+            'fields': fields,
+            'colors': colors
+            }
+            updatedBoard = updateBoardFields(fields, size, fields[0]['color'])
+            request.session['game'] = game.pk
+            request.session['size'] = size
+            request.session['fields'] = updatedBoard['board']
+            request.session['colors'] = colors
+            request.session['steps'] = 0
+            request.session['done'] = updatedBoard['done']
+            return render(request, 'code_reaper/game.html', context)
+        else:
+            return redirect('games')
+
+def generateBoardFields(size, colors, seed):
+    random.seed(a=seed)
+    fields_colors = random.choices(colors, k=size*size)
+    fields = [{}] * (size * size)
+    for c in range(size):
+        for r in range(size):
+            cell = c + r * size;
+            fields[cell] = { 
+                'color': fields_colors[cell],
+                'row': r,
+                'column': c,
+                'done': False,
+                'active': False
+            }
+    fields[0]['done'] = True
+    fields[0]['active'] = True
+    return fields
 
 def get_tax(user, game_nr):
     game = Game.objects.get(number=game_nr)
@@ -399,6 +411,10 @@ def get_tax(user, game_nr):
 
         setattr(r, 'times', times + 1)
         r.save()
+        return True
+    else:
+        return False
+
 
 @login_required(login_url='/code_reaper/sign/')
 def make_move(request):
@@ -410,11 +426,11 @@ def make_move(request):
         finished = False
 
         if color in request.session['colors']:
-            updatedBoard = updateBoard(request.session['fields'], 
+            updatedBoardFields = updateBoardFields(request.session['fields'], 
                 request.session['size'], color)
-            fields = updatedBoard['board']
-            done = updatedBoard['done']
-            print(done)
+            fields = updatedBoardFields['board']
+            done = updatedBoardFields['done']
+            #print(done)
             if done == size * size:
                 finished = True
                 user = request.user
@@ -438,7 +454,7 @@ def make_move(request):
                 'finished': finished }),
                 content_type="application/json")
 
-def updateBoard(fields, size, color):
+def updateBoardFields(fields, size, color):
     board = np.asarray(fields).reshape((size, size))
     #b = board[2,0]
     #print("Rownosc: 2 == ", b["row"]," 0 == ", b["column"])
@@ -498,10 +514,3 @@ def getActiveQueue(board, size):
             if board[r, c]['active']:
                 q.put(board[r, c])
     return q
-
-# def wypisz(t, s):
-#     for i in range(s):
-#         res = ""
-#         for j in range(s):
-#             res = res + "%r " % (t[i,j])
-#         print(res)

@@ -28,7 +28,6 @@ class Function(models.Model):
 
 	def __str__(self):
 		return str(self.difficulty)
-		# return self.name + " from " + self.class_name
 
 class Task(models.Model):
 	TRUSTED = 0
