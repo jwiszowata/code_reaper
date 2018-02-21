@@ -10,10 +10,10 @@ class Function(models.Model):
 	FINISHED = 2
 	DONE = 3
 	FUNCTION_STATUS_CHOICES = (
-		(READY, 'Ready'),
-	    (PENDING, 'Pending'),
-	    (FINISHED, 'Finished'),
-	    (DONE, 'Done'),
+		(READY, 'Ready'),# można brać
+	    (PENDING, 'Pending'),# oczekuje na podliczenie pakietu
+	    (FINISHED, 'Finished'),# ma 3 zaufane rozwiązania
+	    (DONE, 'Done'),# zostaly za nią przyznane nocne punkty
 	)
 	name = models.CharField(max_length=200, default="Function")
 	project = models.CharField(max_length=200, default="Project")
@@ -22,6 +22,7 @@ class Function(models.Model):
 	lines_nr = models.IntegerField(default=0)
 	signs_nr = models.IntegerField(default=0)
 	difficulty = models.IntegerField(default=0)
+	level = models.IntegerField(default=0)
 	times_done = models.IntegerField(default=0)
 	status = models.IntegerField(default=0, choices=FUNCTION_STATUS_CHOICES)
 	setting_time = models.DateTimeField(default=now)
@@ -47,23 +48,26 @@ class Task(models.Model):
 
 class Package(models.Model):
 	PENDING = 0
-	OK = 1
-	WRONG = 2
+	#OK = 1
+	#WRONG = 2
 	TRUSTED = 3
 	NOT_TRUSTED = 4
 
 	PACKAGE_STATUS_CHOICES = (
 		(PENDING, 'Pending'),
-		(OK, 'Ok'),
-		(WRONG, 'Wrong'),
+		#(OK, 'Ok'), gdybym zliczała po 9
+		#(WRONG, 'Wrong'), gdybym zliczała po 9
 		(TRUSTED, 'Trusted'),
 		(NOT_TRUSTED, 'Not trusted'),
 	)
 	user = models.ForeignKey(User, default=None)
-	task1 = models.ForeignKey(Task, related_name='task1')
-	task2 = models.ForeignKey(Task, related_name='task2')
-	task3 = models.ForeignKey(Task, related_name='task3')
-	checking_task = models.IntegerField()
+	function1 = models.ForeignKey(Function, related_name='function1', default=None)
+	function2 = models.ForeignKey(Function, related_name='function2', default=None)
+	function3 = models.ForeignKey(Function, related_name='function3', default=None)
+	task1 = models.ForeignKey(Task, related_name='task1', default=None, null=True)
+	task2 = models.ForeignKey(Task, related_name='task2', default=None, null=True)
+	task3 = models.ForeignKey(Task, related_name='task3', default=None, null=True)
+	checking_function = models.IntegerField(default=0)
 	setting_time = models.DateTimeField(default=now)
 	status = models.IntegerField(default=0, choices=PACKAGE_STATUS_CHOICES)
 
