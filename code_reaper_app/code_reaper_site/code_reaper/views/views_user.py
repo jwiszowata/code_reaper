@@ -45,6 +45,11 @@ def sign(request):
 
 @login_required(login_url='/code_reaper/sign/')
 def user(request):
-    return render(request, 'code_reaper/user.html')
+    print("I am a user")
+    games = [1,2,3,4,5,6,7,8,9,1,2,3,1,3,4,8]
+    context = {'reaper': 10, 'player': 45, 'username': 'admin', 'wheat': 10, 
+    'games': games, 'level': 5, 'points': 5746, 'wheater': 5, 'factor': 1.4, 'tasks':8,
+    'best': 2, 'positive': 1, 'negative': 2, 'waiting': 3, 'package_pos': 10, 'package_neg': 7}
+    return render(request, 'code_reaper/user.html', context)
 
 

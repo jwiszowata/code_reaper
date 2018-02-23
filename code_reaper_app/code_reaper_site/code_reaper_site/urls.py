@@ -16,8 +16,9 @@ Including another URLconf
 
 from django.conf.urls import include, url
 from django.contrib import admin
+from code_reaper import views
 
 urlpatterns = [
     url(r'^code_reaper/', include('code_reaper.urls')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls)
 ]

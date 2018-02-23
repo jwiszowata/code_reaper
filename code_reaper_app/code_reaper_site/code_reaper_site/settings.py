@@ -160,3 +160,5 @@ NOSE_ARGS = None
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_REDIRECT_URL = '/code_reaper/user/'

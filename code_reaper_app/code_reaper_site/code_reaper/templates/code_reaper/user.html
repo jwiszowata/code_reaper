@@ -11,40 +11,128 @@
 
 		<div id="user" class="container">
 			<div class="row">
-				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 					<div class="row">
 						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="border-radius: 16px;">
 							<div class="well profile col-lg-12 col-md-12 col-sm-12 col-xs-12">
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
-									<div class="span2" >
-							    		<img src="https://secure.gravatar.com/avatar/de9b11d0f9c0569ba917393ed5e5b3ab?s=140&r=g&d=mm" class="img-circle">
-					        		</div>
-									<h5 style="text-align:center;"><strong id="user-name">Arun Kumar Perumal</strong></h5>
-									<p style="text-align:center;font-size: smaller;" id="user-frid">FBT000000213 </p>
-									<p style="text-align:center;font-size: smaller;overflow-wrap: break-word;" id="user-email">arunkumarperumal8791@gmail.com </p>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<h5><strong id="user-name">{{username}}</strong></h5>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divider"></div>
+									<div class="left-column">
+										<div class="done-tasks">Obecnie masz wykonane <span id="all_tasks">{{tasks}}</span> <span id="task_word">zadania</span>!</div>
+										<div class="legend">
+											<div class="legend-cell">
+												<div class="col best"></div>Najlepsze rozwiązanie
+											</div>
+											<div class="legend-cell">
+												<div class="col waiting"></div>Zadania oczekujące na ocenę
+											</div>
+											<div class="legend-cell">
+												<div class="col positive"></div>Zadania ocenione pozytywnie (poza Najlepsze rozwiązanie)
+											</div>
+											<div class="legend-cell">
+												<div class="col negative"></div>Zadania ocenione negatywnie
+											</div>
+										</div>
+									</div>
+									<div class="pie_chart">
+										<div id="slice1" class="central_hold">
+										    <div class="pie best" title="Najlepsze rozwiązanie" data-value="{{best}}"></div>
+										</div>
+										<div id="slice2" class="central_hold">
+										    <div class="pie positive" title="Zadania ocenione pozytywnie (poza Najlepsze rozwiązanie)" data-value="{{positive}}"></div>
+										</div>
+										<div id="slice3" class="central_hold">
+										    <div class="pie negative" title="Zadania ocenione negatywnie" data-value="{{negative}}"></div>
+										</div>
+										<div id="slice4" class="central_hold">
+										    <div class="pie waiting" title="Zadania oczekujące na ocenę" data-value="{{waiting}}"></div>
+										</div>
+									</div>
+									<div class="ranks">
+										<div class="row">
+											<div class="line rank">
+												<div class="number">{{reaper}}</div>
+												<div>Ranking Żniwiarzy</div>
+											</div>
+											<div class="line rank">
+												<div class="number">{{points}}</div>
+												<div>Punkty</div>
+											</div>
+											<div class="line rank">
+												<div class="number">{{level}}</div>
+												<div>Level</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="line rank">
+												<div class="number">{{wheater}}</div>
+												<div>Ranking Kłosów</div>
+											</div>
+											<div class="line rank">
+												<div class="number">{{wheat}}</div>
+												<div>Kłosy</div>
+											</div>
+											<div class="line rank">
+												<div class="number">43</div>
+												<div>Ranking Graczy
+													<select name="game">
+														{% for g in games %}
+													  <option value="value{{forloop.counter}}">{{forloop.counter}}</option>
+														{% endfor %}
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="line rank">
+												<div class="number">{{package_pos}}</div>
+												<div>Pakiety dobrze rozwiązane</div>
+											</div>
+											<div class="line rank">
+												<div class="number">{{package_neg}}</div>
+												<div>Pakiety źle rozwiązane</div>
+											</div>
+											<div class="line rank">
+												<div class="number">{{factor}}</div>
+												<div>Współczynnik</div>
+											</div>
+										</div>
+									</div>
+									<!-- <p style="text-align:center;font-size: smaller;overflow-wrap: break-word;" id="user-email">arunkumarperumal8791@gmail.com </p>
 									<p style="text-align:center;font-size: smaller;"><strong>A/C status: </strong><span class="tags" id="user-status">Active</span></p>
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divider text-center"></div>
 									<p style="text-align:center;font-size: smaller;"><strong>Job role</strong></p>
 									<p style="text-align:center;font-size: smaller;" id="user-role">Software Engineer</p>
-									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divider text-center"></div>
-									<div id="ranking">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divider text-center"></div> -->
+									<!-- <div id="ranking">
 										<div class="col-lg-6 left ranking" style="text-align:center;overflow-wrap: break-word;">
-											<h4><p style="text-align: center;"><strong id="user-globe-rank">245 </strong></p></h4>		   
-											<p><small class="label label-success">Ranking Żniwiarzy</small></p>
+											<h4><p style="text-align: center;"><strong id="user-globe-rank">{{reaper}}</strong></p></h4>		   
+											<p><small class="label label-success">Ranking Żniwiarzy</small></p>-->
 												<!--<button class="btn btn-success btn-block"><span class="fa fa-plus-circle"></span> Follow </button>-->
-										</div>
+										<!-- </div>
 										<div class=" col-lg-6 left ranking" style="text-align:center;overflow-wrap: break-word;">
-											<h4><p style="text-align: center;"><strong id="user-college-rank">245 </strong></p></h4>				   
-											<p> <small class="label label-warning">Ranking Graczy</small></p>
+											<h4><p style="text-align: center;"><strong id="user-college-rank">{{player}}</strong></p></h4>				   
+											<p> <small class="label label-warning">Ranking Graczy</small></p> -->
 												<!-- <button class="btn btn-info btn-block"><span class="fa fa-user"></span> View Profile </button>-->
-										</div>
+										<!-- </div>
+
+										<div class="wheat">
+												<div class="line">{{wheat}}</div>
+								    		<img class="line" src="{% static 'code_reaper/images/wheat.png' %}">
+						        </div> -->
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 			</div>	
 		</div>
 
+{% endblock %}
+
+{% block script %}
+		<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="{% static 'code_reaper/user.js' %}"></script>
 {% endblock %}
