@@ -97,7 +97,7 @@ div.wheat {
     font-size: 40px;
 }
 
-.game {
+/*.game {
     padding: 5px;
     border:1px solid rgba(0,0,0,0.1);
     border-radius: 5px;
@@ -109,7 +109,7 @@ div.wheat {
     font-size: 10px;
     top: 0px;
     color: gray;
-}
+}*/
 
 .reaper {
     margin-left: 50px;

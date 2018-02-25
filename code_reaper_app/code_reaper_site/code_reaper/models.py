@@ -34,11 +34,13 @@ class Task(models.Model):
 	TRUSTED = 0
 	NOT_TRUSTED = 1
 	WAITING = 2
+	BEST = 3
 
 	TASK_STATUS_CHOICES = (
 		(TRUSTED, 'Trusted'),
 		(NOT_TRUSTED, 'Not trusted'),
 		(WAITING, 'Waiting'),
+		(BEST, 'Best'),
 	)
 	function = models.ForeignKey(Function, on_delete=models.CASCADE)
 	user = models.ForeignKey(User, default=None)
@@ -103,3 +105,4 @@ class Achievement(models.Model):
 	status = models.IntegerField(default=0, choices=PLAYER_STATUS_CHOICES)
 	current_package = models.ForeignKey(Package, null=True)
 	bonus_wheat = models.IntegerField(default=0)
+	gained_wheat = models.IntegerField(default=1)

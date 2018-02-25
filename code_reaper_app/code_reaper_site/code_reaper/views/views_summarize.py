@@ -43,6 +43,7 @@ def summarize_day(request):
                         achievement = Achievement(user=winner)
                     setattr(achievement, 'wheat', achievement.wheat + 1)
                     setattr(achievement, 'bonus_wheat', achievement.bonus_wheat + 1)
+                    setattr(achievement, 'gained_wheat', achievement.gained_wheat + 1)
                     achievement.save()
             #setattr(fun, 'status', Function.DONE)
             #fun.save()
@@ -51,21 +52,6 @@ def summarize_day(request):
             setattr(fun, 'status', Function.DONE)
             fun.save()
         return render(request, 'code_reaper/index.html')
-
-
-def marked_removed(lines_nr, removed_lines):
-    removed = unfold_string_list(removed_lines)
-    lines = [1] * lines_nr
-    for r in removed:
-        lines[r - 1] = 0
-    return lines
-
-def unfold_string_list(s):
-    if s:
-        l = [int(x) for x in s.split(',')]
-        return l
-    else:
-        return []
 
 def find_winners(results, tasks):
     max_result = max(results)

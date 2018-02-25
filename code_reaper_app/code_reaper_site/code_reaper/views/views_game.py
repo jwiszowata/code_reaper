@@ -52,69 +52,6 @@ def games(request):
     }
     return render(request, 'code_reaper/games.html', context)
 
-def ranking(request):
-    achievements = Achievement.objects.filter().order_by('-points')
-    # users = User.objects.filter()
-    #users_id_sorted = [achievement.user.username for achievement in achievements]
-    # users_dict = dict([(u.pk, u.username) for u in users])
-    # print(users_dict)
-    # print(users_id_sorted)
-    # sorted_usernames = [users_dict[id] for id in users_id_sorted]
-    # print(sorted_usernames)
-
-    users = []
-    if achievements.exists():
-        max_of_points = achievements[0].points
-        for i, achievement in enumerate(achievements):
-            users += [{
-                'username': achievement.user.username,
-                'rank': i + 1,
-                'level': achievement.level,
-                'points': round((achievement.points/max_of_points) * 100)
-            }]
-
-    rounds = Round.objects.exclude(best_result__isnull=True).order_by('best_result')
-
-    games = [[] for i in range(16)]
-    for r in rounds:
-        rank = count_rank(games[r.game.number - 1], r)
-        games[r.game.number - 1] += [{'username': r.user.username, 'result': r.best_result, 'rank': rank}]
-
-    games_ranking = []
-    for i, game in enumerate(games):
-        games_ranking += [{'nr': i + 1, 'users': game}]
-    # ranking = Task.objects.values('user').annotate(tasks=Count('user')).order_by('-tasks')
-    # users = []
-    # all_tasks = 0
-
-    # for rank in ranking:
-    #     all_tasks = max(all_tasks, rank['tasks'])
-
-    # for i, rank in enumerate(achievements):
-    #     userId = rank['user']
-    #     username = User.objects.get(pk=userId).username
-    #     tasks = rank['tasks']
-    #     user = {
-    #         'username': username, 
-    #         'rank': i + 1, 
-    #         'tasks': tasks, 
-    #         'points': round((tasks/all_tasks) * 100)
-    #     }
-    #     users += [user]
-    context = {'code_ranking': users, 'games_ranking': games_ranking}
-    return render(request, 'code_reaper/ranking.html', context)
-
-def count_rank(ranking, record):
-    if ranking != []:
-        last = ranking[-1]
-        # print(last)
-        if record.best_result == last['result']:
-            return last['rank']
-        else:
-            return last['rank'] + 1
-    else:
-        return 1
-
 @login_required(login_url='/code_reaper/sign/')
 def game(request):
     if request.method == 'POST':

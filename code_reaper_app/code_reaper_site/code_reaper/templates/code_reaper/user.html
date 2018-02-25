@@ -18,7 +18,7 @@
 									<h5><strong id="user-name">{{username}}</strong></h5>
 									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 divider"></div>
 									<div class="left-column">
-										<div class="done-tasks">Obecnie masz wykonane <span id="all_tasks">{{tasks}}</span> <span id="task_word">zadania</span>!</div>
+										<div class="done-tasks">Obecnie masz wykonane <span id="all_tasks">{{tasks.all}}</span> <span id="task_word">zadania</span>!</div>
 										<div class="legend">
 											<div class="legend-cell">
 												<div class="col best"></div>Najlepsze rozwiązanie
@@ -35,17 +35,29 @@
 										</div>
 									</div>
 									<div class="pie_chart">
-										<div id="slice1" class="central_hold">
-										    <div class="pie best" title="Najlepsze rozwiązanie" data-value="{{best}}"></div>
+										<div id="slice11" class="central_hold">
+										    <div class="pie best" title="Najlepsze rozwiązanie" data-value="{{tasks.best1}}"></div>
 										</div>
-										<div id="slice2" class="central_hold">
-										    <div class="pie positive" title="Zadania ocenione pozytywnie (poza Najlepsze rozwiązanie)" data-value="{{positive}}"></div>
+										<div id="slice12" class="central_hold">
+										    <div class="pie best" title="Najlepsze rozwiązanie" data-value="{{tasks.best2}}"></div>
 										</div>
-										<div id="slice3" class="central_hold">
-										    <div class="pie negative" title="Zadania ocenione negatywnie" data-value="{{negative}}"></div>
+										<div id="slice21" class="central_hold">
+										    <div class="pie positive" title="Zadania ocenione pozytywnie (poza Najlepsze rozwiązanie)" data-value="{{tasks.positive1}}"></div>
 										</div>
-										<div id="slice4" class="central_hold">
-										    <div class="pie waiting" title="Zadania oczekujące na ocenę" data-value="{{waiting}}"></div>
+										<div id="slice22" class="central_hold">
+										    <div class="pie positive" title="Zadania ocenione pozytywnie (poza Najlepsze rozwiązanie)" data-value="{{tasks.positive2}}"></div>
+										</div>
+										<div id="slice31" class="central_hold">
+										    <div class="pie negative" title="Zadania ocenione negatywnie" data-value="{{tasks.negative1}}"></div>
+										</div>
+										<div id="slice32" class="central_hold">
+										    <div class="pie negative" title="Zadania ocenione negatywnie" data-value="{{tasks.negative2}}"></div>
+										</div>
+										<div id="slice41" class="central_hold">
+										    <div class="pie waiting" title="Zadania oczekujące na ocenę" data-value="{{tasks.waiting1}}"></div>
+										</div>
+										<div id="slice42" class="central_hold">
+										    <div class="pie waiting" title="Zadania oczekujące na ocenę" data-value="{{tasks.waiting2}}"></div>
 										</div>
 									</div>
 									<div class="ranks">
@@ -55,11 +67,11 @@
 												<div>Ranking Żniwiarzy</div>
 											</div>
 											<div class="line rank">
-												<div class="number">{{points}}</div>
+												<div class="number">{{statistics.points}}</div>
 												<div>Punkty</div>
 											</div>
 											<div class="line rank">
-												<div class="number">{{level}}</div>
+												<div class="number">{{statistics.level}}</div>
 												<div>Level</div>
 											</div>
 										</div>
@@ -69,15 +81,15 @@
 												<div>Ranking Kłosów</div>
 											</div>
 											<div class="line rank">
-												<div class="number">{{wheat}}</div>
+												<div class="number">{{statistics.wheat}}</div>
 												<div>Kłosy</div>
 											</div>
 											<div class="line rank">
-												<div class="number">43</div>
+												<div class="game number">43</div>
 												<div>Ranking Graczy
 													<select name="game">
 														{% for g in games %}
-													  <option value="value{{forloop.counter}}">{{forloop.counter}}</option>
+													  <option value="{{g.rank}}">{{g.nr}}</option>
 														{% endfor %}
 													</select>
 												</div>
@@ -85,15 +97,15 @@
 										</div>
 										<div class="row">
 											<div class="line rank">
-												<div class="number">{{package_pos}}</div>
+												<div class="number">{{statistics.package_pos}}</div>
 												<div>Pakiety dobrze rozwiązane</div>
 											</div>
 											<div class="line rank">
-												<div class="number">{{package_neg}}</div>
+												<div class="number">{{statistics.package_neg}}</div>
 												<div>Pakiety źle rozwiązane</div>
 											</div>
 											<div class="line rank">
-												<div class="number">{{factor}}</div>
+												<div class="number">{{statistics.factor}}</div>
 												<div>Współczynnik</div>
 											</div>
 										</div>

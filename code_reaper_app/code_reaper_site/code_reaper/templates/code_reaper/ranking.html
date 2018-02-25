@@ -15,7 +15,7 @@
       <!-- <div class="rank_row username">{{user.username}}</div> -->
       <div class="rank_row">
         <div class="progress">
-          <div class="progress-bar code_progress" role="progressbar" style="width: {{user.points}}%;" aria-valuenow="{{user.points}}" aria-valuemin="0" aria-valuemax="100"></div>
+          <div class="progress-bar code_progress" role="progressbar" style="width: {{user.points_stat}}%;" aria-valuenow="{{user.points_stat}}" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
       </div>
       <div class="rank_row">{{user.level}}</div>
@@ -32,7 +32,7 @@
           <div class="rank_row username">{{user.username}}</div>
           <div class="rank_row">
             <div class="progress">
-              <div class="progress-bar game_progress" role="progressbar" style="width: {{user.result}}%;" aria-valuenow="{{user.points}}" aria-valuemin="0" aria-valuemax="100"></div>
+              <div class="progress-bar game_progress" role="progressbar" style="width: {{user.result}}%;" aria-valuenow="{{user.points_stat}}" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
           </div>
           <div class="rank_row">{{user.result}}</div>

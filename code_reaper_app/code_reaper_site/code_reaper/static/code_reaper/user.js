@@ -4,7 +4,7 @@ $(document).ready(function () {
         var all = parseInt($('#all_tasks').text());
         this.each(function() {
             var tasks = parseInt($(this).data("value"));
-            if (tasks == 0) {
+            if (tasks == 0 || all == 0) {
                 return;
             }
             var degrees = (tasks / all) * 360;
@@ -21,13 +21,17 @@ $(document).ready(function () {
         var angle = 0;
         this.each(function() {
             var tasks = parseInt($(this).children().data("value"));
+            if (tasks == 0 || all == 0) {
+                return;
+            }
             var degrees = (tasks / all) * 360;
+            console.log(tasks, degrees, angle);
             $(this).css('-moz-transform', 'rotate(' + angle + 'deg)');
             $(this).css('-webkit-transform', 'rotate(' + angle + 'deg)');
             $(this).css('-o-transform', 'rotate(' + angle + 'deg)');
             $(this).css('transform', 'rotate(' + angle + 'deg)');
             console.log("rotate", $(this), angle);
-            angle += degrees;
+            angle = angle + degrees;
         });    
     };
 
@@ -47,6 +51,15 @@ $(document).ready(function () {
             return "zadań";
         }
     }
+
+
+    $('select').change(function () {
+        var str = "";
+        $('select option:selected').each(function() {
+          str += $(this).val() + " ";
+        });
+        $('.game.number').text(str);
+    }).change();
 
     var t = parseInt($('span#all_tasks').text());
     $('span#task_word').html(properForm(t));

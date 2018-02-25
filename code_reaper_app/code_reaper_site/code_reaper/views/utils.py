@@ -120,3 +120,17 @@ def similarity(task1, task2, function):
     print(lines2)
     print(res / lines_nr)
     return res / lines_nr
+
+def marked_removed(lines_nr, removed_lines):
+    removed = unfold_string_list(removed_lines)
+    lines = [1] * lines_nr
+    for r in removed:
+        lines[r - 1] = 0
+    return lines
+
+def unfold_string_list(s):
+    if s:
+        l = [int(x) for x in s.split(',')]
+        return l
+    else:
+        return []

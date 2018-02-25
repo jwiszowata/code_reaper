@@ -135,9 +135,11 @@ def gray_out(request, function_id):
         got_level = False
         level = 1
         got_wheat = 1
+
         try:
             achievement = Achievement.objects.get(user=user)
-            points = achievement.points + floor(achievement.factor * function.difficulty);
+            got_points = floor(achievement.factor * function.difficulty)
+            points = achievement.points + got_points;
             setattr(achievement, 'points', points)
             curr_level = achievement.level
             level = curr_level
@@ -148,12 +150,13 @@ def gray_out(request, function_id):
                 got_wheat = floor(achievement.factor * (curr_level + 2))
                 setattr(achievement, 'level', level)
                 setattr(achievement, 'wheat', achievement.wheat + got_wheat)
+                setattr(achievement, 'gained_wheat', achievement.gained_wheat + got_wheat)
             achievement.save()
         except Achievement.DoesNotExist:
             achievement = Achievement(user=user, points=function.difficulty, level=1, wheat=1)
             achievement.save()
         return HttpResponse(json.dumps({
-                'got_points': function.difficulty,
+                'got_points': got_points,
                 'all_points': points,
                 'got_level': got_level,
                 'level': level,
@@ -164,9 +167,17 @@ def gray_out(request, function_id):
 
 # 4 times the average value of difficulty for functions of level
 def points_max(level):
+    pointsToGot = [0, 240, 368, 464, 552, 636, 704, 776, 852, 944, 1024, 1096, 
+                        1168, 1232, 1308, 1380, 1440, 1504, 1552, 1616, 1696]
+    s = [0] * 21
+    for i, p in enumerate(pointsToGot):
+        if i > 0:
+            s[i] = s[i-1] + p
     if level > 20:
-        return points_max(20)
-    diff = Function.objects.filter(level=level).values_list('difficulty', flat=True)
-    if len(diff) == 0:
-        return 100
-    return 4 * round(sum(diff) / len(diff))
+        return s[20] + (level - 20) * pointsToGot[20]
+    else:
+        return s[level]
+    # diff = Function.objects.filter(level=level).values_list('difficulty', flat=True)
+    # if len(diff) == 0:
+    #     return 100
+    # return 4 * round(sum(diff) / len(diff))
