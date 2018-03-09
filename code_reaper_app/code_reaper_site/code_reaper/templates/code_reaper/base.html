@@ -54,7 +54,7 @@
                                           {% url 'login' %}
                                         {% endif %}">
                 {% if user.is_authenticated %}
-                  Jesteś zalogowany jako <span style="font-size: 20px;">{{user.username}}</span>
+                  <span>{{user.username}}</span>
                 {% else %}
                   Zaloguj
                 {% endif %}

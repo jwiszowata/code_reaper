@@ -16,10 +16,18 @@
     </div>
     <div id="games">
     	{% for g in games %}
+        {% if g.cost|length > wheat %}
+          <div class="game gray">
+        {% else %}
           <div class="game">
+        {% endif %}
             <div class="cost">
               {% for c in g.cost %}
-                <img class="line wheat" src="{% static 'code_reaper/images/wheat.png' %}">
+                {% if g.cost|length > wheat %}
+                  <img class="line wheat" src="{% static 'code_reaper/images/wheat_gray.png' %}">
+                {% else %}
+                  <img class="line wheat" src="{% static 'code_reaper/images/wheat.png' %}">
+                {% endif %}
               {% endfor %}
             </div>
             <div class="game_nr">
@@ -29,7 +37,11 @@
               </form>
             </div>
             <div>
-              <img class="line trophy" src="{% static 'code_reaper/images/star.png' %}">
+              {% if g.cost|length > wheat %}
+                <img class="line trophy" src="{% static 'code_reaper/images/star_gray.png' %}">
+              {% else %}
+                <img class="line trophy" src="{% static 'code_reaper/images/star.png' %}">
+              {% endif %}
               <div class="line">{% if g.result %} {{g.result}} {% else %} ? {% endif %}</div>
             </div>
           </div>

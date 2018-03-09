@@ -47,11 +47,11 @@ def summarize_day(request):
                     achievement.save()
             #setattr(fun, 'status', Function.DONE)
             #fun.save()
-            print(fun)
-            print(results)
+                print(fun)
+                print(results)
             setattr(fun, 'status', Function.DONE)
             fun.save()
-        return render(request, 'code_reaper/index.html')
+    return render(request, 'code_reaper/index.html')
 
 def find_winners(results, tasks):
     max_result = max(results)

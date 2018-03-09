@@ -3,7 +3,7 @@ $(document).ready(function () {
     $.fn.setDegrees = function() {
         var all = parseInt($('#all_tasks').text());
         this.each(function() {
-            var tasks = parseInt($(this).data("value"));
+            var tasks = parseFloat($(this).data("value"));
             if (tasks == 0 || all == 0) {
                 return;
             }
@@ -20,7 +20,7 @@ $(document).ready(function () {
         var all = parseInt($('#all_tasks').text());
         var angle = 0;
         this.each(function() {
-            var tasks = parseInt($(this).children().data("value"));
+            var tasks = parseFloat($(this).children().data("value"));
             if (tasks == 0 || all == 0) {
                 return;
             }
@@ -58,6 +58,9 @@ $(document).ready(function () {
         $('select option:selected').each(function() {
           str += $(this).val() + " ";
         });
+        if (str.length() == 0) {
+            str = "?";
+        }
         $('.game.number').text(str);
     }).change();
 

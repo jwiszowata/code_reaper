@@ -108,6 +108,7 @@ def setFunctionsIdAs(funs, status, inc):
 ################################################################################
 
 def similarity(task1, task2, function):
+    print(task2, "task 2")
     lines_nr = function.lines_nr
     lines1 = marked_removed(lines_nr, task1.grayed_out_lines)
     lines2 = marked_removed(lines_nr, task2.grayed_out_lines)

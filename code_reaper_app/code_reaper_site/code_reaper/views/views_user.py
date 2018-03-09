@@ -15,11 +15,21 @@ import random
 import numpy as np
 import queue
 import json
+import math
 
 ############################ MAIN ##############################################
 
 def index(request):
-    return render(request, 'code_reaper/index.html')
+    all_functions = Function.objects.filter().count()
+    done_functions = Function.objects.filter(status=Function.DONE).count()
+    print("done_functions", done_functions)
+    print("all_functions", all_functions)
+    context = {
+        'all': all_functions,
+        'done': done_functions,
+        'percent': math.ceil(done_functions/all_functions)
+    }
+    return render(request, 'code_reaper/index.html', context)
 
 ############################ USER ##############################################
 
@@ -130,7 +140,13 @@ def taskObj(tasks, best, pos, neg, wait):
     }
 
 def f(x, y):
-    return divmod(x, y)[0] * y
+    if divmod(x, y)[0] > 1:
+        return y
+    else:
+        return divmod(x, y)[0] * y
 
 def s(x, y):
-    return divmod(x, y)[1]
+    if divmod(x, y)[0] > 1:
+        return y
+    else:
+        return divmod(x, y)[1]

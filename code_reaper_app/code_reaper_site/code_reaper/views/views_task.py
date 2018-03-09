@@ -58,6 +58,7 @@ def makePackageDone(package):
     achievement.save()
 
 def summarizePackage(package):
+    print("package", package.task1, package.task2, package.task3)
     if package.checking_function == 0:
         f = package.function1
         t = package.task1
@@ -128,6 +129,7 @@ def gray_out(request, function_id):
             setattr(package, 'task2', task)
         if function == package.function3:
             setattr(package, 'task3', task)
+        if package.task1 and package.task2 and package.task3:
             makePackageDone(package)
         package.save()
 

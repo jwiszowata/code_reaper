@@ -47,7 +47,7 @@ def getWheaterRanking():
             wheaters += [{
                 'username': achievement.user.username,
                 'rank': i + 1,
-                'wheats': achievement.gained_wheat,
+                'wheat': achievement.gained_wheat,
                 'wheat_stat': round((achievement.gained_wheat/max_of_wheats) * 100)
             }]
     return wheaters
@@ -58,7 +58,18 @@ def getPlayerRanking():
     games = [[] for i in range(16)]
     for r in rounds:
         rank = count_rank(games[r.game.number - 1], r)
-        games[r.game.number - 1] += [{'username': r.user.username, 'result': r.best_result, 'rank': rank}]
+        if r.best_result in range(10, 50):
+            stats = abs((r.best_result - 10) * 2.5 - 100)
+        else:
+            if r.best_result < 10:
+                stats = 100
+            if r.best_result >= 50:
+                stats = 1
+        games[r.game.number - 1] += [{
+            'username': r.user.username, 
+            'result': r.best_result, 
+            'rank': rank, 
+            'stats': stats }]
 
     games_ranking = []
     for i, game in enumerate(games):
