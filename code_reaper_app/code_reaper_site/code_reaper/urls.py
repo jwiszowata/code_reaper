@@ -25,6 +25,6 @@ urlpatterns = [
     url(r'^ranking/$', views.ranking, name='ranking'),
     url(r'^summarize/$', views.summarize_day, name='summarize_day'),
     url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),  # <--
 ]

@@ -1,16 +1,30 @@
 {% extends 'code_reaper/base.html' %}
 
+{% load static %}
+
+{% block css %}
+<link href="{% static 'code_reaper/login.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
-  <h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-  </form>
-  <br>
-  <p><strong>-- OR --</strong></p>
-  <a href="{% url 'social:begin' 'github' %}">Login with GitHub</a><br>
-  <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a><br>
-  <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a><br>
-  <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+  <div id="rectangle">
+    <h2 id="page-title">Login</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="submit-button" type="submit">Login</button>
+    </form>
+    <div id="github" class="social">
+      <a href="{% url 'social:begin' 'github' %}">Login with GitHub</a>
+    </div>
+    <div id="twitter" class="social">
+      <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
+    </div>
+    <div id="facebook" class="social">
+      <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
+    </div>
+    <div id="google" class="social">
+      <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google</a>
+    </div>
+  </div>
 {% endblock %}
