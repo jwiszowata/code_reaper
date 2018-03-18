@@ -51,7 +51,7 @@
               <a class="nav-link active" href="{% if user.is_authenticated %}
                                           {% url 'user' %}
                                         {% else %}
-                                          {% url 'login' %}
+                                          {% url 'sign' %}
                                         {% endif %}">
                 {% if user.is_authenticated %}
                   <span>{{user.username}}</span>

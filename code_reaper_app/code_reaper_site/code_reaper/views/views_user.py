@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
@@ -35,24 +35,62 @@ def index(request):
 
 def logout_view(request):
     logout(request)
-    return render(request, 'code_reaper/index.html')
+    return redirect('index')
 
 def signup_view(request):
+    print("signup_view")
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return render(request, 'code_reaper/index.html')
+        print("signup_view: POST")
+        sign_form = UserCreationForm(request.POST)
+        if sign_form.is_valid():
+            print("signup_view: valid")
+            user = sign_form.save()
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            return redirect('user')
     else:
-        form = UserCreationForm()
-    return render(request, 'registration/login.html', {'form': form})
+        sign_form = UserCreationForm()
+    login_form = AuthenticationForm()
+    context = {'sign_form': sign_form, 
+               'login_form': login_form, 
+               'sign_active': "show active"
+               }
+    return render(request, 'registration/login.html', context)
 
 def sign(request):
     if request.GET:  
         next_url = request.GET['next']
-        context = {'next': next_url}
-    return render(request, 'code_reaper/sign.html', context)
+    else:
+        next_url = ""
+    sign_form = UserCreationForm()
+    login_form = AuthenticationForm()
+    print(login_form)
+    context = {'next': next_url, 
+                'sign_form': sign_form, 
+                'login_form': login_form
+                }
+    return render(request, 'registration/login.html', context)
+
+def login_view(request):
+    print("login")
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        print("login", user)
+        if user is not None:
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            return redirect('user')
+        else:
+            err_message = "Wrong username or password."
+    else:
+        err_message = "Not a POST request!"
+    sign_form = UserCreationForm()
+    login_form = AuthenticationForm()
+    context = {'sign_form': sign_form, 
+            'login_form': login_form, 
+            'login_error': err_message
+            }
+    return render(request, 'registration/login.html', context)
 
 @login_required(login_url='/code_reaper/sign/')
 def user(request):
@@ -140,12 +178,16 @@ def taskObj(tasks, best, pos, neg, wait):
     }
 
 def f(x, y):
+    if y == 0:
+        return 0
     if divmod(x, y)[0] > 1:
         return y
     else:
         return divmod(x, y)[0] * y
 
 def s(x, y):
+    if y == 0:
+        return 0
     if divmod(x, y)[0] > 1:
         return y
     else:

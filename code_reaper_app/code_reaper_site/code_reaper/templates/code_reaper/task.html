@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block content %}
+  <div class="blue">
     <!-- Start Modal -->
     <div class="modal fade" id="startModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -20,7 +21,7 @@
             Po kliknięciu <b>Start!</b> zacznie się odmierzać czas. Na zadanie masz 2 minuty.
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary start" data-dismiss="modal">Start!</button>
+            <button id="bs" type="button" class="btn btn-secondary start" data-dismiss="modal">Start!</button>
           </div>
         </div>
       </div>
@@ -85,6 +86,7 @@
             <!-- <a href="{% url 'task' %}" id="next" class="btn btn-primary bottom">Next</a> -->
         </div>
     </form>
+  </div>
 {% endblock %}
 
 {% block script %}

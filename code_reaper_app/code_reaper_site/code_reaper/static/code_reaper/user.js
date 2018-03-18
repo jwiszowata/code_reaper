@@ -45,6 +45,8 @@ $(document).ready(function () {
         var e100 = (i100 == 12 || i100 == 13 || i100 == 14);
         if (i == 1) {
             return "zadanie";
+        } else if (i == 0) {
+            return "zadań";
         } else if (e10 && !e100) {
             return "zadania";
         } else {
@@ -58,7 +60,7 @@ $(document).ready(function () {
         $('select option:selected').each(function() {
           str += $(this).val() + " ";
         });
-        if (str.length() == 0) {
+        if (str.length == 0) {
             str = "?";
         }
         $('.game.number').text(str);

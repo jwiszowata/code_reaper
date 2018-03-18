@@ -1,5 +1,5 @@
 from django.conf.urls import url, include
-from django.contrib.auth.views import login
+# from django.contrib.auth.views import login
 from django.contrib.auth import views as auth_views
 
 from . import views
@@ -24,7 +24,7 @@ urlpatterns = [
     #url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^ranking/$', views.ranking, name='ranking'),
     url(r'^summarize/$', views.summarize_day, name='summarize_day'),
-    url(r'^login/$', auth_views.login, name='login'),
+    url(r'^login/$', views.login_view, name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),  # <--
 ]

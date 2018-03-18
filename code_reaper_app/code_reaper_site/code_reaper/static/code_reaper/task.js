@@ -146,10 +146,6 @@ $(document).ready(function () {
 
     $('#startModal').modal('show');
 
-    /*$('#next_task').click(function() {
-        window.location.reload();
-    });*/
-
     $("button.start").click(function() {
         addCheckboxes();
         var time = 60 * 2 - 1,
