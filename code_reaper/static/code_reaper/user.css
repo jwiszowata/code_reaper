@@ -1,0 +1,246 @@
+
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+.profile
+{
+    font-family: 'Lato', 'sans-serif';
+    }
+.profile 
+{
+/*    height: 321px;
+    width: 265px;*/
+margin-top: 2px;
+padding:1px;
+    display: inline-block;
+    }
+.divider 
+{
+    border-top:1px solid rgba(0,0,0,0.1);
+    }
+.emphasis 
+{
+    border-top: 1px solid transparent;
+    }
+
+.emphasis h2
+{
+    margin-bottom:0;
+    }
+span.tags 
+{
+    background: #1abc9c;
+    border-radius: 2px;
+    color: #f5f5f5;
+    font-weight: bold;
+    padding: 2px 4px;
+    }
+.profile strong,span,div {
+    text-transform: initial;
+}
+
+div#ranking {
+    width: 420px;
+    margin: auto;
+}
+
+div.ranking {
+    display: inline-block;
+    width: 200px;
+    padding: 15px;
+}
+
+body > div > div > div {
+    width: 100%!important;
+}
+
+#user > div > div {
+    max-width: 100%;
+    width: 100%;
+    margin: auto;
+}
+
+div#user {
+    margin-top: 80px;
+}
+
+small.label {
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    padding: 5px;
+}
+
+small.label-warning {
+    background-color: orange;
+}
+
+small.label-success {
+    background-color: green;
+}
+
+.line {
+    display: inline-block;
+}
+
+div.wheat {
+    font-size: 40px;
+    margin: auto;
+    width: 200px;
+    border: 5px solid gold;
+    border-radius: 20px;
+    text-align: center;
+    color: gold;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+#user-name {
+    font-size: 40px;
+}
+
+/*.game {
+    padding: 5px;
+    border:1px solid rgba(0,0,0,0.1);
+    border-radius: 5px;
+    width: 50px;
+    text-align: center;
+}
+
+.game > label {
+    font-size: 10px;
+    top: 0px;
+    color: gray;
+}*/
+
+.reaper {
+    margin-left: 50px;
+    border:1px solid rgba(0,0,0,0.1);
+    width: 60px;
+}
+
+.ranks {
+    float: right;
+    margin-top: 10px;
+}
+
+.rank {
+    border:1px solid rgba(0,0,0,0.1);
+    width: 120px;
+    height: 120px;
+    margin: 1px;
+    text-align: center;
+}
+.number {
+    font-size: 40px;
+}
+
+select {
+    background: white;
+    border-radius: 5px;
+}
+
+.pie {
+    position:absolute;
+    width:200px;
+    height:200px;
+    clip:rect(0px,100px,200px,0px);
+    -moz-border-radius:100px;
+    -webkit-border-radius:100px;
+    border-radius:100px;
+}
+
+/*#slice1 .pie {
+   -moz-transform: rotate(120deg);
+   -webkit-transform: rotate(120deg);
+   -o-transform: rotate(120deg);
+   transform: rotate(120deg);
+}
+
+#slice2 {
+  -moz-transform: rotate(120deg);
+   -webkit-transform: rotate(120deg);
+   -o-transform: rotate(120deg);
+   transform: rotate(120deg);
+}
+
+#slice2 .pie {
+   -moz-transform: rotate(240deg);
+   -webkit-transform: rotate(240deg);
+   -o-transform: rotate(240deg);
+   transform: rotate(120deg);
+}
+
+#slice3 {
+    -moz-transform: rotate(240deg);
+    -webkit-transform: rotate(240deg);
+    -o-transform: rotate(240deg);
+    transform: rotate(240deg);
+}
+
+#slice3 .pie {
+    -moz-transform: rotate(120deg);
+    -webkit-transform: rotate(120deg);
+    -o-transform: rotate(120deg);
+    transform: rotate(60deg);
+}
+
+#slice4 {
+    -moz-transform: rotate(240deg);
+    -webkit-transform: rotate(240deg);
+    -o-transform: rotate(240deg);
+    transform: rotate(300deg);
+}
+
+#slice4 .pie {
+    -moz-transform: rotate(120deg);
+    -webkit-transform: rotate(120deg);
+    -o-transform: rotate(120deg);
+    transform: rotate(60deg);
+}*/
+
+.central_hold { 
+    /* This is the Center central_holder, keep the Slices glued togheter */
+    margin: 100px;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    clip: rect(0px,200px,200px,100px);
+}
+
+.done-tasks {
+    font-size: 20px;
+    margin: 20px;
+}
+
+span#all_tasks {
+    font-size: 30px;
+}
+
+.left-column {
+    float: left;
+}
+.legend {
+    margin-top: 300px;
+}
+
+.waiting {
+    background: wheat;
+}
+
+.negative {
+    background: black;
+}
+
+.positive {
+    background: darkcyan;
+}
+
+.best {
+    background: gold;
+}
+
+.col {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin-right: 10px;
+}

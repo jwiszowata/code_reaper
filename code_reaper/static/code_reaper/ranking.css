@@ -1,0 +1,73 @@
+div.ranks {
+	/*margin-top: 60px;
+	display: inline-block;
+	vertical-align:top;*/
+}
+
+.ranks > div {
+	width: 840px;
+	margin: auto;
+}
+
+.ranks > div > div > div {
+	margin-top: 5px;
+	width: 400px; 
+}
+
+.rank_row {
+	display: inline-block;
+	font-size: 20px;
+	margin-right: 30px;
+}
+
+.username {
+	width: 300px;
+	/*text-align: center;*/
+}
+
+.rank {
+	float: left;
+}
+
+div.ranking_heading {
+	text-align: center;
+    font-size: 30px;
+    border-radius: 10px;
+}
+div.game {
+    background: darkcyan;
+    color: wheat;
+}
+div.code {
+	background-color: gold;
+	color: darkcyan;
+}
+
+.code_progress {
+	background-color: darkcyan;
+}
+
+.wheat_progress {
+	background-color: gold;
+}
+
+.game_progress {
+	background-color: #cc2a36;
+}
+
+.first {
+	font-size: 10px;
+}
+
+.rank {
+	padding-right: 15px;
+	width: 50px;
+}
+
+a.nav-item.active {
+	color: darkcyan!important;
+}
+
+a.nav-item {
+	color: black!important;
+}

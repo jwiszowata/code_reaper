@@ -1,0 +1,58 @@
+{% extends 'code_reaper/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'code_reaper/game.css' %}" />
+{% endblock %}
+
+{% block content %}
+    <!-- Win Modal -->
+    <div class="modal fade" id="winModal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Gratulacje!</h5>
+          </div>
+          <div class="modal-body">
+            Twój wynik to <span id="modal_steps"></span> ruchów!
+          </div>
+          <div class="modal-footer">
+            <a href="{% url 'games' %}" class="btn btn-primary bottom">
+              Zagraj ponownie
+            </a>
+            <a href="{% url 'task' %}" class="btn btn-secondary bottom">
+              Żnij kod
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="result">
+      <div id="steps" class="result">0</div>
+      <div id="moves" class="result">ruchów</div>
+    </div>
+    <div id="board">
+    	{% for f in fields %}
+        {% if f.row == 0 and f.column == 0 %}
+          <div class="field col{{f.color}} r{{f.row}} c{{f.column}} active done"></div>
+        {% else %}
+          <div class="field col{{f.color}} r{{f.row}} c{{f.column}}"></div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div id="colors">
+      {% for c in colors %}
+      <div class="color col{{c}}"></div>
+      {% endfor %}
+    </div>
+{% endblock %}
+
+{% block script %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="{% static 'code_reaper/game.js' %}"></script>
+{% endblock %}

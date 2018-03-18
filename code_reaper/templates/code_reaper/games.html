@@ -1,0 +1,58 @@
+{% extends 'code_reaper/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'code_reaper/games.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+    <div id="resources">
+      <div class="wheat">
+        <div class="line">{{wheat}}</div>
+        <img class="line" src="{% static 'code_reaper/images/wheat.png' %}">
+      </div>
+    </div>
+    <div id="games">
+    	{% for g in games %}
+        {% if g.cost|length > wheat %}
+          <div class="game gray">
+        {% else %}
+          <div class="game">
+        {% endif %}
+            <div class="cost">
+              {% for c in g.cost %}
+                {% if g.cost|length > wheat %}
+                  <img class="line wheat" src="{% static 'code_reaper/images/wheat_gray.png' %}">
+                {% else %}
+                  <img class="line wheat" src="{% static 'code_reaper/images/wheat.png' %}">
+                {% endif %}
+              {% endfor %}
+            </div>
+            <div class="game_nr">
+              <form action="{% url 'game' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" name="nr" value="{{g.nr}}" />
+              </form>
+            </div>
+            <div>
+              {% if g.cost|length > wheat %}
+                <img class="line trophy" src="{% static 'code_reaper/images/star_gray.png' %}">
+              {% else %}
+                <img class="line trophy" src="{% static 'code_reaper/images/star.png' %}">
+              {% endif %}
+              <div class="line">{% if g.result %} {{g.result}} {% else %} ? {% endif %}</div>
+            </div>
+          </div>
+      {% endfor %}
+    </div>
+    <div class="small">Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+
+{% endblock %}
+
+{% block script %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+{% endblock %}

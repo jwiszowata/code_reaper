@@ -1,0 +1,90 @@
+{% extends 'code_reaper/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link href="{% static 'code_reaper/small-business.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Heading Row -->
+      <div class="row my-4">
+        <div class="col-lg-8">
+          <img class="img-fluid rounded" src="{% static 'code_reaper/images/main.jpg' %}" alt="">
+        </div>
+        <!-- /.col-lg-8 -->
+        <div class="col-lg-4">
+          <h1>Żniwiarz kodu</h1>
+          <p>This is a template that is great for small businesses. It doesn't have too much fancy flare to it, but it makes a great use of the standard Bootstrap core components. Feel free to use this template for any project you want!</p>
+          <a class="btn btn-primary btn-lg" href="{% url 'task' %}">Żnij kod!</a>
+          
+        </div>
+        <!-- /.col-md-4 -->
+      </div>
+      <!-- /.row -->
+
+      <!-- Content Row -->
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="card-title">Gra</h2>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex.</p>
+            </div>
+            <div class="card-footer">
+              <a href="{% url 'games' %}" class="btn btn-primary">Zagraj</a>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-4 -->
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="card-title">Ranking</h2>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus!</p>
+            </div>
+            <div class="card-footer">
+              <a href="{% url 'ranking' %}" class="btn btn-primary">Sprawdź</a>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-4 -->
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h2 class="card-title">O projekcie</h2>
+              <p class="card-text">Mamy już {{done}} funkcji! Pomóż dobić do {{all}}!</p>
+              <div>
+                <div class="progress">
+                  <div class="progress-bar game_progress" role="progressbar" style="width: {{percent}}%;" aria-valuenow="0.01" aria-valuemin="0" aria-valuemax="100">{{done}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">Czytaj</a>
+            </div>
+          </div>
+        </div>
+        <!-- /.col-md-4 -->
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+{% endblock %}
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+{% endblock %}
