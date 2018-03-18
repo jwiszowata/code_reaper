@@ -20,28 +20,35 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'kxihm+ybmpq#jm=l*ajv!_t+#)mzcmcz^mo=c5g1i!04nu1-xq'
+SECRET_KEY = config('SECRET_KEY')
+DEBUG = config('DEBUG', default=False, cast=bool)
+DATABASES = {
+    'default': dj_database_url.config(
+        default=config('DATABASE_URL')
+    )
+}
+#SECRET_KEY = 'kxihm+ybmpq#jm=l*ajv!_t+#)mzcmcz^mo=c5g1i!04nu1-xq'
 
-SOCIAL_AUTH_GITHUB_KEY = '5a9b92be92c1d90f31a5'
-SOCIAL_AUTH_GITHUB_SECRET = '25d10e6cd1d5835f5c28ae979c933508bcc30f42'
+SOCIAL_AUTH_GITHUB_KEY = config('SOCIAL_AUTH_GITHUB_KEY')#'5a9b92be92c1d90f31a5'
+SOCIAL_AUTH_GITHUB_SECRET = config('SOCIAL_AUTH_GITHUB_SECRET')#'25d10e6cd1d5835f5c28ae979c933508bcc30f42'
 
-SOCIAL_AUTH_TWITTER_KEY = 'yFoF30q6Kl9jmIwbUMgdP5sGz'
-SOCIAL_AUTH_TWITTER_SECRET = 'C0rTyLssco6T8QAw4VqGaM7C9AGuseXeKL5xNtHdEjjqwfKPGI'
+SOCIAL_AUTH_TWITTER_KEY = config('SOCIAL_AUTH_TWITTER_KEY')#'yFoF30q6Kl9jmIwbUMgdP5sGz'
+SOCIAL_AUTH_TWITTER_SECRET = config('SOCIAL_AUTH_TWITTER_SECRET')#'C0rTyLssco6T8QAw4VqGaM7C9AGuseXeKL5xNtHdEjjqwfKPGI'
 
-SOCIAL_AUTH_FACEBOOK_KEY = '322980314872127'  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = '56aa8186a28b5458286adcc426474240'  # App Secret
+SOCIAL_AUTH_FACEBOOK_KEY = config('SOCIAL_AUTH_FACEBOOK_KEY')#'322980314872127'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = config('SOCIAL_AUTH_FACEBOOK_SECRET')#'56aa8186a28b5458286adcc426474240'  # App Secret
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '584881867547-mf9b232q85442k8pufdsigqlogip9rmj.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'N7k9hx2A0_IyBqD9mi_AVTsm'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')#'584881867547-mf9b232q85442k8pufdsigqlogip9rmj.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')#'N7k9hx2A0_IyBqD9mi_AVTsm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+#DEBUG = False
 
-ALLOWED_HOSTS = [
-    '192.168.0.12',
-    '127.0.0.1',
-    'localhost'
-]
+# ALLOWED_HOSTS = [
+#     '192.168.0.12',
+#     '127.0.0.1',
+#     'localhost'
+# ]
 
 
 # Application definition
