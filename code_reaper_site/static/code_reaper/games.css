@@ -1,0 +1,80 @@
+div#resources {
+	margin-top: 70px;
+}
+
+div#games {
+	width: 425px;
+	height: 425px;
+	margin: auto;
+}
+
+div.game {
+	margin-top: 2px;
+	margin-bottom: 2px;
+	width: 100px;
+	height: 100px;
+	display: inline-grid;
+	border-radius: 10px;
+	border: 2px solid gold;
+	color: darkcyan;
+}
+
+div.game.gray {
+	border: 2px solid gray;
+}
+
+div.wheat {
+	font-size: 40px;
+	margin: auto;
+	width: 200px;
+	border: 5px solid gold;
+    border-radius: 20px;
+    text-align: center;
+    color: gold;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+img {
+	text-align: right;
+}
+
+.line {
+	display: inline-block;
+}
+
+.small {
+	font-size: 5px;
+}
+
+img.wheat {
+	height: 20px;
+	width: 20px;
+}
+
+img.trophy {
+	height: 20px;
+	margin-bottom: 5px;
+}
+
+div.game > div {
+	text-align: center;
+}
+
+div.cost {
+	padding-top: 2px;
+	background: darkcyan;
+    border-radius: 7px;
+    border: 1px solid darkcyan;
+}
+
+.game_nr > form > input {
+	height: 30px;
+	font-size: 25px;
+	text-align: center;
+	color: darkcyan;
+	background: none;
+    border: none;
+    width: 90px;
+    outline:none;
+}

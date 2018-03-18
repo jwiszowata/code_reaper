@@ -1,0 +1,77 @@
+#bottom_buttons {
+	margin: auto;
+	width: 150px;
+}
+
+.bottom {
+	width: 150px;
+	border-radius: 5px;
+	border: none;
+}
+
+#code {
+	display: none;
+}
+
+#clock {
+	display: none;
+}
+
+#bottom_buttons {
+	display: none;
+}
+
+td.gutter div.line {
+	width: 40px !important;
+}
+
+code.java.keyword.gray,
+code.java.string.gray,
+code.java.plain.gray,
+code.java.spaces.gray,
+code.java.value.gray {
+	color: beige !important;
+}
+
+#code > div > table {
+	width: 300px!important;
+	margin: auto!important;
+}
+
+label.custom-control.custom-checkbox.small {
+	margin: 0;
+	float: left;
+	padding: 0;
+}
+span.custom-control-indicator.top {
+	top: 0;
+}
+
+form {
+	margin-top: 60px;
+}
+
+div#timer {
+	margin: auto;
+}
+
+#code > div {
+	border: solid!important;
+	border-radius: 10px!important;
+	padding: 20px!important;
+	width: fit-content!important;
+	margin: auto!important;
+	margin-top: 20px!important;
+	margin-bottom: 20px!important;
+	border-color: #d4d0c8!important;
+}
+
+div.modal-body > p {
+    white-space: pre;
+}
+
+span.modal_text {
+	font-style: bold;
+	font-size: 20;
+	color: darkcyan;
+}
