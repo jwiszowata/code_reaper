@@ -27,6 +27,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #         default=config('DATABASE_URL')
 #     )
 # }
+
+# Parse database configuration from $DATABASE_URL
+import dj_database_url
+
 SECRET_KEY = os.environ.get('SECRET_KEY', '')#'kxihm+ybmpq#jm=l*ajv!_t+#)mzcmcz^mo=c5g1i!04nu1-xq'
 
 SOCIAL_AUTH_GITHUB_KEY = os.environ.get('SOCIAL_AUTH_GITHUB_KEY', '')#'5a9b92be92c1d90f31a5'
@@ -42,7 +46,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY', 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET', '')#'N7k9hx2A0_IyBqD9mi_AVTsm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = [
 #     '192.168.0.12',
@@ -109,11 +113,14 @@ DATABASES = {
         'USER': 'panda',
         'PASSWORD': 'dolphin1',
         'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
         #'ENGINE': 'django.db.backends.sqlite3',
         #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+db_from_env = dj_database_url.config(conn_max_age=500, ssl_require=True)
+DATABASES['default'].update(db_from_env)
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
