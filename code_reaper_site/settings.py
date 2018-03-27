@@ -48,11 +48,12 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SEC
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = [
-#     '192.168.0.12',
-#     '127.0.0.1',
-#     'localhost'
-# ]
+ALLOWED_HOSTS = [
+    '192.168.0.12',
+    '127.0.0.1',
+    'localhost',
+    'zniwiarz-kodu.herokuapp.com'
+]
 
 
 # Application definition
