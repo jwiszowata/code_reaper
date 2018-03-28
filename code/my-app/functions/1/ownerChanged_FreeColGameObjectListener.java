@@ -1,0 +1,1 @@
+public void ownerChanged(FreeColGameObject source, Player oldOwner, Player newOwner);

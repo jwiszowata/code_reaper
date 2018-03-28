@@ -1,0 +1,1 @@
+public abstract RandomRange getPlunderRange(Unit attacker);

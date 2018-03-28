@@ -1,0 +1,1 @@
+public abstract StringTemplate getAlarmLevelLabel(Player player);

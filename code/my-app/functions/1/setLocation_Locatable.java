@@ -1,0 +1,1 @@
+public boolean setLocation(Location newLocation);

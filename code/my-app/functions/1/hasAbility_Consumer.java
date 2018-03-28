@@ -1,0 +1,1 @@
+public boolean hasAbility(String id);

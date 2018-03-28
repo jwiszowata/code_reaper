@@ -1,0 +1,1 @@
+public abstract Map createMap(LogBuilder lb);

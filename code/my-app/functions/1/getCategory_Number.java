@@ -1,0 +1,1 @@
+public abstract Category getCategory(double selector);

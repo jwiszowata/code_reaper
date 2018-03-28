@@ -1,0 +1,3 @@
+int getInitialSellPrice() {
+    return initialPrice;
+}

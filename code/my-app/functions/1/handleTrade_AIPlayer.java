@@ -1,0 +1,1 @@
+public abstract NativeTradeAction handleTrade(NativeTradeAction action, NativeTrade nt);

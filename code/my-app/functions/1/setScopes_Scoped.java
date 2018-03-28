@@ -1,0 +1,1 @@
+public void setScopes(List<Scope> scopes);

@@ -1,0 +1,1 @@
+public boolean remove(Locatable locatable);

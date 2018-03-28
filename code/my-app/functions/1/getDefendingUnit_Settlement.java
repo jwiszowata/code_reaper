@@ -1,0 +1,1 @@
+public abstract Unit getDefendingUnit(Unit attacker);

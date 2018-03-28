@@ -1,0 +1,1 @@
+public boolean contains(Locatable locatable);

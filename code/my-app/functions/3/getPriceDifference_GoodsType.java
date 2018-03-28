@@ -1,0 +1,3 @@
+int getPriceDifference() {
+    return priceDiff;
+}

@@ -1,0 +1,3 @@
+void refreshPlayersTable() {
+    startGamePanel.refreshPlayersTable();
+}

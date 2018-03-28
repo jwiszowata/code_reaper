@@ -1,0 +1,1 @@
+public int getCost(Unit unit, Location oldLocation, Location newLocation, int movesLeftBefore);

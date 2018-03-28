@@ -1,0 +1,3 @@
+PathNode getGotoPath() {
+    return gotoPath;
+}

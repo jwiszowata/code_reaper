@@ -1,0 +1,1 @@
+public abstract void setStringAttribute(String key, String value);

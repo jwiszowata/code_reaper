@@ -1,0 +1,1 @@
+public abstract AbstractOption<T> clone() throws CloneNotSupportedException;

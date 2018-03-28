@@ -1,0 +1,1 @@
+public abstract Connection reconnect() throws IOException;

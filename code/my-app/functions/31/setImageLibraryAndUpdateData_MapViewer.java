@@ -1,0 +1,31 @@
+private void setImageLibraryAndUpdateData(ImageLibrary lib) {
+    this.lib = lib;
+    tv.setImageLibraryAndUpdateData(lib);
+    Dimension tileSize = lib.tileSize;
+    tileHeight = tileSize.height;
+    tileWidth = tileSize.width;
+    halfHeight = tileHeight / 2;
+    halfWidth = tileWidth / 2;
+    int dx = tileWidth / 16;
+    int dy = tileHeight / 16;
+    int ddx = dx + dx / 2;
+    int ddy = dy + dy / 2;
+    controlPoints.put(Direction.N, new Point2D.Float(halfWidth, dy));
+    controlPoints.put(Direction.E, new Point2D.Float(tileWidth - dx, halfHeight));
+    controlPoints.put(Direction.S, new Point2D.Float(halfWidth, tileHeight - dy));
+    controlPoints.put(Direction.W, new Point2D.Float(dx, halfHeight));
+    controlPoints.put(Direction.SE, new Point2D.Float(halfWidth, tileHeight));
+    controlPoints.put(Direction.NE, new Point2D.Float(tileWidth, halfHeight));
+    controlPoints.put(Direction.SW, new Point2D.Float(0, halfHeight));
+    controlPoints.put(Direction.NW, new Point2D.Float(halfWidth, 0));
+    borderPoints.put(Direction.NW, new Point2D.Float(dx + ddx, halfHeight - ddy));
+    borderPoints.put(Direction.N, new Point2D.Float(halfWidth - ddx, dy + ddy));
+    borderPoints.put(Direction.NE, new Point2D.Float(halfWidth + ddx, dy + ddy));
+    borderPoints.put(Direction.E, new Point2D.Float(tileWidth - dx - ddx, halfHeight - ddy));
+    borderPoints.put(Direction.SE, new Point2D.Float(tileWidth - dx - ddx, halfHeight + ddy));
+    borderPoints.put(Direction.S, new Point2D.Float(halfWidth + ddx, tileHeight - dy - ddy));
+    borderPoints.put(Direction.SW, new Point2D.Float(halfWidth - ddx, tileHeight - dy - ddy));
+    borderPoints.put(Direction.W, new Point2D.Float(dx + ddx, halfHeight + ddy));
+    borderStroke = new BasicStroke(dy);
+    gridStroke = new BasicStroke(lib.getScaleFactor());
+}

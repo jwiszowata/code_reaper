@@ -1,0 +1,1 @@
+public boolean check(Unit u, PathNode pathNode);

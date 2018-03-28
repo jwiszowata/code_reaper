@@ -1,0 +1,3 @@
+void restartBlinking() {
+    cursor.startBlinking();
+}

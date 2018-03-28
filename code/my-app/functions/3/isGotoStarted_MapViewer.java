@@ -1,0 +1,3 @@
+boolean isGotoStarted() {
+    return gotoStarted;
+}

@@ -1,0 +1,1 @@
+public abstract int evaluateFor(Player player);

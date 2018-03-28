@@ -1,0 +1,1 @@
+public GoodsContainer getGoodsContainer();

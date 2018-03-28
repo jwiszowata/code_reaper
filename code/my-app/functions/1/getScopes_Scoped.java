@@ -1,0 +1,1 @@
+public Stream<Scope> getScopes();

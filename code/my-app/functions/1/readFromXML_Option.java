@@ -1,0 +1,1 @@
+public void readFromXML(FreeColXMLReader xr) throws XMLStreamException;

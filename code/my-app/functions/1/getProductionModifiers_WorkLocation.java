@@ -1,0 +1,1 @@
+public abstract Stream<Modifier> getProductionModifiers(GoodsType goodsType, UnitType unitType);

@@ -1,0 +1,1 @@
+public int getGoodsCount(GoodsType goodsType);

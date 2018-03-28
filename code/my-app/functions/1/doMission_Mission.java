@@ -1,0 +1,1 @@
+public abstract Mission doMission(LogBuilder lb);

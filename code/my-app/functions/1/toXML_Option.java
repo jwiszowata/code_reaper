@@ -1,0 +1,1 @@
+public void toXML(FreeColXMLWriter xw) throws XMLStreamException;

@@ -1,0 +1,1 @@
+public abstract Set<Modifier> getOffensiveModifiers(FreeColGameObject attacker, FreeColGameObject defender);

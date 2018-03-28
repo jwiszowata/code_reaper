@@ -1,0 +1,1 @@
+public Component add(Component comp, boolean editState);

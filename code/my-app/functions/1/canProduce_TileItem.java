@@ -1,0 +1,1 @@
+public abstract boolean canProduce(GoodsType goodsType, UnitType unitType);

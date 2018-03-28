@@ -1,0 +1,1 @@
+public Message handle(Message message) throws FreeColException;

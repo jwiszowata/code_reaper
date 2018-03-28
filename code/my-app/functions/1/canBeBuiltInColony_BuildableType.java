@@ -1,0 +1,1 @@
+public abstract NoBuildReason canBeBuiltInColony(Colony colony, List<BuildableType> assumeBuilt);

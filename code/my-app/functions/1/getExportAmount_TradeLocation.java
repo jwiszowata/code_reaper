@@ -1,0 +1,1 @@
+public int getExportAmount(GoodsType goodsType, int turns);

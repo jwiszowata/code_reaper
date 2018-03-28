@@ -1,0 +1,1 @@
+public StringTemplate getLocationLabelFor(Player player);

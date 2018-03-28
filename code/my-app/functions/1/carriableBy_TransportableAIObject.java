@@ -1,0 +1,1 @@
+public abstract boolean carriableBy(Unit carrier);

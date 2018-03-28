@@ -1,0 +1,1 @@
+public Layer loadMap(Game game, Layer layer);

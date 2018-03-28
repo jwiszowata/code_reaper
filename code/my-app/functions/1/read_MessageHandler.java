@@ -1,0 +1,1 @@
+public Message read(FreeColXMLReader xr) throws FreeColException, XMLStreamException;

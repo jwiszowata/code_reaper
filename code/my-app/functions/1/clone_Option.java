@@ -1,0 +1,1 @@
+public Option<T> clone() throws CloneNotSupportedException;

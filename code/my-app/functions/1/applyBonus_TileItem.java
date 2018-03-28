@@ -1,0 +1,1 @@
+public abstract int applyBonus(GoodsType goodsType, UnitType unitType, int potential);

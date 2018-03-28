@@ -1,0 +1,3 @@
+int getIndex() {
+    return index;
+}

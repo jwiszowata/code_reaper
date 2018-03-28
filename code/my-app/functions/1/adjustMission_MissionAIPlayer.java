@@ -1,0 +1,1 @@
+public abstract int adjustMission(AIUnit aiUnit, PathNode path, Class type, int value);

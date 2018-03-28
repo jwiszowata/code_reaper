@@ -1,0 +1,3 @@
+Tile getSelectedTile() {
+    return selectedTile;
+}

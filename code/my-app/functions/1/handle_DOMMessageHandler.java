@@ -1,0 +1,1 @@
+public Element handle(Connection connection, Element element) throws FreeColException;

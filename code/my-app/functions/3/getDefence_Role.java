@@ -1,0 +1,3 @@
+private double getDefence() {
+    return applyModifiers(0.0f, null, Modifier.DEFENCE);
+}

@@ -1,0 +1,1 @@
+public abstract Connection connect(String name, String host, int port) throws IOException;

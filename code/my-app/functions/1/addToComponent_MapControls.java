@@ -1,0 +1,1 @@
+public abstract void addToComponent(Canvas component);

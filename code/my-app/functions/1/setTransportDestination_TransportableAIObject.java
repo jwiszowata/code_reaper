@@ -1,0 +1,1 @@
+public abstract void setTransportDestination(Location destination);

@@ -1,0 +1,3 @@
+ImageLibrary getImageLibrary() {
+    return lib;
+}

@@ -1,0 +1,1 @@
+public int suggested(GoodsType goodsType);

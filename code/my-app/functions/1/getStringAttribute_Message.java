@@ -1,0 +1,1 @@
+public abstract String getStringAttribute(String key);

@@ -1,0 +1,1 @@
+public abstract void readInputStream(InputStream inputStream) throws IOException, SAXException;

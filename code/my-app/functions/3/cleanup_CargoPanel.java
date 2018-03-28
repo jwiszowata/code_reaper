@@ -1,0 +1,3 @@
+public void cleanup() {
+    removePropertyChangeListeners();
+}

@@ -1,0 +1,1 @@
+public abstract boolean hasContacted(Player player);

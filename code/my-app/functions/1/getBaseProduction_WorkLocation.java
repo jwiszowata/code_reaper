@@ -1,0 +1,1 @@
+public abstract int getBaseProduction(ProductionType productionType, GoodsType goodsType, UnitType unitType);

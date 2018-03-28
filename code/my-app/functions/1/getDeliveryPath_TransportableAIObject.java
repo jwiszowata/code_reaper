@@ -1,0 +1,1 @@
+public abstract PathNode getDeliveryPath(Unit carrier, Location dst);

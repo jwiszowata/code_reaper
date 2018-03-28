@@ -1,0 +1,1 @@
+public abstract boolean joinTransport(Unit carrier, Direction direction);

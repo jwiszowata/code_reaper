@@ -1,0 +1,1 @@
+public void logSale(GoodsType goodsType, int amount, int price, int tax);

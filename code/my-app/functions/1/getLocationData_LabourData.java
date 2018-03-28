@@ -1,0 +1,1 @@
+LocationData getLocationData(UnitData unitData);

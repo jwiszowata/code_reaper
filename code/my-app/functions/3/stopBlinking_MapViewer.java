@@ -1,0 +1,3 @@
+void stopBlinking() {
+    cursor.stopBlinking();
+}

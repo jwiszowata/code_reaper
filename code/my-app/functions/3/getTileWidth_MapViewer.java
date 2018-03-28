@@ -1,0 +1,3 @@
+int getTileWidth() {
+    return tileWidth;
+}
