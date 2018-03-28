@@ -31,7 +31,7 @@ def readFunsFromFile(minLines, maxLines, lvlNr, funsNr):
 	dif = []
 	idx = 0
 	for i in range(minLines, maxLines + 1):
-		path = "../../code/my-app/functions/" + str(i)
+		path = "./code/my-app/functions/" + str(i)
 		files = [f for f in listdir(path) if isfile(join(path, f))]
 
 		for file in files:
