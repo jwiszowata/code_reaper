@@ -20,30 +20,30 @@
         <form method="post" action="{% url 'login' %}">
           <span class="err">{{login_error}}</span>
           {% csrf_token %}
-          {{ login_form.as_p }}
+          {% trans login_form.as_p %}
           <button class="submit-button" type="submit">Zaloguj</button>
         </form>
       </div>
       <div class="tab-pane fade {{sign_active}}" id="nav-register" role="tabpanel" aria-labelledby="nav-profile-tab">
         <form class="sa-innate-form" method="post" action="{% url 'signup' %}">
           {% csrf_token %}
-          {{ sign_form.as_p }}
+          {% trans sign_form.as_p %}
           <button class="submit-button" type="submit">Zarejestruj</button>
         </form>
       </div>
     </div>
 
     <div id="github" class="social">
-      <a href="{% url 'social:begin' 'github' %}">Zalogin używając GitHub</a>
+      <a href="{% url 'social:begin' 'github' %}">Zaloguj używając GitHub</a>
     </div>
     <div id="twitter" class="social">
-      <a href="{% url 'social:begin' 'twitter' %}">Zalogin używając Twitter</a>
+      <a href="{% url 'social:begin' 'twitter' %}">Zaloguj używając Twitter</a>
     </div>
     <div id="facebook" class="social">
-      <a href="{% url 'social:begin' 'facebook' %}">Zalogin używając Facebook</a>
+      <a href="{% url 'social:begin' 'facebook' %}">Zaloguj używając Facebook</a>
     </div>
     <div id="google" class="social">
-      <a href="{% url 'social:begin' 'google-oauth2' %}">Zalogin używając Google</a>
+      <a href="{% url 'social:begin' 'google-oauth2' %}">Zaloguj używając Google</a>
     </div>
   </div>
 {% endblock %}
