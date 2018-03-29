@@ -63,7 +63,7 @@
 									<div class="ranks">
 										<div class="row">
 											<div class="line rank">
-												<div class="number">{{reaper}}</div>
+												<div class="number">{% if reaper %}{{reaper}}{% else %}?{% endif %}</div>
 												<div>Ranking Żniwiarzy</div>
 											</div>
 											<div class="line rank">
@@ -77,7 +77,7 @@
 										</div>
 										<div class="row">
 											<div class="line rank">
-												<div class="number">{{wheater}}</div>
+												<div class="number">{% if wheater %}{{wheater}}{% else %}?{% endif %}</div>
 												<div>Ranking Kłosów</div>
 											</div>
 											<div class="line rank">
@@ -89,7 +89,7 @@
 												<div>Ranking Graczy
 													<select name="game">
 														{% for g in games %}
-													  <option value="{{g.rank}}">{{g.nr}}</option>
+													  <option value="{{g.rank}}">Gra {{g.nr}}</option>
 														{% endfor %}
 													</select>
 												</div>
