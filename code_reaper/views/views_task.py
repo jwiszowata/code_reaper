@@ -140,23 +140,22 @@ def gray_out(request, function_id):
 
         try:
             achievement = Achievement.objects.get(user=user)
-            got_points = floor(achievement.factor * function.difficulty)
-            points = achievement.points + got_points;
-            setattr(achievement, 'points', points)
-            curr_level = achievement.level
-            level = curr_level
-            if (points >= points_max(curr_level)):
-                got_level = True
-                print("got_level", points, points_max(curr_level))
-                level = curr_level + 1
-                got_wheat = floor(achievement.factor * (curr_level + 2))
-                setattr(achievement, 'level', level)
-                setattr(achievement, 'wheat', achievement.wheat + got_wheat)
-                setattr(achievement, 'gained_wheat', achievement.gained_wheat + got_wheat)
-            achievement.save()
         except Achievement.DoesNotExist:
-            achievement = Achievement(user=user, points=function.difficulty, level=1, wheat=1)
-            achievement.save()
+            achievement = Achievement(user=user, points=0, level=1, wheat=1)
+        got_points = floor(achievement.factor * function.difficulty)
+        points = achievement.points + got_points;
+        setattr(achievement, 'points', points)
+        curr_level = achievement.level
+        level = curr_level
+        if (points >= points_max(curr_level)):
+            got_level = True
+            print("got_level", points, points_max(curr_level))
+            level = curr_level + 1
+            got_wheat = floor(achievement.factor * (curr_level + 2))
+            setattr(achievement, 'level', level)
+            setattr(achievement, 'wheat', achievement.wheat + got_wheat)
+            setattr(achievement, 'gained_wheat', achievement.gained_wheat + got_wheat)
+        achievement.save()
         return HttpResponse(json.dumps({
                 'got_points': got_points,
                 'all_points': points,
