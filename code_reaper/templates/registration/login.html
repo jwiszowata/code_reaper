@@ -20,14 +20,14 @@
         <form method="post" action="{% url 'login' %}">
           <span class="err">{{login_error}}</span>
           {% csrf_token %}
-          {% trans login_form.as_p %}
+          {{ trans login_form.as_p }}
           <button class="submit-button" type="submit">Zaloguj</button>
         </form>
       </div>
       <div class="tab-pane fade {{sign_active}}" id="nav-register" role="tabpanel" aria-labelledby="nav-profile-tab">
         <form class="sa-innate-form" method="post" action="{% url 'signup' %}">
           {% csrf_token %}
-          {% trans sign_form.as_p %}
+          {{ sign_form.as_p }}
           <button class="submit-button" type="submit">Zarejestruj</button>
         </form>
       </div>
