@@ -28,7 +28,7 @@ class Function(models.Model):
 	setting_time = models.DateTimeField(default=now)
 
 	def __str__(self):
-		return str(self.difficulty)
+		return str(self.pk)
 
 class Task(models.Model):
 	TRUSTED = 0
@@ -72,6 +72,9 @@ class Package(models.Model):
 	checking_function = models.IntegerField(default=0)
 	setting_time = models.DateTimeField(default=now)
 	status = models.IntegerField(default=0, choices=PACKAGE_STATUS_CHOICES)
+
+	def __str__(self):
+		return str(self.user.username)
 
 class Game(models.Model):
 	number = models.IntegerField()
