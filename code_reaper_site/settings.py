@@ -31,7 +31,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
 
-SECRET_KEY = os.environ.get('SECRET_KEY', '')#'kxihm+ybmpq#jm=l*ajv!_t+#)mzcmcz^mo=c5g1i!04nu1-xq'
+SECRET_KEY = os.environ.get('SECRET_KEY', '')#''''kxihm+ybmpq#jm=l*ajv!_t+#)mzcmcz^mo=c5g1i!04nu1-xq'
 
 SOCIAL_AUTH_GITHUB_KEY = os.environ.get('SOCIAL_AUTH_GITHUB_KEY', '')#'5a9b92be92c1d90f31a5'
 SOCIAL_AUTH_GITHUB_SECRET = os.environ.get('SOCIAL_AUTH_GITHUB_SECRET', '')#'25d10e6cd1d5835f5c28ae979c933508bcc30f42'
@@ -198,5 +198,5 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-CSRF_COOKIE_SECURE = True
+#CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
