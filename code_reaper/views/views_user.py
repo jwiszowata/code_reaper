@@ -140,7 +140,7 @@ def user(request):
             'package_pos': package_pos,
             'package_neg': package_neg
         },
-        'tasks': taskObj(len(task_statuses), best, trusted - best, notTrusted, waiting),  
+        'tasks': taskObj(len(task_statuses), best, trusted, notTrusted, waiting),  
         'wheater': getRank(user.username, getWheaterRanking()),
         'reaper': getRank(user.username, getReaperRanking()), 
         'games': getGameRank(user.username)
