@@ -35,8 +35,8 @@ def summarize_day(request):
                         if task1 != task2:
                             res += similarity(task1, task2, fun)
                     results += [res]
-                (winners, tasks) = find_winners(results, tasks)
-                for winner, task in zip(winners, tasks):
+                (winners, winner_tasks) = find_winners(results, tasks)
+                for winner, winner_task in zip(winners, winner_tasks):
                     try:
                         achievement = Achievement.objects.get(user=winner)
                     except Achievement.DoesNotExist:
@@ -45,8 +45,8 @@ def summarize_day(request):
                     setattr(achievement, 'bonus_wheat', achievement.bonus_wheat + 1)
                     setattr(achievement, 'gained_wheat', achievement.gained_wheat + 1)
                     achievement.save()
-                    setattr(task, 'status', Task.BEST)
-                    task.save()
+                    setattr(winner_task, 'status', Task.BEST)
+                    winner_task.save()
             #setattr(fun, 'status', Function.DONE)
             #fun.save()
                 print(fun)
@@ -61,5 +61,5 @@ def find_winners(results, tasks):
     for (task, result) in zip(tasks, results):
         if result == max_result:
             winners += [task.user]
-            tasks += [task]
-    return (winners, tasks)
+            win_tasks += [task]
+    return (winners, win_tasks)
