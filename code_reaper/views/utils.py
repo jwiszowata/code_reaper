@@ -94,7 +94,7 @@ def find_trusted(funs):
     return funs[0]
 
 def get_random_functions(funs, nr):
-    function_ids = random.choices(funs, k=nr)
+    function_ids = random.sample(funs, k=nr)
     return function_ids
 
 def setFunctionsIdAs(funs, status, inc):
