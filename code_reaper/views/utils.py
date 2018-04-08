@@ -77,7 +77,7 @@ def get_proper_functions_for_user(user, level, times, status):
         funs_of_level_pk = Function.objects.filter(criterion1 & criterion2 & criterion3).values_list('pk', flat=True)
     else:
         funs_of_level_pk = Function.objects.filter().values_list('pk', flat=True)
-    done_tasks_of_level = Task.objects.filter(user=user, function__in=funs_of_level_pk)
+    done_tasks_of_level = Task.objects.filter(user=user)
     done_funs = [task.function for task in done_tasks_of_level]
     return diff(funs_of_level_pk, done_funs)
 
