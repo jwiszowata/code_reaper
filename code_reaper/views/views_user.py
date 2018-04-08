@@ -27,7 +27,7 @@ def index(request):
     context = {
         'all': all_functions,
         'done': done_functions,
-        'percent': math.ceil(done_functions/all_functions)
+        'percent': math.ceil(done_functions/all_functions * 100)
     }
     return render(request, 'code_reaper/index.html', context)
 
