@@ -58,6 +58,7 @@ def summarize_day(request):
 def find_winners(results, tasks):
     max_result = max(results)
     winners = []
+    win_tasks = []
     for (task, result) in zip(tasks, results):
         if result == max_result:
             winners += [task.user]
