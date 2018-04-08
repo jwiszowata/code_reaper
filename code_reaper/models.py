@@ -48,6 +48,9 @@ class Task(models.Model):
 	grayed_out_lines = models.CharField(max_length=200)
 	status = models.IntegerField(default=0, choices=TASK_STATUS_CHOICES)
 
+	def __str__(self):
+		return str(self.user.username) + " " + str(self.function)
+
 class Package(models.Model):
 	PENDING = 0
 	#OK = 1

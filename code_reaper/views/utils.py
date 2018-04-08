@@ -65,7 +65,8 @@ def funs_for_user(user):
                 else:
                     i -= 1
     if len(funs) < 3:
-        funs += get_proper_functions_for_user(user, 21, 0, Function.READY)
+        print("UWAGA PROBLEM!!! ZA MAŁO FUNKCJI!!!")
+        funs = get_proper_functions_for_user(user, 21, 0, Function.READY)
     return funs
 
 def get_proper_functions_for_user(user, level, times, status):
