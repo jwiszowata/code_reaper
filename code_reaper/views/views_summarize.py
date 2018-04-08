@@ -61,4 +61,5 @@ def find_winners(results, tasks):
     for (task, result) in zip(tasks, results):
         if result == max_result:
             winners += [task.user]
-    return winners
+            tasks += [task]
+    return (winners, tasks)
