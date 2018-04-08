@@ -20,7 +20,7 @@ import json
 
 def createNewPackage(user):
     funs = funs_for_user(user)
-    print("Received "+str(len(fun))+" for user " + user.username)
+    print("Received "+str(len(funs))+" for user " + user.username)
     if len(funs) < 3:
         print("Only "+str(len(funs))+" functions received")
         funs = funs * 3
