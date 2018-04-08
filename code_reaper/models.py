@@ -49,7 +49,7 @@ class Task(models.Model):
 	status = models.IntegerField(default=0, choices=TASK_STATUS_CHOICES)
 
 	def __str__(self):
-		return str(self.user.username) + " " + str(self.function)
+		return str(self.user.username) + " " + str(self.function) + " " + str(self.status)
 
 class Package(models.Model):
 	PENDING = 0
