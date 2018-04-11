@@ -83,7 +83,7 @@ div.cost {
 #panel {
     position: fixed;
     top: 50px;
-    right: -435px;
+    right: -405px;
     z-index: 99999;
     transition: right 0.5s ease-out 0s;
 }
@@ -93,8 +93,8 @@ div.cost {
 }
  
 #panel #content {
-    width: 430px;
-    height: 500px;
+    width: 400px;
+    height: 550px;
     padding: 10px;
     border-top: 2px solid gold;
     border-right: none;
