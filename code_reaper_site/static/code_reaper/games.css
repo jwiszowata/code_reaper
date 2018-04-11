@@ -83,7 +83,7 @@ div.cost {
 #panel {
     position: fixed;
     top: 50px;
-    right: -272px;
+    right: -355px;
     z-index: 99999;
     transition: right 0.5s ease-out 0s;
 }
@@ -122,6 +122,9 @@ div.cost {
     z-index: 1;
 }
 
+#board_images {
+	display: inline-block;
+}
 .board {
-	height: 150px;
+	height: 200px;
 }
