@@ -57,13 +57,12 @@ def funs_for_user(user):
         i = 2
     funs = []
     for status in [Function.READY, Function.PENDING, Function.FINISHED]:
-        if len(funs) < 3:
-            while len(funs) < 3 and (i >= 0 and i <= 3):
-                funs += get_proper_functions_for_user(user, level, i, status)
-                if achievement.status == Achievement.TRUSTED:
-                    i += 1
-                else:
-                    i -= 1
+        while len(funs) < 3 and (i >= 0 and i <= 3):
+            funs += get_proper_functions_for_user(user, level, i, status)
+            if achievement.status == Achievement.TRUSTED:
+                i += 1
+            else:
+                i -= 1
     if len(funs) < 3:
         print("UWAGA PROBLEM!!! ZA MAŁO FUNKCJI!!!")
         funs = get_proper_functions_for_user(user, 21, 0, Function.READY)
@@ -79,6 +78,9 @@ def get_proper_functions_for_user(user, level, times, status):
         funs_of_level_pk = Function.objects.filter().values_list('pk', flat=True)
     done_tasks = Task.objects.filter(user=user)
     done_funs = [task.function for task in done_tasks]
+    print(done_funs)
+    done_funs_pk = [task.function.pk for task in done_tasks]
+    print(done_funs_pk)
     return diff(funs_of_level_pk, done_funs)
 
 def diff(first, second):
