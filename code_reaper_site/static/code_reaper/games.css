@@ -94,7 +94,7 @@ div.cost {
  
 #panel #content {
     width: 250px;
-    height: 300px;
+    height: 500px;
     padding: 10px;
     border-top: 2px solid #C30011;
     border-right: none;
@@ -109,7 +109,7 @@ div.cost {
 #panel #title {
     width: 150px;
     border: 2px solid #C30011;
-    background: #E61B2D;
+    background: gold;
     color: #FFFFFF;
     font-weight: bold;
     border-radius: 10px;
@@ -120,4 +120,8 @@ div.cost {
     left: -90px;
     transform: rotate(-90deg);
     z-index: 1;
+}
+
+.board {
+	height: 100px;
 }
