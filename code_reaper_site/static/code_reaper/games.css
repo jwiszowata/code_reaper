@@ -93,13 +93,13 @@ div.cost {
 }
  
 #panel #content {
-    width: 250px;
+    width: 350px;
     height: 500px;
     padding: 10px;
-    border-top: 2px solid #C30011;
+    border-top: 2px solid gold;
     border-right: none;
-    border-bottom: 2px solid #C30011;
-    border-left: 2px solid #C30011;
+    border-bottom: 2px solid gold;
+    border-left: 2px solid gold;
     z-index: 20;
     background: #FFFFFF;
     position: relative;
@@ -108,7 +108,7 @@ div.cost {
  
 #panel #title {
     width: 150px;
-    border: 2px solid #C30011;
+    border: 2px solid gold;
     background: gold;
     color: #FFFFFF;
     font-weight: bold;
@@ -123,5 +123,5 @@ div.cost {
 }
 
 .board {
-	height: 100px;
+	height: 150px;
 }
