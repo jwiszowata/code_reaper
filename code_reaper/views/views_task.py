@@ -148,6 +148,11 @@ def gray_out(request, function_id):
         level = 1
         got_wheat = 1
 
+        try:
+            achievement = Achievement.objects.get(user=user)
+        except Achievement.DoesNotExist:
+            achievement = Achievement(user=user, points=0, level=1, wheat=1)
+
         got_points = floor(achievement.factor * function.difficulty)
         points = achievement.points + got_points;
         setattr(achievement, 'points', points)
