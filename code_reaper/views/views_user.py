@@ -31,6 +31,9 @@ def index(request):
     }
     return render(request, 'code_reaper/index.html', context)
 
+def main(request):
+    return redirect('index')
+
 ############################ USER ##############################################
 
 def logout_view(request):

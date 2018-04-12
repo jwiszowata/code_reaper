@@ -51,10 +51,9 @@ def makePackageDone(package):
     except Achievement.DoesNotExist:
         achievement = Achievement(user=package.user)
     if package.status == Package.TRUSTED:
-        setattr(achievement, 'factor', achievement.factor * 1.1)
-        setattr(achievement, 'bonus_wheat', achievement.bonus_wheat + 1)
+        setattr(achievement, 'factor', achievement.factor * 1.05)
     else:
-        setattr(achievement, 'factor', achievement.factor * 0.9)
+        setattr(achievement, 'factor', achievement.factor * 0.85)
     achievement.save()
 
 def summarizePackage(package):
