@@ -52,6 +52,7 @@
                   <span>{{user.username}}</span>
                 </a>
               </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link active" href="{% if user.is_authenticated %}
                                           {% url 'logout' %}
