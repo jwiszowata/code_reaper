@@ -71,7 +71,7 @@ def summarizePackage(package):
     try:
         task = Task.objects.filter(status=Task.TRUSTED, function=f)[0]
     except IndexError:
-        task = Task.objects.filter()[0]
+        task = Task.objects.filter(function=f)[0]
     s = similarity(task, t, f)
     funs = [package.function1, package.function2, package.function3]
     tasks = [package.task1, package.task2, package.task3]
