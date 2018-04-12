@@ -132,7 +132,9 @@ def marked_removed(lines_nr, removed_lines):
     removed = unfold_string_list(removed_lines)
     print(removed)
     lines = [1] * lines_nr
+    print(lines)
     for r in removed:
+        print(r)
         lines[r - 1] = 0
     return lines
 
