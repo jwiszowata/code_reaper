@@ -78,10 +78,10 @@ def get_proper_functions_for_user(user, level, times, status):
         funs_of_level_pk = Function.objects.filter().values_list('pk', flat=True)
     done_tasks = Task.objects.filter(user=user)
     done_funs = [task.function for task in done_tasks]
-    print(done_funs)
+    print("done_funs: ", done_funs)
     done_funs_pk = [task.function.pk for task in done_tasks]
-    print(done_funs_pk)
-    return diff(funs_of_level_pk, done_funs)
+    print("done_funs_pk:", done_funs_pk)
+    return diff(funs_of_level_pk, done_funs_pk)
 
 def diff(first, second):
         second = set(second)
