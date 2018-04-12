@@ -50,10 +50,12 @@ def makePackageDone(package):
         achievement = Achievement.objects.get(user=package.user)
     except Achievement.DoesNotExist:
         achievement = Achievement(user=package.user)
+    print("makePackageDone: ", package.status, achievement.factor)
     if package.status == Package.TRUSTED:
         setattr(achievement, 'factor', achievement.factor * 1.05)
     else:
         setattr(achievement, 'factor', achievement.factor * 0.85)
+    print("makePackageDone: ", achievement.factor)
     achievement.save()
 
 def summarizePackage(package):
@@ -75,7 +77,7 @@ def summarizePackage(package):
     s = similarity(task, t, f)
     funs = [package.function1, package.function2, package.function3]
     tasks = [package.task1, package.task2, package.task3]
-    if s >= 0.8:
+    if s >= 0.7:
         setattr(package, 'status', Package.TRUSTED)
         setFunctionsObjAs(funs, Function.READY, True)
         set_task_as(tasks, Task.TRUSTED)
