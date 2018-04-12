@@ -128,7 +128,9 @@ def similarity(task1, task2, function):
     return res / lines_nr
 
 def marked_removed(lines_nr, removed_lines):
+    print("marked_removed")
     removed = unfold_string_list(removed_lines)
+    print(removed)
     lines = [1] * lines_nr
     for r in removed:
         lines[r - 1] = 0
