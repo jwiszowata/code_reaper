@@ -20,6 +20,6 @@ from code_reaper import views
 
 urlpatterns = [
     url(r'^code_reaper/', include('code_reaper.urls')),
-    url(r'^admin/', admin.site.urls)
-    url(r'^$', views.main, name='main'),
+    url(r'^admin/', admin.site.urls),
+    url(r'^$', views.main, name='main')
 ]
