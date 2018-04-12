@@ -75,7 +75,7 @@ def summarizePackage(package):
     s = similarity(task, t, f)
     funs = [package.function1, package.function2, package.function3]
     tasks = [package.task1, package.task2, package.task3]
-    if s > 0.6:
+    if s >= 0.8:
         setattr(package, 'status', Package.TRUSTED)
         setFunctionsObjAs(funs, Function.READY, True)
         set_task_as(tasks, Task.TRUSTED)
@@ -118,7 +118,16 @@ def gray_out(request, function_id):
             except:
                 lines += [str(i)]
         grayed_out_lines = ','.join(lines);
-        task = Task(function=function, user=user, time=time, grayed_out_lines=grayed_out_lines, status=Task.WAITING)
+
+        try:
+            achievement = Achievement.objects.get(user=user)
+        except Achievement.DoesNotExist:
+            achievement = Achievement(user=user, points=0, level=1, wheat=1)
+
+        stat = Task.WAITING
+        if achievement.status == Achievement.TRUSTED:
+            stat = Task.TRUSTED
+        task = Task(function=function, user=user, time=time, grayed_out_lines=grayed_out_lines, status=stat)
         task.save()
 
         package = Package.objects.get(user=user, status=Package.PENDING)
@@ -137,10 +146,6 @@ def gray_out(request, function_id):
         level = 1
         got_wheat = 1
 
-        try:
-            achievement = Achievement.objects.get(user=user)
-        except Achievement.DoesNotExist:
-            achievement = Achievement(user=user, points=0, level=1, wheat=1)
         got_points = floor(achievement.factor * function.difficulty)
         points = achievement.points + got_points;
         setattr(achievement, 'points', points)
