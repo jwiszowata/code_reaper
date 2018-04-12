@@ -22,7 +22,7 @@ import math
 def index(request):
     all_functions = Function.objects.filter().count()
     done_functions = Function.objects.filter(status=Function.DONE).count()
-    print("done_functions", done_functions)
+    print("done_functions", done_functions, Function.objects.filter(status=Function.DONE))
     print("all_functions", all_functions)
     context = {
         'all': all_functions,

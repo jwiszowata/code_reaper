@@ -4,10 +4,10 @@ $(document).ready(function () {
 	var done100 = done % 100;
 	var done1000 = done % 1000;
 	if (done1000 == 0 && done100 == 0 && done10 == 1) {
-		$('#fun').text("funkcja");
+		$('#fun').text("funkcję zrobioną");
 	} else if (done100 != 1 && (done10 == 2 || done10 == 3 || done10 == 4)) {
-		$('#fun').text("funkcje");
+		$('#fun').text("funkcje zrobione");
 	} else {
-		$('#fun').text("funkcji");
+		$('#fun').text("funkcji zrobionych");
 	}
 });
