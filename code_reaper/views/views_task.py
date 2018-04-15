@@ -77,7 +77,7 @@ def summarizePackage(package):
     s = similarity(task, t, f)
     funs = [package.function1, package.function2, package.function3]
     tasks = [package.task1, package.task2, package.task3]
-    if s >= 0.7:
+    if s >= 0.4:
         setattr(package, 'status', Package.TRUSTED)
         setFunctionsObjAs(funs, Function.READY, True)
         set_task_as(tasks, Task.TRUSTED)
