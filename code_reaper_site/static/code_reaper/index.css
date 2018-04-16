@@ -31,3 +31,7 @@ a {
 	background: #f7ce3e;
 	color: #0a1612;
 }
+
+.long_text {
+	text-align: justify;
+}
