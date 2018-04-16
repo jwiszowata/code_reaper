@@ -47,20 +47,20 @@
                 {% endif %}
               {% endfor %}
             </div>
-            <form action="{% url 'game' %}" method="post">
-              {% csrf_token %}
-              <div class="game_nr">
-                  <input type="submit" name="nr" value="{{g.nr}}" />
-              </div>
-              <div>
-                {% if g.cost|length > wheat %}
-                  <img class="line trophy" src="{% static 'code_reaper/images/star_gray.png' %}">
-                {% else %}
-                  <img class="line trophy" src="{% static 'code_reaper/images/star.png' %}">
-                {% endif %}
-                <div class="line">{% if g.result %} {{g.result}} {% else %} ? {% endif %}</div>
-              </div>
-            </form>
+            <div class="game_nr">
+              <form action="{% url 'game' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" name="nr" value="{{g.nr}}" />
+              </form>
+            </div>
+            <div>
+              {% if g.cost|length > wheat %}
+                <img class="line trophy" src="{% static 'code_reaper/images/star_gray.png' %}">
+              {% else %}
+                <img class="line trophy" src="{% static 'code_reaper/images/star.png' %}">
+              {% endif %}
+              <div class="line">{% if g.result %} {{g.result}} {% else %} ? {% endif %}</div>
+            </div>
           </div>
       {% endfor %}
     </div>
