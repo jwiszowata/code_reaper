@@ -1,0 +1,23 @@
+{% extends 'code_reaper/base.html' %}
+
+{% load static %}
+
+{% block css %}
+<link href="{% static 'code_reaper/about.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="container_about">
+      <h2>Problem</h2>
+      <p>Wyobraź sobie sytuację, w której musisz szybko przejrzeć dużo kodu. Nie interesują Cię szczegóły tylko ogólne zrozumienie treści, np. przygotowujesz się na spotkanie. W takiej sytuacji wiele rzeczy w kodzie nie jest dla Ciebie istotnych. I właśnie takie rzeczy powinieneś usunąć z funkcji w Żniwiarzu. Czasem możesz uznać, że już nazwa dobrze opisuje działanie funkcji, w innym przypadku możesz zdecydować, że każda linia ma znaczenie, a zapewne najczęściej znajdziesz jakieś fragmenty mniej istotne, które byś pominął we wspomnianej sytuacji.</p>
+      <h2>Cel</h2>
+      <p>Dzięki danym pozyskanym w Żniwairzu chciałabym stworzyć wtyczkę do edytora kodu, podobną do znanych "plusików" ukrywających fragmenty kodu. Po zastosuwaniu mojej wtyczki, kod skróciłby się o pewne linie, umożliwiając szybsze jego przeczytanie i zrozumienie.</p>
+      <h2>Punkty</h2>
+      Każda funkcja oceniana jest względem jej trudności i współczynnika Twoich dobrych odpowiedzi.
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{% static 'code_reaper/about.js' %}"></script>
+{% endblock %}
