@@ -31,6 +31,9 @@ def index(request):
     }
     return render(request, 'code_reaper/index.html', context)
 
+def about(request):
+    return render(request, 'code_reaper/about.html')
+
 def main(request):
     return redirect('index')
 
