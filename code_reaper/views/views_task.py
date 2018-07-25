@@ -93,11 +93,15 @@ def summarizePackage(package):
 
 def setFunctionsObjAs(funs, status, inc):
     for function in funs:
-        setattr(function, 'status', status)
-        if inc:
-            setattr(function, 'times_done', function.times_done + 1)
-            if function.times_done >= 3:
-                setattr(function, 'status', Function.FINISHED)
+        if function.status != Function.DONE:
+            setattr(function, 'status', status)
+            if inc:
+                setattr(function, 'times_done', function.times_done + 1)
+                if function.times_done >= 3:
+                    setattr(function, 'status', Function.FINISHED)
+        else:
+            if inc:
+                setattr(function, 'times_done', function.times_done + 1)
         function.save()
 
 def set_task_as(tasks, status):
