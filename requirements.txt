@@ -46,7 +46,7 @@ psycopg2==2.7.4
 psycopg2-binary==2.7.4
 ptyprocess==0.5.2
 Pygments==2.7.4
-PyJWT==1.5.3
+PyJWT==2.4.0
 pyparsing==2.2.0
 pysam==0.13
 python-dateutil==2.6.1
